@@ -7,6 +7,12 @@
       "dependencies": {},
       "hash": "f5d5cefd321dd397c6d91dc75f50d66835e49edc"
     },
+    "com.hdyar.simplesostatemachine": {
+      "version": "file:Simple-Scriptable-Object-State-Machine",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.burst": {
       "version": "1.8.4",
       "depth": 1,
