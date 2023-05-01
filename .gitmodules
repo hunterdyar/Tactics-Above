@@ -1,3 +1,0 @@
-[submodule "Packages/com.hdyar.simplesostatemachine"]
-	path = Packages/com.hdyar.simplesostatemachine
-	url = https://github.com/hunterdyar/Simple-Scriptable-Object-State-Machine
