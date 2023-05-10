@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/TextureEdit/Editor/Texture2DEditor.uss?fileID=7433441132597879392&amp;guid=4e22af1c4fd47ee479eecdcd59b23695&amp;type=3#Texture2DEditor" />
+    <ui:VisualElement name="TextureConfig" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: auto;">
+        <ui:Vector2IntField label="Vector2Int" />
+    </ui:VisualElement>
+    <ui:VisualElement name="TextureEdit" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement name="gridimage" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+    </ui:VisualElement>
+</ui:UXML>
