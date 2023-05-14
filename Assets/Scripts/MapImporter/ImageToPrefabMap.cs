@@ -9,7 +9,7 @@ namespace HDyar.MapImporter
 		public Texture2D _mapTexture;
 		public int Width => _mapTexture.width;
 		public int Height => _mapTexture.height;
-		[HideInInspector] [SerializeField] private ColorToPrefab[] _colors;
+		[SerializeField] private ColorToPrefab[] _colors;
 		private Dictionary<Color, ColorToPrefab> _colorToPrefabMap = new Dictionary<Color, ColorToPrefab>();
 		public void SetMapTexture(Texture2D texture)
 		{
