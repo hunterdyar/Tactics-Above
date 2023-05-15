@@ -1,14 +1,18 @@
 ﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace HDyar.MapImporter
 {
-	[CreateAssetMenu(fileName = "FILENAME", menuName = "MENUNAME", order = 0)]
 	public class ImageToPrefabMap : ScriptableObject
 	{
 		public Texture2D _mapTexture;
 		public int Width => _mapTexture.width;
 		public int Height => _mapTexture.height;
+		
+		//[HideInInspector]
+		public Color[] AllColorsInTexture;
+		
 		[SerializeField] private ColorToPrefab[] _colors;
 		private Dictionary<Color, ColorToPrefab> _colorToPrefabMap = new Dictionary<Color, ColorToPrefab>();
 		public void SetMapTexture(Texture2D texture)
@@ -16,6 +20,7 @@ namespace HDyar.MapImporter
 			_mapTexture = texture;
 		}
 
+		//Asset needs to get saved here, or the editor needs to get updated directly.
 		public void SetPrefabColors(ColorToPrefab[] newColors)
 		{
 			_colors = newColors;

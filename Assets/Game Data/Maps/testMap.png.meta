@@ -4,7 +4,7 @@ importerOverride:
   nativeImporterType: 2089858483
   scriptedImporterType:
     serializedVersion: 2
-    Hash: 1003b424d525bcdcdbf0563e9f87af5c
+    Hash: b7579fff62fd7607262c5c2a01d2db65
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -15,14 +15,7 @@ ScriptedImporter:
   script: {fileID: 11500000, guid: a2da080654aad4c46b44d5db0d9ba05c, type: 3}
   _colors:
   - color: {r: 0.5176471, g: 0.49411768, b: 0.5294118, a: 1}
-    Prefab: {fileID: 3237526833948563703, guid: 2057d4248f9bbd5418dbd882d32a3f6e,
-      type: 3}
-    ColorOptions:
-    - {r: 0.5176471, g: 0.49411768, b: 0.5294118, a: 1}
-    - {r: 0.4156863, g: 0.74509805, b: 0.18823531, a: 1}
-  - color: {r: 0.4156863, g: 0.74509805, b: 0.18823531, a: 1}
-    Prefab: {fileID: 3237526833948563703, guid: 3cb3a1ec0ff33424b87b0f4c11eb09a4,
-      type: 3}
+    Prefab: {instanceID: 0}
     ColorOptions:
     - {r: 0.5176471, g: 0.49411768, b: 0.5294118, a: 1}
     - {r: 0.4156863, g: 0.74509805, b: 0.18823531, a: 1}
