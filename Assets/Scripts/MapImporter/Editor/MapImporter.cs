@@ -14,7 +14,10 @@ namespace HDyar.MapImporter
     [ScriptedImporter(version:1,new []{""},new []{"png"})]
     public class MapImporter : ScriptedImporter
     {
+        [SerializeField] private int LowerPrefabYOffset=0;
         [SerializeField] private ColorToPrefab[] _colors;
+        
+        [HideInInspector]
         [SerializeField] private Color[] _colorOptions;
         public override void OnImportAsset(AssetImportContext ctx)
         {
@@ -54,6 +57,7 @@ namespace HDyar.MapImporter
             }
 
             imageToPrefab.AllColorsInTexture = _colorOptions;
+            imageToPrefab.LowerYOffset = LowerPrefabYOffset;
             imageToPrefab.SetPrefabColors(_colors);
             EditorUtility.SetDirty(this);
             

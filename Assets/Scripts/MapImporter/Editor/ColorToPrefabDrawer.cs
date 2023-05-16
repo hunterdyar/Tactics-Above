@@ -33,13 +33,20 @@ namespace MapImporter.Editor
 			// Don't make child fields be indented
 			var indent = EditorGUI.indentLevel;
 			EditorGUI.indentLevel = 0;
-		
-			// Calculate rects
-			var prefabRect = new Rect(position.x, position.y, 120, position.height);
-			var unitRect = new Rect(position.x + 125, position.y, 100, position.height);
+
+			float colorWidth = 40;
+			float goWidth = 120;
+			float margin = 5;
+			// property rects
+			var unitRect = new Rect(position.x, position.y, colorWidth, position.height);
+			var prefabRect1 = new Rect(position.x+colorWidth+ margin, position.y, goWidth, position.height);
+			var prefabRect2 = new Rect(position.x+colorWidth+goWidth+margin*2, position.y, goWidth, position.height);
+
 		
 			// Draw fields - pass GUIContent.none to each so they are drawn without labels
-			EditorGUI.PropertyField(prefabRect, property.FindPropertyRelative("Prefab"), GUIContent.none);
+			EditorGUI.PropertyField(prefabRect1, property.FindPropertyRelative("PrefabUpper"), GUIContent.none);
+			EditorGUI.PropertyField(prefabRect2, property.FindPropertyRelative("PrefabLower"), GUIContent.none);
+
 			// EditorGUI.PropertyField(unitRect, property.FindPropertyRelative("color"), GUIContent.none);
 
 			var path = AssetDatabase.GetAssetPath(property.serializedObject.targetObject);
@@ -105,15 +112,15 @@ namespace MapImporter.Editor
 			// 	currentColor.colorValue = options.GetArrayElementAtIndex(selected).colorValue;
 			// }
 
-			var rect = new Rect(position.x+150, position.y, 50, position.height);
+			
 			if (options.Length > 0)
 			{
-				if (GUI.Button(rect, displayedOptions[currentSelected].image, new GUIStyle()
+				if (GUI.Button(unitRect, displayedOptions[currentSelected].image, new GUIStyle()
 				    {
 					    fixedWidth = 50,
 				    }))
 				{
-					PopupWindow.Show(rect, new SwatchPopupWindow(currentSelected, colorOptions, color =>
+					PopupWindow.Show(unitRect, new SwatchPopupWindow(currentSelected, colorOptions, color =>
 					{
 						//currentColor.colorValue = options.GetArrayElementAtIndex(selected).colorValue; //by index or pass color back?
 						currentColor.colorValue = color;

@@ -8,13 +8,19 @@ namespace HDyar.MapImporter
 	{
 		//serialized
 		public Color color;
-		public GameObject Prefab;
-		
+		public GameObject PrefabUpper;
+		public GameObject PrefabLower;
+
 		//not serialized
 		[HideInInspector] [SerializeField] public Color[] ColorOptions;
-		public GameObject GetPrefab()
+		public GameObject GetUpperPrefab()
 		{
-			return Prefab;
+			return PrefabUpper;
+		}
+
+		public GameObject GetLowerPrefab()
+		{
+			return PrefabLower;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using HDyar.MapImporter;
 using HDyar.RougeLevelGen;
 using UnityEditor.TextCore.Text;
 using UnityEngine;
@@ -8,19 +9,20 @@ namespace Tactics
 {
 	public class NavMapInitializer : MonoBehaviour
 	{
-		[SerializeField] private LevelGenerator _levelGenerator;
+		[SerializeField] private ImageToPrefabMap _map;
 		[SerializeField] private NavMap _navMap;
 		[SerializeField] private Grid _grid;
 
 		private void Awake()
 		{
-			_levelGenerator.OnGenerationComplete += InitMap;
-			_levelGenerator.Generate();
+			// _levelGenerator.OnGenerationComplete += InitMap;
+			// _levelGenerator.Generate();
+			_map.Spawn(_grid);
+			InitMap();
 		}
 
 		private void InitMap()
 		{
-			Debug.Log("generation complete. Initiating Grid.");
 			_navMap.SetWorldGrid(_grid);
 			_navMap.Initiate();
 		}

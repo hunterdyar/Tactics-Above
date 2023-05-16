@@ -9,12 +9,14 @@ namespace HDyar.MapImporter
 		public Texture2D _mapTexture;
 		public int Width => _mapTexture.width;
 		public int Height => _mapTexture.height;
-		
+
+		public Vector3Int TotalGridOffset = Vector3Int.zero;
+		public int LowerYOffset = -1;
 		//[HideInInspector]
 		public Color[] AllColorsInTexture;
 		
 		[SerializeField] private ColorToPrefab[] _colors;
-		private Dictionary<Color, ColorToPrefab> _colorToPrefabMap = new Dictionary<Color, ColorToPrefab>();
+		private Dictionary<string, ColorToPrefab> _colorToPrefabMap = new Dictionary<string, ColorToPrefab>();
 		public void SetMapTexture(Texture2D texture)
 		{
 			_mapTexture = texture;
@@ -27,12 +29,11 @@ namespace HDyar.MapImporter
 			InitializeColorDictionary();
 		}
 
-		[ContextMenu("Spawn")]
-		public void Spawn()
+		public void Spawn(Grid grid)
 		{
-			Spawn(null);
+			Spawn(grid, null);
 		}
-		public void Spawn(Transform parent)
+		public void Spawn(Grid grid,Transform parent)
 		{
 			InitializeColorDictionary();
 			for (int i = 0; i < Width; i++)
@@ -40,11 +41,21 @@ namespace HDyar.MapImporter
 				for (int j = 0; j < Height; j++)
 				{
 					//get color
-					var color = _mapTexture.GetPixel(i, j);
+					var color = ColorUtility.ToHtmlStringRGB(_mapTexture.GetPixel(i, j));
 					if (_colorToPrefabMap.TryGetValue(color, out var colorToPrefab))
 					{
-						var prefab = colorToPrefab.GetPrefab();
-						Instantiate(prefab, new Vector3(i, 0, j), prefab.transform.rotation,parent);
+						var prefab = colorToPrefab.GetUpperPrefab();
+						if (prefab != null)
+						{
+							
+							Instantiate(prefab, grid.CellToLocal(TotalGridOffset+new Vector3Int(i, 0, j)), prefab.transform.rotation, parent);
+						}
+
+						prefab = colorToPrefab.GetLowerPrefab();
+						if (prefab != null)
+						{
+							Instantiate(prefab, grid.CellToWorld(TotalGridOffset +new Vector3Int(i, LowerYOffset, j)), prefab.transform.rotation, parent);
+						}
 					}
 					//insantiate
 				}
@@ -56,9 +67,10 @@ namespace HDyar.MapImporter
 			_colorToPrefabMap.Clear();
 			foreach (var cp in _colors)
 			{
-				if (!_colorToPrefabMap.ContainsKey(cp.color))
+				var hexColor = ColorUtility.ToHtmlStringRGB(cp.color);
+				if (!_colorToPrefabMap.ContainsKey(hexColor))
 				{
-					_colorToPrefabMap.Add(cp.color,cp);
+					_colorToPrefabMap.Add(hexColor,cp);
 				}
 				else
 				{

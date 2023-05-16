@@ -82,9 +82,6 @@ namespace Tactics
 
 			//update bounds
 			_gridSpaceBounds.SetMinMax(Vector3Int.Min(_gridSpaceBounds.min, gridPos), Vector3Int.Max(_gridSpaceBounds.max, gridPos));
-
-			
-			Debug.Log($"Tile registered on {gridPos}");
 		}
 		//overload if we already know the grid position.
 		public void RegisterTileOnMap(Terrain terrain, Vector3Int gridPos, Tile tile)
