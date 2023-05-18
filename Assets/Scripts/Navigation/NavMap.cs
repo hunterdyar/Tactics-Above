@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using HDyar.RougeLevelGen;
 using Tactics.Entities;
 using Tactics.Pathfinding;
 using Tactics.Utility;
@@ -90,16 +87,15 @@ namespace Tactics
 			tile.SetNavNode(navNode);
 			_gridSpaceBounds.SetMinMax(Vector3Int.Min(_gridSpaceBounds.min, gridPos), Vector3Int.Max(_gridSpaceBounds.max, gridPos));
 		}
-#endregion
 
 		public void SetWorldGrid(Grid grid)
 		{
 			_grid = grid;
 		}
-
-#region Getters
+#endregion
 
 		
+#region Getters
 
 		public List<GridEntity> GetAllEntitiesOnNode(NavNode node)
 		{

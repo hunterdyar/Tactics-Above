@@ -121,5 +121,11 @@ namespace Tactics.Entities
 			yield return StartCoroutine(nextMove.DoMove());
 			yield break;
 		}
+
+		public void Die()
+		{
+			_agentLayer.RemoveEntity(this);
+			Destroy(gameObject);
+		}
 	}
 }
