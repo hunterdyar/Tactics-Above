@@ -117,7 +117,28 @@ namespace Tactics
 		}
 		public INode[] GetNeighborNodes(INode center, bool walkableOnly = true)
 		{
-			throw new System.NotImplementedException();
+			NavNode[] nodeCache = new NavNode[12];
+			int n = 0;
+			foreach (var dir in RectUtility.CardinalDirections)
+			{
+				if (_map.TryGetValue(center.GridPosition + dir, out var neighbor))
+				{
+					if (!walkableOnly || neighbor.Walkable)
+					{
+						nodeCache[n] = neighbor;
+						n++;
+					}
+				}
+			}
+
+			if (n == 0)
+			{
+				return Array.Empty<NavNode>();
+			}
+
+			var output = new NavNode[n];
+			Array.Copy(nodeCache, output, n);
+			return output;
 		}
 
 		public bool TryGetNavNodeAtWorldPos(Vector3 worldPos, out NavNode node)

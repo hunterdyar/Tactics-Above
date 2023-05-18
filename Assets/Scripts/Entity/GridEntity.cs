@@ -16,10 +16,9 @@ namespace Tactics.Entities
 			_pool = pool;
 		}
 
-		public void SnapToNode(NavNode node)
+		public void SnapToNodePosition(NavNode node)
 		{ 
-			//todo: world position
-			// transform.position = node.WorldPosition + worldPositionOffset;
+			transform.position = node.WorldPosition + worldPositionOffset;
 		}
 		
 		public void ReturnToPool()

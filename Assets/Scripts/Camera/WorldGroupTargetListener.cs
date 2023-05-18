@@ -50,7 +50,7 @@ namespace Camera
 
 			}
 
-			targets[2].position = map.Grid.CellToWorld(new Vector3Int(bounds.min.x, bounds.max.y, bounds.min.z));
+			targets[2].position = map.Grid.CellToWorld(new Vector3Int(bounds.min.x, bounds.min.y, bounds.max.z));
 
 			if (targets[3] == null)
 			{

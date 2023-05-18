@@ -9,7 +9,7 @@ namespace Tactics.Pathfinding
 	{
 		public Dictionary<T, T> CameFrom => cameFrom;
 		private Queue<T> frontier = new Queue<T>();
-		public BreadthFirstPathfinding(IGraph graph) : base(graph)
+		public BreadthFirstPathfinding(IGraph graph, NodeConditionDelegate isNodeWalkable = null) : base(graph,isNodeWalkable)
 		{
 		}
 		public override bool TryFindPath(T start, T end, out List<T> path)
@@ -30,6 +30,12 @@ namespace Tactics.Pathfinding
 				//NO early exit. If you wanted a faster one, use DJ or a*. I don't know why you are using breadth-first, I can only imagine you want to take advantage of the cameFrom dictionary as a vector field for something.
 				foreach (T next in tilemap.GetNeighborNodes(current))
 				{
+					if (IsNodeWalkable != null && !IsNodeWalkable(next))
+					{
+						//node is not walkable. pretend it does not exist.
+						continue;
+					}
+					
 					if (!reached.Contains(next))
 					{
 						frontier.Enqueue(next);

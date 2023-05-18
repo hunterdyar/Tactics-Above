@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Grass (default)
   m_EditorClassIdentifier: 
   WalkCost: 1
-  Walkable: 0
+  Walkable: 1

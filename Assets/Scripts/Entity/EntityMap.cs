@@ -16,9 +16,9 @@ namespace Tactics.Entities
 	{
 		//Keep a dictionary of GridEntities and NavNodes.
 		
-		//Todo: wrap data in bidirectional dictionary.
-		private readonly Dictionary<NavNode, GridEntity> _entities = new Dictionary<NavNode, GridEntity>();
-		private readonly Dictionary<GridEntity, NavNode> _inverseEntities = new Dictionary<GridEntity, NavNode>();
+		//Todo: wrap data in sortable bidirectional dictionary.
+		protected readonly Dictionary<NavNode, GridEntity> _entities = new Dictionary<NavNode, GridEntity>();
+		protected readonly Dictionary<GridEntity, NavNode> _inverseEntities = new Dictionary<GridEntity, NavNode>();
 		public int Count => _entities.Count;
 
 		//We don't actually need this injected! yet...
@@ -60,7 +60,7 @@ namespace Tactics.Entities
 				_inverseEntities.Add(entity,node);
 				if (snapToPosition)
 				{
-					entity.SnapToNode(node);
+					entity.SnapToNodePosition(node);
 				}
 #if UNITY_EDITOR
 				//The editor window contains an info box telling us how many items are in the dictionary, which is helpful for debugging.
@@ -106,5 +106,6 @@ namespace Tactics.Entities
 			RemoveEntity(entity);
 			AddEntityToMap(node,entity);
 		}
+		
 	}
 }

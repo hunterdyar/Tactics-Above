@@ -12,12 +12,12 @@ namespace Tactics
 		[SerializeField] private ImageToPrefabMap _map;
 		[SerializeField] private NavMap _navMap;
 		[SerializeField] private Grid _grid;
-
+		[SerializeField] private Transform _worldParent;
 		private void Awake()
 		{
 			// _levelGenerator.OnGenerationComplete += InitMap;
 			// _levelGenerator.Generate();
-			_map.Spawn(_grid);
+			_map.Spawn(_grid, _worldParent);
 			InitMap();
 		}
 

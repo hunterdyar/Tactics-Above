@@ -10,7 +10,7 @@ namespace Tactics.Pathfinding
 	{
 		private Dictionary<T,int> _costSoFar;
 
-		public DJPathfinder(IGraph graph) : base(graph)
+		public DJPathfinder(IGraph graph, NodeConditionDelegate isNodeWalkable = null) : base(graph,isNodeWalkable)
 		{
 		}
 
@@ -41,6 +41,12 @@ namespace Tactics.Pathfinding
 
 				foreach (T next in tilemap.GetNeighborNodes(current))
 				{
+					if (IsNodeWalkable != null && !IsNodeWalkable(next))
+					{
+						//node is not walkable. pretend it does not exist.
+						continue;
+					}
+					
 					int newCost = _costSoFar[current] + next.WalkCost;//cost algorithm generalized somewhere
 					//reached is only used because our temp priority queue implementation doesn't have "contains" for checking the frontier. We could check costsofar tho. 
 					if (!reached.Contains(next) || newCost < _costSoFar[next])

@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddcc45eaf5ce460dab2f5509806aead7, type: 3}
+  m_Script: {fileID: 11500000, guid: f3d76d46f2bf493197ce559e3bf74d40, type: 3}
   m_Name: Blue Agents
   m_EditorClassIdentifier: 

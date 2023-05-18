@@ -25,6 +25,9 @@ namespace Tactics
 		/// TilemapPosition is the cell position in the Grid component. NavPosition is different for hex grids, and internal.
 		/// </summary>
 		public Vector3Int GridPosition => _gridPosition;
+
+		public Vector3 WorldPosition => _navigation.Grid.CellToWorld(_gridPosition);
+
 		private Vector3Int _gridPosition;
 		// public Vector3 WorldPosition => _navigation.Tilemap.CellToWorld(GridPosition)+_navigation.Tilemap.tileAnchor;
 

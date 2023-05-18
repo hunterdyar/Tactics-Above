@@ -13,7 +13,7 @@ namespace Tactics.Pathfinding
 	{
 		private readonly Dictionary<T, int> costSoFar = new Dictionary<T, int>();
 		private readonly SimplePriorityQueue<T> frontier = new SimplePriorityQueue<T>();
-		public AStarPathfinder(IGraph graph) : base(graph)
+		public AStarPathfinder(IGraph graph, NodeConditionDelegate isNodeWalkable = null) : base(graph, isNodeWalkable)
 		{
 		}
 
@@ -32,7 +32,7 @@ namespace Tactics.Pathfinding
 			{
 				var current = frontier.Dequeue();
 
-				if (Equals(current, end))
+				if (Equals(current.GridPosition, end.GridPosition))
 				{
 					_pathStatus = PathStatus.PathFound;
 					break;
@@ -40,6 +40,11 @@ namespace Tactics.Pathfinding
 
 				foreach (T next in tilemap.GetNeighborNodes(current))
 				{
+					if (IsNodeWalkable != null && !IsNodeWalkable(next))
+					{
+						//node is not walkable. As if it were never in this array.
+						continue;
+					}
 					int newCost = costSoFar[current] + next.WalkCost; //cost algorithm generalized somewhere
 
 					if (!costSoFar.ContainsKey(next))

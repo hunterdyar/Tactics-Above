@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine.Assertions;
 
@@ -16,14 +17,19 @@ namespace Tactics.Pathfinding
 		/// </summary>
 		public List<T> LatestPath => _latestPath;
 		private List<T> _latestPath;
+
+		public delegate bool NodeConditionDelegate(T node);
+
+		public NodeConditionDelegate IsNodeWalkable;
 		
 		/// <summary>
 		/// Construct a new pathfinder
 		/// </summary>
 		/// <param name="graph">Graph is probably the TilemapNavigation component, but you can implement your own IGraph and use the pathfinder (with NavNodes)</param>
-		public Pathfinder(IGraph graph)
+		public Pathfinder(IGraph graph,NodeConditionDelegate isNodeWalkable = null)
 		{
 			tilemap = graph;
+			IsNodeWalkable = isNodeWalkable;
 		}
 
 		public List<T> FindPath(T start, T end)
