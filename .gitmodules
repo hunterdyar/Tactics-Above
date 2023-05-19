@@ -1,3 +1,6 @@
 [submodule "Packages/Simple-Scriptable-Object-State-Machine"]
 	path = Packages/Simple-Scriptable-Object-State-Machine
 	url = https://github.com/hunterdyar/Simple-Scriptable-Object-State-Machine
+[submodule "Packages/com.hdyar.btween"]
+	path = Packages/com.hdyar.btween
+	url = https://github.com/hunterdyar/BTween

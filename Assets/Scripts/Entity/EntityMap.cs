@@ -101,10 +101,13 @@ namespace Tactics.Entities
 #endif
 		}
 
-		public void MoveEntityToNode(GridEntity entity,NavNode node)
+		/// <summary>
+		/// Removes entity from the node they are on, adds them to this new node. Won't throw an error if the entity isn't on a node to begin with.
+		/// </summary>
+		public void MoveEntityToNode(GridEntity entity,NavNode node,bool snap = true)
 		{
 			RemoveEntity(entity);
-			AddEntityToMap(node,entity);
+			AddEntityToMap(node,entity,snap);
 		}
 		
 	}

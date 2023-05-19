@@ -59,25 +59,29 @@ namespace Tactics.Entities
 			_moveDecider.Initiate(this);
 
 		}
-		public bool TryMoveInDirection(Vector3Int direction)
-		{
-			if (NavMap.TryGetNavNode(_currentNode.GridPosition + direction,out var node))
-			{
-				if (node.Walkable && !_agentLayer.HasAnyEntity(node))
-				{
-					MoveToNode(node, true);
-					return true;
-				}
-			}
-			return false;
-		}
+		// public bool TryMoveInDirection(Vector3Int direction)
+		// {
+		// 	if (NavMap.TryGetNavNode(_currentNode.GridPosition + direction,out var node))
+		// 	{
+		// 		if (node.Walkable && !_agentLayer.HasAnyEntity(node))
+		// 		{
+		// 			MoveToNode(node, true);
+		// 			return true;
+		// 		}
+		// 	}
+		// 	return false;
+		// }
 
-		public void MoveToNode(NavNode node, bool animate = true)
+		public void SetOnNode(NavNode node, bool snap = false)
 		{
-			_agentLayer.MoveEntityToNode(this,node);
+			_agentLayer.MoveEntityToNode(this,node,snap);
 			_currentNode = node;
 			//snap... for now
-			SnapToNodePosition(_currentNode);
+			if (snap)
+			{
+				SnapToNodePosition(_currentNode);
+			}
+
 		}
 
 		public void PrepareTurn()

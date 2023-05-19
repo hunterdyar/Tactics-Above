@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.hdyar.btween": {
+      "version": "file:com.hdyar.btween",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.hdyar.roguelevelgen": {
       "version": "https://github.com/hunterdyar/2DRougelikeLevelGenerator.git",
       "depth": 0,

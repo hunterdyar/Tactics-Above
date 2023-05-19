@@ -17,7 +17,7 @@ namespace Tactics.Turns
 		public AgentCollection[] AgentCollections;
 
 		[ContextMenu("Start Round")]
-		void StartRound()
+		public void StartRound()
 		{
 			StartCoroutine(ExecuteRound());
 		}
