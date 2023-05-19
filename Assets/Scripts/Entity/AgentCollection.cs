@@ -39,6 +39,26 @@ namespace Tactics.Entities
 		}
 
 		
+		public bool TryGetClosestAgentInMap(NavNode node, out Agent agent)
+		{
+			//todo: Pathfinding?
+			if (_entities.Count == 0)
+			{
+				agent = null;
+				return false;
+			}
+
+			var closest = _entities.Keys.OrderBy(x => Vector3Int.Distance(node.GridPosition, x.GridPosition)).First();
+			if (_entities[closest] is Agent a)
+			{
+				agent = a;
+				return true;
+			}
+
+			agent = null;
+			return false;
+		}
+		
 		//A collection taking a turn is going one-by-one through agents for them to take their turn.
 		public void PrepareTurn()
 		{

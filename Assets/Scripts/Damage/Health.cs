@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
+using BTween;
 using Tactics.Entities;
 using UnityEngine;
 
-namespace Tactics.Damage
+namespace Tactics.DamageSystem
 {
 	public class Health : MonoBehaviour, ITakeDamage
 	{
@@ -17,17 +19,25 @@ namespace Tactics.Damage
 			_health = StartingHealth;
 		}
 
-		public void TakeDamage(int amount, DamageType type)
+		public void TakeDamage(DamageDescription damageDescription, ref Playback.Playback damagePlayback)
 		{
-			if (!ImmuneToDamageTypes.Contains(type))
+			if (!ImmuneToDamageTypes.Contains(damageDescription.DamageType))
 			{
-				//oof
-				_health -= amount;
-				if (_health < 0)
+				_health -= damageDescription.Amount;
+				if (_health <= 0)
 				{
 					_health = 0;
 					//todo... handle this dependency properly.
+					//If animating with a tween... cancel that?
 					GetComponent<Agent>().Die();
+				}
+				else
+				{
+					//oof
+					_health -= damageDescription.Amount;
+
+					var tween = transform.BScaleTo(new Vector3(1.2f, 1.2f, 1.2f), 0.1f, Ease.EaseInQuad).Then(transform.BScaleTo(Vector3.one, 0.1f, Ease.EaseOutQuad));
+					damagePlayback.AddTween(tween);
 				}
 			}
 			else

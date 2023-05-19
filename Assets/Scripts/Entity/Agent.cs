@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using Tactics.AI;
-using Tactics.Pathfinding;
 using Tactics.Turns;
 using UnityEngine;
 
@@ -15,6 +14,9 @@ namespace Tactics.Entities
 	{
 		public EntityMap AgentLayer => _agentLayer;
 		[SerializeField] private EntityMap _agentLayer;
+		public AgentCollection EnemyLayer => _enemyLayer;
+		[SerializeField] private AgentCollection _enemyLayer;
+		
 		private NavMap NavMap => _agentLayer.NavMap;
 		public NavNode CurrentNode => _currentNode;
 
@@ -23,7 +25,6 @@ namespace Tactics.Entities
 		private MoveDecider _moveDecider;
 		private MoveBase nextMove;
 
-		[Header("Testing")] public Transform goal;
 		public int movesPerTurn;
 
 		private void Awake()
@@ -106,7 +107,13 @@ namespace Tactics.Entities
 				{
 					return false;
 				}
+				//check enemy layer... but ACTUALLY we want to have a 'layers that block pathfinding' collection collection, configured in some settings somewhere.
 
+				//TESTING
+				if (_enemyLayer.HasAnyEntity(node))
+				{
+					return false;
+				}
 				//What other checks do we need to do?
 				
 				return true;

@@ -9,7 +9,7 @@ namespace Tactics.Turns
 	public class MoveAlongPath : MoveBase
 	{
 		private List<NavNode> _path;
-		private int _numMoves;
+		private int _numMoves = 1;
 		public MoveAlongPath(Agent agent, List<NavNode> path, int numMoves) : base(agent)
 		{
 			_path = path;

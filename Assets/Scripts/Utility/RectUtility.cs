@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Tactics.Utility
 {
@@ -22,6 +23,26 @@ namespace Tactics.Utility
 			new Vector3Int(-1, 0, 1),
 			new Vector3Int(-1, 0, -1),
 			new Vector3Int(1, 0, -1),
+		};
+
+		public static readonly Vector2Int[] CardinalDirectionsXY = new[]
+		{
+			new Vector2Int(1, 0),
+			new Vector2Int(0,  1),
+			new Vector2Int(-1, 0),
+			new Vector2Int(0, -1),
+		};
+
+		public static readonly Vector2Int[] CardinalAndDiagonalDirectionsXY = new[]
+		{
+			new Vector2Int(1,0),
+			new Vector2Int(0,1),
+			new Vector2Int(-1,0),
+			new Vector2Int(0,-1),
+			new Vector2Int(1,1),
+			new Vector2Int(-1,1),
+			new Vector2Int(-1,-1),
+			new Vector2Int(1, -1),
 		};
 	}
 }

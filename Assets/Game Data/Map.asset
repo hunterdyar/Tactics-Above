@@ -15,6 +15,7 @@ MonoBehaviour:
   _defaultTerrain: {fileID: 11400000, guid: bc2b397f24d185b4883fe046c63496f5, type: 2}
   _entityMaps:
   - {fileID: 11400000, guid: 0b939d81bb671634e85b08d33e9be284, type: 2}
+  - {fileID: 11400000, guid: 0b020c0a0d52dfc479f40767b1d490c9, type: 2}
   GridSpaceBounds:
     m_Position: {x: 0, y: 0, z: 0}
     m_Size: {x: 0, y: 0, z: 0}

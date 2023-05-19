@@ -38,7 +38,7 @@ namespace Tactics.GridShapes
 			return shape;
 		}
 		
-		public override List<NavNode> GetNodesOnTilemap(NavNode center, TilemapNavigation navigation)
+		public override List<NavNode> GetNodesOnTilemap(NavNode center)
 		{
 			List<NavNode> shape = new List<NavNode>();
 			var last = center;
@@ -50,7 +50,7 @@ namespace Tactics.GridShapes
 			for (int i = 0; i < maxRepeats; i++)
 			{
 				var nextPos = last.GridPosition + (Vector3Int)offset;
-				if (navigation.TryGetNavNode(nextPos, out last))
+				if (center.NavMap.TryGetNavNode(nextPos, out last))
 				{
 					//if we ignore non-walkable or must be walkable
 					if (!stopAtNonWalkable || last.Walkable)

@@ -68,41 +68,7 @@ namespace Tactics.GridShapes
 		}
 		
 	
-		/// <summary>
-		/// Calculates and returns the shape rotated around the origin, as if it started facing up v2(0,1). Does not modify original shape.
-		/// </summary>
-		public List<Vector2Int> GetShapeInCardinalFacingDirection(Vector2Int facing)
-		{
-			// "normalize"
-			int fx = Mathf.Clamp(facing.x, -1, 1);
-			int fy = Mathf.Clamp(facing.y, -1, 1);
-			
-			if (fx == 0)
-			{
-				if (fy == 1)
-				{
-					return _shape;
-				}else if (fy == -1)
-				{
-					return _shape.ConvertAll(v => v.Rotate180());
-				}
-			}
-
-			if (fy == 0)
-			{
-				if (fx == 1)
-				{
-					return _shape.ConvertAll(v => v.RotateRight());
-				}else if (fx == -1)
-				{
-					//return rotated left.
-					return _shape.ConvertAll(v => v.RotateLeft());
-				}
-			}
-
-			Debug.LogWarning("GetShapeInFacingDir requires input facing dir to be cardinal.");
-			return _shape;
-		}
+		
 
 		public List<Vector2Int> GetShapeFlippedVertically()
 		{

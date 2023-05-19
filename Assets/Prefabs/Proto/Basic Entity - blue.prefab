@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 7850429742169982818}
   - component: {fileID: 1107034370411890345}
   - component: {fileID: -3373234325163090327}
+  - component: {fileID: -1250701555604405205}
   m_Layer: 0
-  m_Name: Basic Entity
+  m_Name: Basic Entity - blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldPositionOffset: {x: 0, y: 0, z: 0}
   _agentLayer: {fileID: 11400000, guid: 0b939d81bb671634e85b08d33e9be284, type: 2}
-  goal: {fileID: 0}
+  _enemyLayer: {fileID: 11400000, guid: 0b020c0a0d52dfc479f40767b1d490c9, type: 2}
   movesPerTurn: 2
 --- !u!114 &-3373234325163090327
 MonoBehaviour:
@@ -135,4 +136,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b79d18105e342b19295915772222de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movesPerTurn: 3
+  movesPerTurn: 1
+  _attackShape: {fileID: 11400000, guid: 164fba8467154ca4499fc443a3bf8412, type: 2}
+  _damageDescription:
+    Amount: 1
+    DamageType: {fileID: 11400000, guid: 94dd2133fc53d2b40a001e009fc24442, type: 2}
+--- !u!114 &-1250701555604405205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2177461010530152657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d912a15b3141e3b8132e6dd313718f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartingHealth: 2
+  ImmuneToDamageTypes: []

@@ -23,12 +23,6 @@ namespace Tactics.GridShapes
 			return _shapes.Where(x=>x.Operation == ShapeSetOperation.Include).SelectMany(x=>x.Shape.Shape).Where(x=>!exclude.Contains(x)).Distinct().ToList();
 		}
 
-		public override List<NavNode> GetNodesOnTilemap(NavNode center, TilemapNavigation navigation)
-		{
-			
-			return base.GetNodesOnTilemap(center, navigation);
-		}
-
 		private void OnValidate()
 		{
 			var me = _shapes.Find(x => x.Shape == this);

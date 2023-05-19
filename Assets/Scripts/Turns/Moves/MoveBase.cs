@@ -11,7 +11,8 @@ namespace Tactics.Turns
 		{
 			_agent = agent;
 		}
-
+		
+		//todo this doesnt work here. Instead, we would get some modifier we would use for utilityAI. Like some "expected output" - can't, can, miss, etc.
 		public virtual bool CanStartMove()
 		{
 			return true;
@@ -21,7 +22,6 @@ namespace Tactics.Turns
 		{
 			yield break;
 		}
-		
 		//undo?
 	}
 }
