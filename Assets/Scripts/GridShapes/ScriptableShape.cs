@@ -8,7 +8,7 @@ namespace Tactics.GridShapes
 	public abstract class ScriptableShape : ScriptableObject
 	{
 		public abstract List<Vector2Int> Shape { get; }
-
+		public List<Vector3Int> ShapeV3 => Shape.ConvertAll(a=>new Vector3Int(a.x,0,a.y));
 		/// <summary>
 		/// Returns the shape as NavNodes filtering out positions that the tilemap doesn't have, and absolute tilemap positions.
 		/// Required when using procedural shapes, like "straight line until wall".
