@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Tactics.AI;
+using Tactics.AI.Influence_Maps;
 using Tactics.Turns;
 using UnityEngine;
 
@@ -137,6 +138,24 @@ namespace Tactics.Entities
 		{
 			_agentLayer.RemoveEntity(this);
 			Destroy(gameObject);
+		}
+
+		public InfluenceMap GetTerritoryInfluence()
+		{
+			float range = 3f;
+			//todo hold movement options somewhere sensible for this to be deterimed by those... as attacks will be 
+			var map = new InfluenceMap(NavMap);
+			var center = new Vector2Int(CurrentNode.GridPosition.x,CurrentNode.GridPosition.z);
+			for (int x = 0; x < map.Width; x++)
+			{
+				for (int y = 0; y < map.Height; y++)
+				{
+					var pos = new Vector2Int(x, y);
+					map.AddValue(x,y,InfluenceMap.GetDistanceValue(pos,center, range,DistanceFalloff.Exponential));
+				}
+			}
+
+			return map;
 		}
 	}
 }

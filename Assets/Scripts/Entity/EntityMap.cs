@@ -15,8 +15,6 @@ namespace Tactics.Entities
 	public class EntityMap : ScriptableObject
 	{
 		//Keep a dictionary of GridEntities and NavNodes.
-		
-		//Todo: wrap data in sortable bidirectional dictionary.
 		protected readonly Dictionary<NavNode, GridEntity> _entities = new Dictionary<NavNode, GridEntity>();
 		protected readonly Dictionary<GridEntity, NavNode> _inverseEntities = new Dictionary<GridEntity, NavNode>();
 		public int Count => _entities.Count;

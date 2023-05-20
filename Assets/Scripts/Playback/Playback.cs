@@ -16,6 +16,14 @@ namespace Tactics.Playback
 			_tweens.Add(tween);
 		}
 
+		public void Start()
+		{
+			foreach (var tween in _tweens)
+			{
+				tween.Start();
+			}
+		}
+
 		public bool IsRunning()
 		{
 			if (_tweens.Any(x => x.Running))

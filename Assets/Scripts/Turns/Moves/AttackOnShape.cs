@@ -31,7 +31,7 @@ namespace Tactics.Turns
 			{
 				Damage.DealDamageToNode(node,_damageDescription, ref movePlayback);
 			}
-
+			movePlayback.Start();
 			while (movePlayback.IsRunning())
 			{
 				yield return null;

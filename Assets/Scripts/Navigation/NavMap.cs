@@ -23,7 +23,7 @@ namespace Tactics
 		public Grid Grid => _grid;
 		private Grid _grid;
 
-		public BoundsInt GridSpaceBounds;
+		public BoundsInt GridSpaceBounds => _gridSpaceBounds;
 		private BoundsInt _gridSpaceBounds;
 #region InitiateFlow
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Tactics.AI.Influence_Maps;
 using Tactics.Turns;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,7 +14,8 @@ namespace Tactics.Entities
 	public class AgentCollection : EntityMap, ITurnTaker
 	{
 		//AgentCollection is just an entitymap, but they get a turn order, and all members in the list can take a turn!
-		
+		public InfluenceMap TerritoryMap => _territoryMap;
+		private InfluenceMap _territoryMap;
 		public List<Agent> GetAgentsInOrder()
 		{
 			var list = _entities.Values.Cast<Agent>().ToList();
@@ -62,7 +64,14 @@ namespace Tactics.Entities
 		//A collection taking a turn is going one-by-one through agents for them to take their turn.
 		public void PrepareTurn()
 		{
-			foreach (var agent in GetAgentsInOrder())
+			_territoryMap = InfluenceMap.New(NavMap,0);
+			var sortedAgents = GetAgentsInOrder();
+			foreach (var agent in sortedAgents)
+			{
+				//territory map is a map of influence
+				_territoryMap.AddInfluence(agent.GetTerritoryInfluence());
+			}
+			foreach (var agent in sortedAgents)
 			{
 				agent.PrepareTurn();
 			}
