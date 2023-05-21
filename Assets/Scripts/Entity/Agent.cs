@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using Attacks;
 using Tactics.AI;
-using Tactics.AI.Influence_Maps;
+using Tactics.AI.Actions;
+using Tactics.AI.InfluenceMaps;
 using Tactics.Turns;
 using UnityEngine;
 
@@ -15,9 +17,10 @@ namespace Tactics.Entities
 	{
 		public EntityMap AgentLayer => _agentLayer;
 		[SerializeField] private EntityMap _agentLayer;
-		public AgentCollection EnemyLayer => _enemyLayer;
-		[SerializeField] private AgentCollection _enemyLayer;
-		
+		public Faction EnemyLayer => _enemyLayer;//todo: remove when we can.
+		[SerializeField] private Faction _enemyLayer;
+		public Attack[] Attacks => _attacks;
+		[SerializeField] private Attack[] _attacks;
 		private NavMap NavMap => _agentLayer.NavMap;
 		public NavNode CurrentNode => _currentNode;
 
@@ -27,6 +30,8 @@ namespace Tactics.Entities
 		private MoveBase nextMove;
 
 		public int movesPerTurn;
+
+		private AIAction[] _aiActions;
 
 		private void Awake()
 		{
@@ -146,15 +151,21 @@ namespace Tactics.Entities
 			//todo hold movement options somewhere sensible for this to be deterimed by those... as attacks will be 
 			var map = new InfluenceMap(NavMap);
 			var center = new Vector2Int(CurrentNode.GridPosition.x,CurrentNode.GridPosition.z);
-			for (int x = 0; x < map.Width; x++)
-			{
-				for (int y = 0; y < map.Height; y++)
-				{
-					var pos = new Vector2Int(x, y);
-					map.AddValue(x,y,InfluenceMap.GetDistanceValue(pos,center, range,DistanceFalloff.Exponential));
-				}
-			}
+			map.AddPropagation(center,range,DistanceFalloff.Exponential);
 
+			return map;
+		}
+
+		public InfluenceMap GetInfluenceFromActions(InfluenceMapType mapType)
+		{
+			float range = 6f;
+			//todo hold movement options somewhere sensible for this to be deterimed by those... as attacks will be 
+			var map = new InfluenceMap(NavMap,0);
+			var center = new Vector2Int(CurrentNode.GridPosition.x, CurrentNode.GridPosition.z);
+			foreach (var aiAction in _aiActions)
+			{
+				aiAction.AffectInfluenceMap(this,map,mapType);
+			}
 			return map;
 		}
 	}

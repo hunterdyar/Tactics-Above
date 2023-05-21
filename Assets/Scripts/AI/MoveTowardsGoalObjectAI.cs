@@ -32,9 +32,10 @@ namespace Tactics.AI
 					if (_agent.EnemyLayer.HasAnyEntity(node))
 					{
 						//Let's attack!
-						var move = new AttackOnShape(_agent, _attackShape, facing, _damageDescription);
-						return move;
-						//this is temp, we aren't tracking total damage (ie: multiple targers) or value of move.
+					//	var move = new AttackOnShape(_agent, _attackShape, facing, _damageDescription);
+					//	return move;
+					return null;
+					//this is temp, we aren't tracking total damage (ie: multiple targers) or value of move.
 					}
 				}
 			}

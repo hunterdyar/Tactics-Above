@@ -5,12 +5,12 @@ using UnityEngine.UIElements;
 
 namespace Entity.Editor
 {
-	[CustomEditor(typeof(AgentCollection))]
-	public class AgentCollectionEditor : UnityEditor.Editor
+	[CustomEditor(typeof(Faction))]
+	public class FactionEditor : UnityEditor.Editor
 	{
 		public override void OnInspectorGUI()
 		{
-			var map = (AgentCollection)target;
+			var map = (Faction)target;
 
 			if (EditorApplication.isPlaying)
 			{
@@ -23,7 +23,16 @@ namespace Entity.Editor
 			if(map.TerritoryMap != null){
 				EditorGUILayout.LabelField("Territory Map");
 				var r = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
+				Gradient g = new Gradient();
+
 				EditorGUI.DrawPreviewTexture(r,map.TerritoryMap.GetMapAsTexture(),null,ScaleMode.ScaleToFit);
+			}
+
+			if (map.AttackMap != null)
+			{
+				EditorGUILayout.LabelField("Threat Map");
+				var r = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
+				EditorGUI.DrawPreviewTexture(r, map.TerritoryMap.GetMapAsTexture(), null, ScaleMode.ScaleToFit);
 			}
 
 			base.OnInspectorGUI();

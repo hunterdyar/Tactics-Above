@@ -1,4 +1,4 @@
-﻿namespace Tactics.AI.Influence_Maps
+﻿namespace Tactics.AI.InfluenceMaps
 {
 	public enum DistanceFalloff
 	{

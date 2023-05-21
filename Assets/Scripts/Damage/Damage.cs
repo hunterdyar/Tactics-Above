@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Attacks;
 using BTween;
 using Tactics;
 using Tactics.Turns;
@@ -16,7 +17,7 @@ namespace Tactics.DamageSystem
 		/// <param name="targetNode"></param>
 		/// <param name="damageDescription"></param>
 		/// <returns></returns>
-		public static void DealDamageToNode(NavNode targetNode, DamageDescription damageDescription, ref Playback.Playback damagePlayback)
+		public static void DealDamageToNode(NavNode targetNode, Attack attack, ref Playback.Playback damagePlayback)
 		{
 			foreach (var entity in targetNode.NavMap.GetAllEntitiesOnNode(targetNode))
 			{
@@ -24,7 +25,7 @@ namespace Tactics.DamageSystem
 				//Replace this with a ... Action that the Node broadcasts?
 				if (entity.TryGetComponent<ITakeDamage>(out var target))
 				{
-					target.TakeDamage(damageDescription, ref damagePlayback);
+					target.TakeDamage(attack.Damage, ref damagePlayback);
 				}
 			}
 		}

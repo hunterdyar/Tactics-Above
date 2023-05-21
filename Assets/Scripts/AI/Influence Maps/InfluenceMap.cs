@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
-namespace Tactics.AI.Influence_Maps
+namespace Tactics.AI.InfluenceMaps
 {
 	public class InfluenceMap
 	{
@@ -17,8 +18,9 @@ namespace Tactics.AI.Influence_Maps
 		
 		
 		//2D grid of floats or Texture2D, or dictionary of floats.
-
-
+		
+		private NavMap _navMap;
+		private float _defaultValue;
 		private float[,] _grid;
 		public int Width;
 		public int Height;
@@ -29,6 +31,8 @@ namespace Tactics.AI.Influence_Maps
 		
 		public InfluenceMap(NavMap navMap, float defaultValue = 0f)
 		{	
+			_navMap = navMap;
+			_defaultValue = defaultValue;
 			var bounds = navMap.GridSpaceBounds;
 			if (bounds.xMin != 0 || bounds.yMin != 0 || bounds.zMin != 0)
 			{
@@ -90,18 +94,42 @@ namespace Tactics.AI.Influence_Maps
 			return 0f;
 		}
 
-		public void AddInfluence(InfluenceMap otherMap)
+		public void AddInfluence(InfluenceMap otherMap, float modifier = 1f)
 		{
 			//add values of other map to this map.
 			for (int ox = 0; ox < otherMap.Width; ox++)
 			{
 				for (int oy = 0; oy < otherMap.Height; oy++)
 				{
-					AddValue(ox,oy,otherMap.GetValue(ox,oy));
+					AddValue(ox,oy,modifier*otherMap.GetValue(ox,oy));
 				}
 			}
 		}
 
+		public void MultiplyInfluence(InfluenceMap otherMap)
+		{
+			//add values of other map to this map.
+			for (int ox = 0; ox < otherMap.Width; ox++)
+			{
+				for (int oy = 0; oy < otherMap.Height; oy++)
+				{
+					MultiplyValue(ox, oy, otherMap.GetValue(ox, oy));
+				}
+			}
+		}
+		
+
+		public void AddPropagation(Vector2Int center, float range, DistanceFalloff falloff = DistanceFalloff.Linear)
+		{
+			for (int x = 0; x < Width; x++)
+			{
+				for (int y = 0; y < Height; y++)
+				{
+					var pos = new Vector2Int(x, y);
+					AddValue(x, y, InfluenceMap.GetDistanceValue(pos, center, range, falloff));
+				}
+			}
+		}
 		public void Normalize()
 		{
 			//get highest value, divide all values by that.
@@ -144,6 +172,15 @@ namespace Tactics.AI.Influence_Maps
 			}
 			texture.Apply();
 			return texture;
+		}
+
+		public static InfluenceMap Clone(InfluenceMap otherMap)
+		{
+			var map = new InfluenceMap(otherMap._navMap, otherMap._defaultValue);
+			map._grid = (float[,]) otherMap._grid.Clone();
+			map.Width = otherMap.Width;
+			map.Height = otherMap.Height;
+			return map;
 		}
 	}
 }

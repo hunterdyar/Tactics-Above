@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Attacks;
 using BTween;
 using Tactics.DamageSystem;
 using Tactics.Entities;
@@ -11,25 +12,23 @@ namespace Tactics.Turns
 	{
 		private ScriptableShape _shape;
 		private Vector2Int _facingDirection;
-		private DamageDescription _damageDescription;
-		public AttackOnShape(Agent agent, ScriptableShape shape, Vector2Int facingDirection,DamageDescription damage) : base(agent)
+		private Attack _attack;
+		public AttackOnShape(Agent agent, ScriptableShape shape, Vector2Int facingDirection,Attack attack) : base(agent)
 		{
 			_shape = shape;
 			_facingDirection = facingDirection;
-			_damageDescription = damage;
+			_attack = attack;
 		}
 
 		public override IEnumerator DoMove()
 		{
 			var nodes = _shape.GetNodesOnTilemapInFacingDirection(_agent.CurrentNode, _facingDirection);
 			
-			//todo: replace tweens with some kind of "playback" wrapper/interface that we can add tweens, Animations, and more to, and it can play, be skipped, speed up, etc.
-			
 			Playback.Playback movePlayback = new Playback.Playback();
-
+			Debug.Log(_agent.name+ " is attacking " + nodes.Count + " nodes with " + _attack.name);
 			foreach (var node in nodes)
 			{
-				Damage.DealDamageToNode(node,_damageDescription, ref movePlayback);
+				Damage.DealDamageToNode(node,_attack, ref movePlayback);
 			}
 			movePlayback.Start();
 			while (movePlayback.IsRunning())

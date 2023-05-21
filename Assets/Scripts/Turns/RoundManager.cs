@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Tactics.AI;
 using Tactics.Entities;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Tactics.Turns
 		
 		//I might have a wrapper object too that would handle events and names and things for like "Player Turn" etc.
 		
-		public AgentCollection[] AgentCollections;
+		public Faction[] AgentCollections;
 
 		[ContextMenu("Start Round")]
 		public void StartRound()
@@ -24,14 +25,22 @@ namespace Tactics.Turns
 		
 		public IEnumerator ExecuteRound()
 		{
+			//Initiate everything for AIContext.
+			foreach (var faction in AgentCollections)
+			{
+				var enemies = Array.FindAll(AgentCollections, faction => faction != faction);
+				faction.PrepareKnowledge(enemies);
+			}
+
+			//decide moves.
 			foreach (var ac in AgentCollections)
 			{
 				ac.PrepareTurn();
 			}
 
-			foreach (var ac in AgentCollections)
+			foreach (var faction in AgentCollections)
 			{
-				yield return StartCoroutine(ac.TakeTurn());
+				yield return StartCoroutine(faction.TakeTurn());
 			}
 		}
 
