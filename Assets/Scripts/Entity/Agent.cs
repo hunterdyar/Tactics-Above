@@ -142,7 +142,7 @@ namespace Tactics.Entities
 
 		public InfluenceMap GetTerritoryInfluence()
 		{
-			float range = 3f;
+			float range = 6f;
 			//todo hold movement options somewhere sensible for this to be deterimed by those... as attacks will be 
 			var map = new InfluenceMap(NavMap);
 			var center = new Vector2Int(CurrentNode.GridPosition.x,CurrentNode.GridPosition.z);
