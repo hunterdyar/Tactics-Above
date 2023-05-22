@@ -10,29 +10,40 @@ namespace Entity.Editor
 	{
 		public override void OnInspectorGUI()
 		{
-			var map = (Faction)target;
+			var faction = (Faction)target;
 
 			if (EditorApplication.isPlaying)
 			{
-				EditorGUILayout.HelpBox($"There are {map.Count} agents.", MessageType.Info);
+				EditorGUILayout.HelpBox($"There are {faction.Count} agents.", MessageType.Info);
 			}
 			else if (EditorApplication.isPaused)
 			{
-				EditorGUILayout.HelpBox($"There are {map.Count} agents.", MessageType.Info);
+				EditorGUILayout.HelpBox($"There are {faction.Count} agents.", MessageType.Info);
 			}
-			if(map.TerritoryMap != null){
+			if(faction.AIContext != null){
 				EditorGUILayout.LabelField("Territory Map");
 				var r = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
 				Gradient g = new Gradient();
 
-				EditorGUI.DrawPreviewTexture(r,map.TerritoryMap.GetMapAsTexture(),null,ScaleMode.ScaleToFit);
+				EditorGUI.DrawPreviewTexture(r,faction.AIContext.TerritoryMap.GetMapAsTexture(faction.TerritoryGradient),null,ScaleMode.ScaleToFit);
 			}
 
-			if (map.AttackMap != null)
+			if (faction.AIContext != null)
 			{
-				EditorGUILayout.LabelField("Threat Map");
+				EditorGUILayout.LabelField("Attack Map");
 				var r = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
-				EditorGUI.DrawPreviewTexture(r, map.TerritoryMap.GetMapAsTexture(), null, ScaleMode.ScaleToFit);
+				Gradient g = new Gradient();
+
+				EditorGUI.DrawPreviewTexture(r, faction.AIContext.AttackMap.GetMapAsTexture(), null, ScaleMode.ScaleToFit);
+			}
+
+			if (faction.AIContext != null)
+			{
+				EditorGUILayout.LabelField("Battlefront Map");
+				var r = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
+				Gradient g = new Gradient();
+
+				EditorGUI.DrawPreviewTexture(r, faction.AIContext.BattleMap.GetMapAsTexture(), null, ScaleMode.ScaleToFit);
 			}
 
 			base.OnInspectorGUI();

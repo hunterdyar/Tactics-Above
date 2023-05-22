@@ -17,3 +17,6 @@ MonoBehaviour:
   damage:
     Amount: 1
     DamageType: {fileID: 11400000, guid: 94dd2133fc53d2b40a001e009fc24442, type: 2}
+  considerations:
+  - {fileID: 11400000, guid: 82e5faca65fd72b469fef6e571d430e2, type: 2}
+  - {fileID: 11400000, guid: 3663eef9d9f759a4ab1bf71151788db2, type: 2}

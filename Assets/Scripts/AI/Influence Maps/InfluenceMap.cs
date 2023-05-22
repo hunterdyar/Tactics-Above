@@ -1,4 +1,4 @@
-﻿using Unity.VisualScripting;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace Tactics.AI.InfluenceMaps
@@ -24,6 +24,8 @@ namespace Tactics.AI.InfluenceMaps
 		private float[,] _grid;
 		public int Width;
 		public int Height;
+		private float _min => GetLowestPointValue();
+		private float _max => GetHighestPointValue();
 		public static InfluenceMap New(NavMap navMap, float defaultValue = 0f)
 		{
 			return new InfluenceMap(navMap, defaultValue);
@@ -51,6 +53,10 @@ namespace Tactics.AI.InfluenceMaps
 			}
 		}
 
+		public float GetValue(NavNode node)
+		{
+			return _grid[node.GridPosition.x, node.GridPosition.z];
+		}
 		public float GetValue(Vector2Int position)
 		{
 			return _grid[position.x, position.y];
@@ -75,6 +81,7 @@ namespace Tactics.AI.InfluenceMaps
 			{
 				_grid[x, y] += value;
 			}
+			//todo optimize. I think by lazy calculating the min and max since we will need it less often.
 		}
 
 		public void MultiplyValue(int x, int y, float value)
@@ -91,7 +98,37 @@ namespace Tactics.AI.InfluenceMaps
 		}
 		public float GetHighestPointValue()
 		{
-			return 0f;
+			float max = Mathf.NegativeInfinity;
+			for (int x = 0; x < Width; x++)
+			{
+				for (int y = 0; y < Height; y++)
+				{
+					if (max < _grid[x, y])
+					{
+						max = _grid[x, y];
+					}
+					
+				}
+			}
+
+			return max;
+		}
+
+		public float GetLowestPointValue()
+		{
+			float min = Mathf.Infinity;
+			for (int x = 0; x < Width; x++)
+			{
+				for (int y = 0; y < Height; y++)
+				{
+					if (min > _grid[x, y])
+					{
+						min = _grid[x, y];
+					}
+				}
+			}
+
+			return min;
 		}
 
 		public void AddInfluence(InfluenceMap otherMap, float modifier = 1f)
@@ -118,7 +155,6 @@ namespace Tactics.AI.InfluenceMaps
 			}
 		}
 		
-
 		public void AddPropagation(Vector2Int center, float range, DistanceFalloff falloff = DistanceFalloff.Linear)
 		{
 			for (int x = 0; x < Width; x++)
@@ -159,15 +195,20 @@ namespace Tactics.AI.InfluenceMaps
 			return 0f;
 		}
 
-		public Texture GetMapAsTexture()
+		public Texture GetMapAsTexture(Gradient g = null)
 		{
+			if (g == null)
+			{
+				g = new Gradient();
+				g.SetKeys(new GradientColorKey[] {new GradientColorKey(Color.black, 0f), new GradientColorKey(Color.white, 1f)}, new GradientAlphaKey[] {new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 1f)});
+			}
 			var texture = new Texture2D(Width, Height); 
 			texture.filterMode = FilterMode.Point;
 			for (int x = 0; x < Width; x++)
 			{
 				for (int y = 0; y <Height; y++)
 				{
-					texture.SetPixel(x, y, Color.Lerp(Color.black, Color.white, _grid[x, y]));
+					texture.SetPixel(x, y, g.Evaluate(Mathf.InverseLerp(_min,_max,_grid[x, y])));
 				}
 			}
 			texture.Apply();

@@ -29,5 +29,17 @@ namespace Tactics.AI
 			BattleMap = InfluenceMap.Clone(TerritoryMap);
 			BattleMap.MultiplyInfluence(EnemyFaction.TerritoryMap);//hi in contested areas/frontlines
 		}
+
+		public Faction GetFactionFromContext(FactionContext context)
+		{
+			switch (context)
+			{
+				case FactionContext.Allies:
+					return MyFaction;
+				case FactionContext.Enemy:
+				default:
+					return EnemyFaction;
+			}
+		}
 	}
 }

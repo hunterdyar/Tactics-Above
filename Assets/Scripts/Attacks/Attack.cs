@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Tactics.AI;
 using Tactics.AI.Actions;
+using Tactics.AI.Considerations;
 using Tactics.DamageSystem;
 using Tactics.Entities;
 using Tactics.GridShapes;
@@ -19,7 +20,9 @@ namespace Attacks
 		[SerializeField] private AttackLocationType locationType;
 		public DamageDescription Damage => damage;
 		[SerializeField] private DamageDescription damage; 
+		//
 		
+		[SerializeField] private List<Consideration> considerations;
 		//what does the AIAction need to do to choose to attack?
 		
 		
@@ -60,6 +63,11 @@ namespace Attacks
 					break;
 			}
 			return actions;
+		}
+
+		public List<Consideration> GetConsiderations()
+		{
+			return considerations;
 		}
 	}
 }

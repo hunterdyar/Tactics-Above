@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Attacks;
+using Tactics.AI.Considerations;
 using Tactics.AI.InfluenceMaps;
 using Tactics.DamageSystem;
 using Tactics.Entities;
@@ -8,12 +9,15 @@ using Tactics.Turns;
 
 namespace Tactics.AI.Actions
 {
-	public class AttackAIAction : AIAction
+	public class AttackAIAction : IAIAction
 	{
 		private Attack _attack;
 		private Agent _agent;
 		public List<NavNode> TargetNodes => _targetNodes;
 		private List<NavNode> _targetNodes;
+
+		public float Score { get; set; }
+
 		public AttackAIAction(Attack attack,NavNode node, Agent agent)
 		{
 			_attack = attack;
@@ -33,18 +37,24 @@ namespace Tactics.AI.Actions
 			}
 		}
 
-		public override void AffectInfluenceMap(Agent agent, InfluenceMap map, InfluenceMapType mapType)
+
+		public List<Consideration> GetConsiderations()
+		{
+			return _attack.GetConsiderations();
+		}
+
+		public void AffectInfluenceMap(Agent agent, ref InfluenceMap map, InfluenceMapType mapType)
 		{	
-			if(mapType == InfluenceMapType.Threat)
+			if(mapType == InfluenceMapType.Attack)
 			{
 				foreach (var node in _targetNodes)
 				{
-					map.AddValue(node.GridPosition.x,node.GridPosition.y, _attack.Damage.Amount);
+					map.AddValue(node.GridPosition.x,node.GridPosition.z, _attack.Damage.Amount);
 				}
 			}
 		}
 
-		public override MoveBase GetMove()
+		public MoveBase GetMove()
 		{
 			if(_targetNodes.Count == 1)
 			{

@@ -4,7 +4,7 @@
 	{
 		Territory,
 		Threat,
-		Heat,
-		Visibility,
+		Attack,
+		Battle,
 	}
 }

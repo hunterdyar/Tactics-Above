@@ -22,9 +22,9 @@ namespace Tactics.AI
 		
 		//We will choose one action each turn... supporting more? Like a Move and an attack? Sort of feels like we will need to do that... 
 
-		public List<AIAction> GetAllActions()
+		public List<IAIAction> GetAllActions()
 		{
-			List<AIAction> actions = new List<AIAction>();
+			List<IAIAction> actions = new List<IAIAction>();
 			foreach (var attack in _agent.Attacks)
 			{
 				foreach (var action in attack.GetAIActions(_agent))
@@ -36,24 +36,44 @@ namespace Tactics.AI
 			return actions;
 		}
 	
-		public void ScoreActions(List<AIAction> actions, AIContext context)
+		
+		public float ScoreAction(IAIAction action, Agent agent, AIContext context)
 		{
-			foreach (var action in actions)
+			float score = 0;
+			var c = action.GetConsiderations();
+			for (int i = 0; i < c.Count; i++)
 			{
-				action.ScoreAction(_agent, context);
+				float considerationScore = c[i].ScoreConsideration(action, agent, context);
+				score *= considerationScore;
+				if (score == 0)
+				{
+					action.Score = 0;
+					return 0;
+				}
 			}
-		}
+			 
+			//averaging scheme by dave hill
+			float originalScore = score;
+			float modFactor = 1 - (1/c.Count);
+			float makeupValue = (1-originalScore) * modFactor;
+			action.Score = originalScore + (makeupValue*originalScore);
 
+			return action.Score;
+		}
+		
 		public override MoveBase DecideMove(AIContext context)
 		{
-			List<AIAction> actions = GetAllActions();
+			List<IAIAction> actions = GetAllActions();
 
 			if (actions.Count == 0)
 			{
 				return new DoNothingMove(_agent);
 			}
 
-			ScoreActions(actions, context);
+			foreach (var action in actions)
+			{
+				ScoreAction(action, _agent, context);
+			}
 
 			actions.Sort((a, b) => b.Score.CompareTo(a.Score));
 			return actions[0].GetMove();

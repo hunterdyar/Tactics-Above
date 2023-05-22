@@ -145,7 +145,7 @@ namespace Tactics.Entities
 		public InfluenceMap GetTerritoryInfluence()
 		{
 			float range = 6f;
-			//todo hold movement options somewhere sensible for this to be deterimed by those... as attacks will be 
+			//todo hold movement options somewhere sensible for this to be determined by those... as attacks will be 
 			var map = new InfluenceMap(NavMap);
 			var center = new Vector2Int(CurrentNode.GridPosition.x,CurrentNode.GridPosition.z);
 			map.AddPropagation(center,range,DistanceFalloff.Exponential);
@@ -163,7 +163,7 @@ namespace Tactics.Entities
 			{
 				foreach (var action in attack.GetAIActions(this))
 				{
-					action.AffectInfluenceMap(this, map, mapType);
+					action.AffectInfluenceMap(this, ref map, mapType);
 				}
 				
 			}

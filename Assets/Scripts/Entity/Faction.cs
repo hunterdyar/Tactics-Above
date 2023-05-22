@@ -5,7 +5,6 @@ using System.Linq;
 using Tactics.AI;
 using Tactics.AI.InfluenceMaps;
 using Tactics.Turns;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Tactics.Entities
@@ -14,16 +13,18 @@ namespace Tactics.Entities
 
 	public class Faction : EntityMap
 	{
-		public Gradient Gradient;
-		public Color debugColor;//debugging
+		[Header("Debug")]
+		public Gradient TerritoryGradient;
 
 		private Faction[] _enemies;
-		//AgentCollection is just an entitymap, but they get a turn order, and all members in the list can take a turn!
+		//AgentCollection is just an entity map, but they get a turn order, and all members in the list can take a turn!
 		public InfluenceMap TerritoryMap => _territoryMap;
 		public InfluenceMap AttackMap => _attackMap;
 
 		private InfluenceMap _territoryMap;
 		private InfluenceMap _attackMap;
+		
+		public AIContext AIContext => _currentAIContext;
 		private AIContext _currentAIContext;
 		public List<Agent> GetAgentsInOrder()
 		{
@@ -77,7 +78,7 @@ namespace Tactics.Entities
 			foreach (var agent in GetAgentsInOrder())
 			{
 				_territoryMap.AddInfluence(agent.GetTerritoryInfluence());
-				_attackMap.AddInfluence(agent.GetInfluenceFromAttacks(InfluenceMapType.Threat));
+				_attackMap.AddInfluence(agent.GetInfluenceFromAttacks(InfluenceMapType.Attack));
 			}
 		}
 		//A collection taking a turn is going one-by-one through agents for them to take their turn.
