@@ -12,23 +12,24 @@ namespace Tactics.AI.Actions
 	{
 		private Attack _attack;
 		private Agent _agent;
-		private List<NavNode> targetNodes;
+		public List<NavNode> TargetNodes => _targetNodes;
+		private List<NavNode> _targetNodes;
 		public AttackAIAction(Attack attack,NavNode node, Agent agent)
 		{
 			_attack = attack;
 			_agent = agent;
-			targetNodes = new List<NavNode>();
-			targetNodes.Add(node);
+			_targetNodes = new List<NavNode>();
+			_targetNodes.Add(node);
 		}
 
 		public AttackAIAction(Attack attack,List<NavNode> nodes, Agent agent)
 		{
 			_attack = attack;
 			_agent = agent;
-			targetNodes = new List<NavNode>();
+			_targetNodes = new List<NavNode>();
 			foreach (var node in nodes)
 			{
-				targetNodes.Add(node);
+				_targetNodes.Add(node);
 			}
 		}
 
@@ -36,7 +37,7 @@ namespace Tactics.AI.Actions
 		{	
 			if(mapType == InfluenceMapType.Threat)
 			{
-				foreach (var node in targetNodes)
+				foreach (var node in _targetNodes)
 				{
 					map.AddValue(node.GridPosition.x,node.GridPosition.y, _attack.Damage.Amount);
 				}
@@ -45,13 +46,13 @@ namespace Tactics.AI.Actions
 
 		public override MoveBase GetMove()
 		{
-			if(targetNodes.Count == 1)
+			if(_targetNodes.Count == 1)
 			{
-				return new AttackOnNode(_agent, targetNodes[0], _attack);
+				return new AttackOnNode(_agent, _targetNodes[0], _attack);
 			}
 			else
 			{
-				return new AttackOnNodes(_agent, targetNodes, _attack);
+				return new AttackOnNodes(_agent, _targetNodes, _attack);
 			}
 		}
 	}

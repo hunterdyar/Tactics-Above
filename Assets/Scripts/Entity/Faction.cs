@@ -12,10 +12,12 @@ namespace Tactics.Entities
 {
 	[CreateAssetMenu(fileName = "Agents", menuName = "Tactics/Entities/Agent Collection (entity map)", order = 0)]
 
-	public class Faction : EntityMap, ITurnTaker
+	public class Faction : EntityMap
 	{
 		public Gradient Gradient;
 		public Color debugColor;//debugging
+
+		private Faction[] _enemies;
 		//AgentCollection is just an entitymap, but they get a turn order, and all members in the list can take a turn!
 		public InfluenceMap TerritoryMap => _territoryMap;
 		public InfluenceMap AttackMap => _attackMap;
@@ -47,7 +49,6 @@ namespace Tactics.Entities
 			}
 		}
 
-		
 		public bool TryGetClosestAgentInMap(NavNode node, out Agent agent)
 		{
 			//todo: Pathfinding?
@@ -70,23 +71,23 @@ namespace Tactics.Entities
 		
 		public void PrepareKnowledge(Faction[] enemies)
 		{
+			_enemies = enemies;//cache
 			_territoryMap = InfluenceMap.New(NavMap,0);
 			_attackMap = InfluenceMap.New(NavMap,0);
 			foreach (var agent in GetAgentsInOrder())
 			{
 				_territoryMap.AddInfluence(agent.GetTerritoryInfluence());
-				_attackMap.AddInfluence(agent.GetInfluenceFromActions(InfluenceMapType.Threat));
+				_attackMap.AddInfluence(agent.GetInfluenceFromAttacks(InfluenceMapType.Threat));
 			}
-
-			//context clones the maps we make here, and we modify it as the agents make their decisions, so following agents can compensate.
-			_currentAIContext = new AIContext(this, enemies);
 		}
 		//A collection taking a turn is going one-by-one through agents for them to take their turn.
 		public void PrepareTurn()
 		{
+			//context clones the maps we make here, and we modify it as the agents make their decisions, so following agents can compensate.
+			_currentAIContext = new AIContext(this, _enemies);
 			foreach (var agent in GetAgentsInOrder())
 			{
-				agent.PrepareTurn();
+				agent.PrepareTurn(_currentAIContext);
 			}
 		}
 

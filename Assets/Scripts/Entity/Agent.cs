@@ -13,7 +13,7 @@ namespace Tactics.Entities
 	/// Agents Are GridEntities (live on a layer in the grid)
 	/// Can take turns.
 	/// </summary>
-	public class Agent : GridEntity, ITurnTaker
+	public class Agent : GridEntity
 	{
 		public EntityMap AgentLayer => _agentLayer;
 		[SerializeField] private EntityMap _agentLayer;
@@ -27,12 +27,9 @@ namespace Tactics.Entities
 		private NavNode _currentNode;
 
 		private MoveDecider _moveDecider;
-		private MoveBase nextMove;
+		private MoveBase _nextMove;
 
 		public int movesPerTurn;
-
-		private AIAction[] _aiActions;
-
 		private void Awake()
 		{
 			_moveDecider = GetComponent<MoveDecider>();
@@ -91,12 +88,12 @@ namespace Tactics.Entities
 
 		}
 
-		public void PrepareTurn()
+		public void PrepareTurn(AIContext context)
 		{
 			//ai!
 			
 			//do this when creating node?
-			nextMove = _moveDecider.DecideMove();
+			_nextMove = _moveDecider.DecideMove(context);
 		}
 
 		//What nodes can THIS agent walk on?
@@ -130,12 +127,12 @@ namespace Tactics.Entities
 
 		public IEnumerator TakeTurn()
 		{
-			if (nextMove == null)
+			if (_nextMove == null)
 			{
 				Debug.LogWarning("Null next move.",this);
 				yield break;
 			}
-			yield return StartCoroutine(nextMove.DoMove());
+			yield return StartCoroutine(_nextMove.DoMove());
 			yield break;
 		}
 
@@ -156,15 +153,19 @@ namespace Tactics.Entities
 			return map;
 		}
 
-		public InfluenceMap GetInfluenceFromActions(InfluenceMapType mapType)
+		public InfluenceMap GetInfluenceFromAttacks(InfluenceMapType mapType)
 		{
 			float range = 6f;
 			//todo hold movement options somewhere sensible for this to be deterimed by those... as attacks will be 
 			var map = new InfluenceMap(NavMap,0);
 			var center = new Vector2Int(CurrentNode.GridPosition.x, CurrentNode.GridPosition.z);
-			foreach (var aiAction in _aiActions)
+			foreach (var attack in _attacks)
 			{
-				aiAction.AffectInfluenceMap(this,map,mapType);
+				foreach (var action in attack.GetAIActions(this))
+				{
+					action.AffectInfluenceMap(this, map, mapType);
+				}
+				
 			}
 			return map;
 		}

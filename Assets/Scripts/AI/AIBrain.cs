@@ -1,8 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Tactics.AI.Actions;
+using Tactics.Entities;
+using Tactics.Turns;
+using UnityEngine;
 
 namespace Tactics.AI
 {
-	public class AIBrain : MonoBehaviour
+	//UtilityAI brain
+	public class AIBrain : MoveDecider
 	{
 		//AIBrain has a list of all possible actions.
 		//These are all possible attacks, stored in the agent. (todo: for now?) 
@@ -16,7 +21,42 @@ namespace Tactics.AI
  
 		
 		//We will choose one action each turn... supporting more? Like a Move and an attack? Sort of feels like we will need to do that... 
-		
-		
+
+		public List<AIAction> GetAllActions()
+		{
+			List<AIAction> actions = new List<AIAction>();
+			foreach (var attack in _agent.Attacks)
+			{
+				foreach (var action in attack.GetAIActions(_agent))
+				{
+					actions.Add(action);
+				}
+			}
+
+			return actions;
+		}
+	
+		public void ScoreActions(List<AIAction> actions, AIContext context)
+		{
+			foreach (var action in actions)
+			{
+				action.ScoreAction(_agent, context);
+			}
+		}
+
+		public override MoveBase DecideMove(AIContext context)
+		{
+			List<AIAction> actions = GetAllActions();
+
+			if (actions.Count == 0)
+			{
+				return new DoNothingMove(_agent);
+			}
+
+			ScoreActions(actions, context);
+
+			actions.Sort((a, b) => b.Score.CompareTo(a.Score));
+			return actions[0].GetMove();
+		}
 	}
 }

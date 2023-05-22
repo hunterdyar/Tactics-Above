@@ -139,10 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movesPerTurn: 1
-  _attackShape: {fileID: 11400000, guid: 164fba8467154ca4499fc443a3bf8412, type: 2}
-  _damageDescription:
-    Amount: 1
-    DamageType: {fileID: 11400000, guid: 94dd2133fc53d2b40a001e009fc24442, type: 2}
+  _attack: {fileID: 11400000, guid: bfa2896ecba23924a8f570a434a34a71, type: 2}
 --- !u!114 &-1250701555604405205
 MonoBehaviour:
   m_ObjectHideFlags: 0

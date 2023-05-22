@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Attacks;
 using Tactics.DamageSystem;
 using Tactics.Entities;
 using Tactics.GridShapes;
@@ -14,31 +15,28 @@ namespace Tactics.AI
 	{
 		[SerializeField] private int movesPerTurn;
 		private AStarPathfinder<NavNode> _pathfinder;
-		[SerializeField] private ScriptableShape _attackShape;
-		[SerializeField] private DamageDescription _damageDescription;
+		[SerializeField] private Attack _attack;
 		public override void Initiate(Agent agent)
 		{
 			base.Initiate(agent);
 			_pathfinder = new AStarPathfinder<NavNode>(agent.CurrentNode.NavMap, agent.IsNodeWalkable);
 		}
 
-		public override MoveBase DecideMove()
+		public override MoveBase DecideMove(AIContext context)
 		{
 			//If we are able to attack an enemy, attack an enemy.
-			foreach (var facing in RectUtility.CardinalDirectionsXY)
+			foreach (var attack in _attack.GetAIActions(_agent))
 			{
-				foreach (var node in _attackShape.GetNodesOnTilemapInFacingDirection(CurrentNode,facing))
+				foreach (var node in attack.TargetNodes)
 				{
 					if (_agent.EnemyLayer.HasAnyEntity(node))
 					{
-						//Let's attack!
-					//	var move = new AttackOnShape(_agent, _attackShape, facing, _damageDescription);
-					//	return move;
-					return null;
-					//this is temp, we aren't tracking total damage (ie: multiple targers) or value of move.
+						//We will hit anythng!  Let's attack!
+						return attack.GetMove();
 					}
 				}
-			}
+				
+			}//else....
 
 			//Move towards the closest enemy. It doesn't consider pathfinding right now.
 			if(_agent.EnemyLayer.TryGetClosestAgentInMap(CurrentNode,out var target))
@@ -79,9 +77,9 @@ namespace Tactics.AI
 		private bool TryGetClosestAttackingPosition(NavNode targetNode, NavNode currentNode, out NavNode closestAttackPos)
 		{
 			List<NavNode> attackingPositions = new List<NavNode>();
-			foreach (var delta in _attackShape.Shape)
+			foreach (var delta in _attack.Shape.Shape)
 			{
-				var attackPos = targetNode.GridPosition - new Vector3Int(delta.x,0,delta.y);
+				var attackPos = targetNode.GridPosition - new Vector3Int(delta.x, 0, delta.y);
 				if (targetNode.NavMap.TryGetNavNode(attackPos, out var node))
 				{
 					if (_agent.IsNodeWalkable(node))
@@ -90,7 +88,6 @@ namespace Tactics.AI
 					}
 				}
 			}
-
 			if (attackingPositions.Count > 0)
 			{
 				closestAttackPos = attackingPositions.OrderBy(x => Vector3Int.Distance(currentNode.GridPosition, x.GridPosition)).First();

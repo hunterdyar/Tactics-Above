@@ -28,7 +28,7 @@ namespace Tactics.Turns
 			//Initiate everything for AIContext.
 			foreach (var faction in AgentCollections)
 			{
-				var enemies = Array.FindAll(AgentCollections, faction => faction != faction);
+				var enemies = Array.FindAll(AgentCollections, x => x != faction);
 				faction.PrepareKnowledge(enemies);
 			}
 

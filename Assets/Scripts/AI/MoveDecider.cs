@@ -14,6 +14,6 @@ namespace Tactics.AI
 			_agent = agent;
 		}
 
-		public abstract MoveBase DecideMove();
+		public abstract MoveBase DecideMove(AIContext context);
 	}
 }

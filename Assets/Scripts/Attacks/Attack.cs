@@ -14,6 +14,7 @@ namespace Attacks
 	[CreateAssetMenu(fileName = "Attack", menuName = "Tactics/Attack", order = 0)]
 	public class Attack : ScriptableObject
 	{
+		public ScriptableShape Shape => shape;
 		[SerializeField] private ScriptableShape shape;
 		[SerializeField] private AttackLocationType locationType;
 		public DamageDescription Damage => damage;
@@ -26,9 +27,9 @@ namespace Attacks
 		// {
 
 		// } 
-		public List<AIAction> GetAIActions(Agent agent, AIContext context)
+		public List<AttackAIAction> GetAIActions(Agent agent)
 		{
-			List<AIAction> actions = new List<AIAction>();
+			List<AttackAIAction> actions = new List<AttackAIAction>();
 			//foreach direction.... all possible attacks.
 			switch (locationType)
 			{

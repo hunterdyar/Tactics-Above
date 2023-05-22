@@ -14,7 +14,8 @@ namespace Tactics.Turns
 
 		public override IEnumerator DoMove()
 		{
-			yield return new WaitForSeconds(0.25f);
+			Debug.Log($"{_agent} doing nothing.");
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 }

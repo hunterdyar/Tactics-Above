@@ -17,6 +17,8 @@ namespace Tactics.AI.Actions
 			//this is where the action will be scored based on the influence maps
 			//and the agent's current state
 			//the action with the highest score will be chosen
+			//testing
+			_score = Random.value;
 		}
 
 		//affect influence map. This is a processing step for before move planning.
