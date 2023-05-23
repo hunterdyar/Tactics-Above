@@ -38,7 +38,7 @@ namespace Tactics.AI.Actions
 		}
 
 
-		public List<Consideration> GetConsiderations()
+		public List<ScriptableConsideration> GetConsiderations()
 		{
 			return _attack.GetConsiderations();
 		}

@@ -7,19 +7,22 @@ using UnityEngine;
 
 namespace Tactics.AI.Actions
 {
-	public interface IAIAction 
+	public abstract class ScriptableAction : ScriptableObject, IAIAction
 	{
-		//score will be updated continuously as different agents consider the action.
 		public float Score { get; set; }
-		
-		public List<ScriptableConsideration> GetConsiderations();
+		[SerializeField] private List<ScriptableConsideration> _considerations;
+		public virtual List<ScriptableConsideration> GetConsiderations()
+		{
+			return _considerations;
+		}
 
-		public virtual float ScoreAction(Agent agent, AIContext context){
-			float score = 0;
+		public virtual float ScoreAction(Agent agent, AIContext context)
+		{
+			float score = 1;
 			var c = GetConsiderations();
 			for (int i = 0; i < c.Count; i++)
 			{
-				float considerationScore = c[i].ScoreConsideration(this, agent, context);
+				float considerationScore = c[i].ScoreConsideration(this,agent, context);
 				score *= considerationScore;
 				if (score == 0)
 				{
@@ -36,8 +39,12 @@ namespace Tactics.AI.Actions
 
 			return Score;
 		}
-		//affect influence map. This is a processing step for before move planning.
-		public abstract void AffectInfluenceMap(Agent agent, ref InfluenceMap map, InfluenceMapType mapType);
+		/// <summary>
+		/// Will do nothing by default.
+		/// </summary>
+		public virtual void AffectInfluenceMap(Agent agent, ref InfluenceMap map, InfluenceMapType mapType)
+		{
+		}
 
 		public abstract MoveBase GetMove();
 	}

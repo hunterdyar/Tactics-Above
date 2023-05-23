@@ -29,7 +29,7 @@ namespace Tactics.Entities
 		private MoveDecider _moveDecider;
 		private MoveBase _nextMove;
 
-		public int movesPerTurn;
+		public int range = 3;
 		private void Awake()
 		{
 			_moveDecider = GetComponent<MoveDecider>();
@@ -167,6 +167,17 @@ namespace Tactics.Entities
 				}
 				
 			}
+			return map;
+		}
+
+		/// <summary>
+		/// 1 in locations that can be moved to, 0 in locations that can't.
+		/// </summary>
+		public InfluenceMap GetMovementRangeMap()
+		{
+			var map = InfluenceMap.New(_currentNode.NavMap);
+			var center = new Vector2Int(CurrentNode.GridPosition.x, CurrentNode.GridPosition.z);
+			map.AddPropagation(center,range,DistanceFalloff.None);
 			return map;
 		}
 	}

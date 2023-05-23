@@ -18,10 +18,11 @@ namespace Tactics.AI
 		//Then we score every action.
 		//To score the action, it scores itself based on the considerations it has, which take the agent, faction, and AIContext as input to get knowledge about the world. the influence maps are part of the AIContext, and are precomputed models of understanding.
 		//then we choose the highest scored action and set the agents NextMove with it.
- 
+		//The agent will then execute the move, and the turn will end.
 		
 		//We will choose one action each turn... supporting more? Like a Move and an attack? Sort of feels like we will need to do that... 
 
+		[SerializeField] private ScriptableAction[] _actions;
 		public List<IAIAction> GetAllActions()
 		{
 			List<IAIAction> actions = new List<IAIAction>();
@@ -33,33 +34,14 @@ namespace Tactics.AI
 				}
 			}
 
+			foreach (var sa in _actions)
+			{
+				actions.Add(sa);
+			}
+
 			return actions;
 		}
-	
 		
-		public float ScoreAction(IAIAction action, Agent agent, AIContext context)
-		{
-			float score = 0;
-			var c = action.GetConsiderations();
-			for (int i = 0; i < c.Count; i++)
-			{
-				float considerationScore = c[i].ScoreConsideration(action, agent, context);
-				score *= considerationScore;
-				if (score == 0)
-				{
-					action.Score = 0;
-					return 0;
-				}
-			}
-			 
-			//averaging scheme by dave hill
-			float originalScore = score;
-			float modFactor = 1 - (1/c.Count);
-			float makeupValue = (1-originalScore) * modFactor;
-			action.Score = originalScore + (makeupValue*originalScore);
-
-			return action.Score;
-		}
 		
 		public override MoveBase DecideMove(AIContext context)
 		{
@@ -72,7 +54,7 @@ namespace Tactics.AI
 
 			foreach (var action in actions)
 			{
-				ScoreAction(action, _agent, context);
+				action.ScoreAction(_agent, context);
 			}
 
 			actions.Sort((a, b) => b.Score.CompareTo(a.Score));

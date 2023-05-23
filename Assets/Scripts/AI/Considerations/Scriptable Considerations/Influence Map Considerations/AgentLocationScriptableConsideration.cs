@@ -7,7 +7,7 @@ namespace Tactics.AI.Considerations
 {
 	[CreateAssetMenu(fileName = "Agent Current Location Value", menuName = "Tactics/Considerations/Agent Location Consideration")]
 
-	public class AgentLocationConsideration: Consideration
+	public class AgentLocationScriptableConsideration: ScriptableConsideration
 	{
 		public InfluenceMapType MapType;
 		public AnimationCurve Curve;

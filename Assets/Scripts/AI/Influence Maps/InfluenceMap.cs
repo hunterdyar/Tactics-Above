@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Tactics.Utility;
 using UnityEngine;
 
 namespace Tactics.AI.InfluenceMaps
@@ -90,11 +91,6 @@ namespace Tactics.AI.InfluenceMaps
 			{
 				_grid[x, y] *= value;
 			}
-		}
-		
-		public Vector2Int GetHighestPoint()
-		{
-			return Vector2Int.zero;
 		}
 		public float GetHighestPointValue()
 		{
@@ -190,7 +186,8 @@ namespace Tactics.AI.InfluenceMaps
 					return 1f - Mathf.Clamp01(Mathf.Pow(Vector2Int.Distance(position, center) / range, 2));
 				case DistanceFalloff.Quadratic:
 					return 1f - Mathf.Clamp01(Mathf.Pow(Vector2Int.Distance(position, center) / range, 4));
-				//Note:this is the first time i really appreciated copilot.
+				case DistanceFalloff.None:
+					return center.ManhattanDistance(position) <= range ? 1 : 0;
 			}
 			return 0f;
 		}
@@ -222,6 +219,44 @@ namespace Tactics.AI.InfluenceMaps
 			map.Width = otherMap.Width;
 			map.Height = otherMap.Height;
 			return map;
+		}
+
+		public Vector2Int GetHighestPosition()
+		{
+			Vector2Int maxSpace = Vector2Int.zero;
+			float max = GetValue(0,0);
+			for (int x = 0; x < Width; x++)
+			{
+				for (int y = 0; y < Height; y++)
+				{
+					if (max < _grid[x, y])
+					{
+						max = _grid[x, y];
+					}
+					
+				}
+			}
+
+			return maxSpace;
+		}
+
+		public Vector2Int GetLowestPosition()
+		{
+			Vector2Int minSpace = Vector2Int.zero;
+			float min = GetValue(0,0);
+			for (int x = 0; x < Width; x++)
+			{
+				for (int y = 0; y < Height; y++)
+				{
+					if (min > _grid[x, y])
+					{
+						min = _grid[x, y];
+						minSpace = new Vector2Int(x, y);
+					}
+				}
+			}
+
+			return minSpace;
 		}
 	}
 }

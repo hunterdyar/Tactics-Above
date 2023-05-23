@@ -22,7 +22,7 @@ namespace Attacks
 		[SerializeField] private DamageDescription damage; 
 		//
 		
-		[SerializeField] private List<Consideration> considerations;
+		[SerializeField] private List<ScriptableConsideration> considerations;
 		//what does the AIAction need to do to choose to attack?
 		
 		
@@ -65,7 +65,7 @@ namespace Attacks
 			return actions;
 		}
 
-		public List<Consideration> GetConsiderations()
+		public List<ScriptableConsideration> GetConsiderations()
 		{
 			return considerations;
 		}

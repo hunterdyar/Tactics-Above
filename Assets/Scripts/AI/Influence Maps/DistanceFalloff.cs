@@ -2,6 +2,7 @@
 {
 	public enum DistanceFalloff
 	{
+		None,
 		Linear,
 		Exponential,
 		Quadratic

@@ -76,5 +76,15 @@ namespace Tactics.Utility
 		{
 			return new Vector3Int(-point.x, -point.y,point.z);
 		}
+		
+		public static int ManhattanDistance(this Vector2Int center,Vector2Int point)
+		{
+			var p = point - center;
+			return Mathf.Abs(p.x) + Mathf.Abs(p.y);
+		}
+		public static Vector3Int V2ToV3XZ(this Vector2Int point)
+		{
+			return new Vector3Int(point.x,0,point.y);
+		}
 	}
 }

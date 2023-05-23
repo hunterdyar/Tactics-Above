@@ -125,7 +125,7 @@ MonoBehaviour:
   _enemyLayer: {fileID: 11400000, guid: 0b020c0a0d52dfc479f40767b1d490c9, type: 2}
   _attacks:
   - {fileID: 11400000, guid: bfa2896ecba23924a8f570a434a34a71, type: 2}
-  movesPerTurn: 2
+  range: 3
 --- !u!114 &-3373234325163090327
 MonoBehaviour:
   m_ObjectHideFlags: 0
