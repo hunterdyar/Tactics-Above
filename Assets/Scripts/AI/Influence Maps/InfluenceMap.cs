@@ -65,7 +65,12 @@ namespace Tactics.AI.InfluenceMaps
 
 		public float GetValue(int x, int y)
 		{
-			return _grid[x, y];
+			if (x > 0 && x < Width && y > 0 && y < Height)
+			{
+				return _grid[x, y];
+			}
+			//Debug.LogWarning("Bad Value Selected");
+			return 0;
 		}
 		
 		public void SetValue(int x, int y, float value)
@@ -82,7 +87,6 @@ namespace Tactics.AI.InfluenceMaps
 			{
 				_grid[x, y] += value;
 			}
-			//todo optimize. I think by lazy calculating the min and max since we will need it less often.
 		}
 
 		public void MultiplyValue(int x, int y, float value)
@@ -192,7 +196,7 @@ namespace Tactics.AI.InfluenceMaps
 			return 0f;
 		}
 
-		public Texture GetMapAsTexture(Gradient g = null)
+		public Texture GetMapAsTexture(Gradient g = null, float min = 0, float max = 1)
 		{
 			if (g == null)
 			{
@@ -205,7 +209,7 @@ namespace Tactics.AI.InfluenceMaps
 			{
 				for (int y = 0; y <Height; y++)
 				{
-					texture.SetPixel(x, y, g.Evaluate(Mathf.InverseLerp(_min,_max,_grid[x, y])));
+					texture.SetPixel(x, y, g.Evaluate(Mathf.InverseLerp(min,max,_grid[x, y])));
 				}
 			}
 			texture.Apply();

@@ -25,7 +25,7 @@ namespace Entity.Editor
 				var r = EditorGUILayout.GetControlRect(GUILayout.Width(256), GUILayout.Height(256));
 				Gradient g = new Gradient();
 
-				EditorGUI.DrawPreviewTexture(r,faction.AIContext.TerritoryMap.GetMapAsTexture(faction.TerritoryGradient),null,ScaleMode.ScaleToFit);
+				EditorGUI.DrawPreviewTexture(r,faction.AIContext.TerritoryMap.GetMapAsTexture(faction.TerritoryGradient,faction.territoryMinDisplay,faction.territoryMaxDisplay),null,ScaleMode.ScaleToFit);
 			}
 
 			if (faction.AIContext != null)
@@ -48,6 +48,7 @@ namespace Entity.Editor
 
 			base.OnInspectorGUI();
 		}
+		
 		
 	}
 }

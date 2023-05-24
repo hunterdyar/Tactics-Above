@@ -16,6 +16,8 @@ namespace Tactics.Entities
 		[Header("Debug")]
 		public Gradient TerritoryGradient;
 
+		public float territoryMinDisplay;
+		public float territoryMaxDisplay;
 		private Faction[] _enemies;
 		//AgentCollection is just an entity map, but they get a turn order, and all members in the list can take a turn!
 		public InfluenceMap TerritoryMap => _territoryMap;
@@ -70,6 +72,9 @@ namespace Tactics.Entities
 			return false;
 		}
 		
+		/// <summary>
+		/// Initiates information that is accurate to the current state of the world, and which does not rely on calculations from other factions of their information. This way all factions have the information ready before creating an AIContext.
+		/// </summary>
 		public void PrepareKnowledge(Faction[] enemies)
 		{
 			_enemies = enemies;//cache
@@ -99,5 +104,8 @@ namespace Tactics.Entities
 				yield return agent.StartCoroutine(agent.TakeTurn());
 			}
 		}
+
+		
+				
 	}
 }

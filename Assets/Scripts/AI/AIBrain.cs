@@ -58,6 +58,12 @@ namespace Tactics.AI
 			}
 
 			actions.Sort((a, b) => b.Score.CompareTo(a.Score));
+			if (actions[0].Score == 0)
+			{
+				Debug.Log($"All actions were 0. {gameObject.name} could not decide. Doing nothing.");
+				return new DoNothingMove(_agent);
+			}
+			Debug.Log($"{gameObject.name} decided {actions[0].GetType().Name}");
 			return actions[0].GetMove();
 		}
 	}

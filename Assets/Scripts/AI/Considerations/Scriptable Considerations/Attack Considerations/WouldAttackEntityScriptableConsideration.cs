@@ -1,6 +1,7 @@
 ﻿using Tactics.AI.Actions;
 using Tactics.Entities;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Tactics.AI.Considerations
 {	
@@ -10,6 +11,8 @@ namespace Tactics.AI.Considerations
 		public FactionContext factionContext;
 		[Tooltip("If true, will return 0 if the entity is hit. If false, will return 1 if the entity would be hit.")]
 		public bool invert;
+
+		[FormerlySerializedAs("modifier")] [Range(0, 1)] public float trueValue = 1; 
 		public override float ScoreConsideration(IAIAction action, Agent agent, AIContext context)
 		{
 			if (action is AttackAIAction attackAction)
@@ -21,18 +24,18 @@ namespace Tactics.AI.Considerations
 					{
 						if(invert)
 						{
-							return 0f;
+							return 1-trueValue;
 						}
-						return 1f;
+						return trueValue;
 					}
 				}
 			}
 			
 			if(invert)
 			{
-				return 1f;
+				return trueValue;
 			}
-			return 0f;
+			return 1-trueValue;
 		}
 	}
 }

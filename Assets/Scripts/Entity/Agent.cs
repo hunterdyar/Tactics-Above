@@ -155,10 +155,8 @@ namespace Tactics.Entities
 
 		public InfluenceMap GetInfluenceFromAttacks(InfluenceMapType mapType)
 		{
-			float range = 6f;
 			//todo hold movement options somewhere sensible for this to be deterimed by those... as attacks will be 
 			var map = new InfluenceMap(NavMap,0);
-			var center = new Vector2Int(CurrentNode.GridPosition.x, CurrentNode.GridPosition.z);
 			foreach (var attack in _attacks)
 			{
 				foreach (var action in attack.GetAIActions(this))
@@ -173,11 +171,11 @@ namespace Tactics.Entities
 		/// <summary>
 		/// 1 in locations that can be moved to, 0 in locations that can't.
 		/// </summary>
-		public InfluenceMap GetMovementRangeMap()
+		public InfluenceMap GetMovementRangeMap(int turnsOfMovement = 1)
 		{
 			var map = InfluenceMap.New(_currentNode.NavMap);
 			var center = new Vector2Int(CurrentNode.GridPosition.x, CurrentNode.GridPosition.z);
-			map.AddPropagation(center,range,DistanceFalloff.None);
+			map.AddPropagation(center,range*turnsOfMovement,DistanceFalloff.None);
 			return map;
 		}
 	}

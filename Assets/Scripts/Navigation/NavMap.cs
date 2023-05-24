@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Tactics.Entities;
 using Tactics.Pathfinding;
 using Tactics.Utility;
@@ -24,6 +26,8 @@ namespace Tactics
 		private Grid _grid;
 
 		public BoundsInt GridSpaceBounds => _gridSpaceBounds;
+		public List<NavNode> Nodes => _map.Values.ToList();
+
 		private BoundsInt _gridSpaceBounds;
 #region InitiateFlow
 

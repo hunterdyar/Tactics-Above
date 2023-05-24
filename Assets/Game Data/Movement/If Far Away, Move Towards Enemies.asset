@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96348e87989d459998f2f62f2af4877d, type: 3}
-  m_Name: Move Into Enemy Territory Action
+  m_Name: If Far Away, Move Towards Enemies
   m_EditorClassIdentifier: 
   _considerations:
-  - {fileID: 11400000, guid: 455416fb4427d364c94a1cf2e30cb724, type: 2}
+  - {fileID: 11400000, guid: c0734110aaf071e4ba492b8a5f4e7ad1, type: 2}
   - {fileID: 11400000, guid: 3dbea95098803ef4791cccdf50e67b95, type: 2}
-  movementTurnsToConsider: 1
+  movementTurnsToConsider: 10

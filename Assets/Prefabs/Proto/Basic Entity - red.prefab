@@ -124,6 +124,7 @@ MonoBehaviour:
   _agentLayer: {fileID: 11400000, guid: 0b020c0a0d52dfc479f40767b1d490c9, type: 2}
   _enemyLayer: {fileID: 11400000, guid: 0b939d81bb671634e85b08d33e9be284, type: 2}
   _attacks:
+  - {fileID: 11400000, guid: 77caa74d6aa9a144b84e5db4481cf913, type: 2}
   - {fileID: 11400000, guid: bfa2896ecba23924a8f570a434a34a71, type: 2}
   range: 3
 --- !u!114 &8275172249991263896
@@ -156,3 +157,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _actions:
   - {fileID: 11400000, guid: 6050f236b545211419aeb26ee73f3136, type: 2}
+  - {fileID: 11400000, guid: b8e4d9bcbed7575478625b66579e3ad6, type: 2}
+  - {fileID: 11400000, guid: 55476dc84b0c07348ad7c9246f25fbf8, type: 2}

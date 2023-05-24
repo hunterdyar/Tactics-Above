@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6346f43bf314faf9e293206308dea53, type: 3}
-  m_Name: Constant Very Low
+  m_Script: {fileID: 11500000, guid: 215db5730f8c481dbcca15eca1dbb78b, type: 3}
+  m_Name: Mostly Dont Hit Ally
   m_EditorClassIdentifier: 
-  constantScore: 0.034
+  factionContext: 0
+  invert: 1
+  trueValue: 0.9

@@ -42,4 +42,5 @@ MonoBehaviour:
     m_ColorSpace: 0
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  debugColor: {r: 0, g: 0, b: 0, a: 0}
+  territoryMinDisplay: -1
+  territoryMaxDisplay: 1

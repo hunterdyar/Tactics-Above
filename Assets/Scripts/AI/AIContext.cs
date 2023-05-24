@@ -27,7 +27,7 @@ namespace Tactics.AI
 			AttackMap = InfluenceMap.Clone(MyFaction.AttackMap);
 
 			BattleMap = InfluenceMap.Clone(TerritoryMap);
-			BattleMap.MultiplyInfluence(EnemyFaction.TerritoryMap);//hi in contested areas/frontlines
+			BattleMap.MultiplyInfluence(EnemyFaction.TerritoryMap);//high in contested areas/frontlines
 		}
 
 		public Faction GetFactionFromContext(FactionContext context)
