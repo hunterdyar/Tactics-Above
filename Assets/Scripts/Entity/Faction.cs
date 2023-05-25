@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Tactics.AI;
+using Tactics.AI.Blackboard;
 using Tactics.AI.InfluenceMaps;
 using Tactics.Turns;
 using UnityEngine;
@@ -20,9 +21,12 @@ namespace Tactics.Entities
 		public float territoryMaxDisplay;
 		private Faction[] _enemies;
 		//AgentCollection is just an entity map, but they get a turn order, and all members in the list can take a turn!
-		public InfluenceMap TerritoryMap => _territoryMap;
-		public InfluenceMap AttackMap => _attackMap;
 
+		[BlackboardElement]
+		public InfluenceMap TerritoryMap => _territoryMap;
+
+		[BlackboardElement]
+		public InfluenceMap AttackMap => _attackMap;
 		private InfluenceMap _territoryMap;
 		private InfluenceMap _attackMap;
 		
@@ -105,7 +109,13 @@ namespace Tactics.Entities
 			}
 		}
 
-		
-				
+		[BlackboardElement]
+		public AIContext GetAIContext()
+		{
+			return AIContext;
+
+
+		}
+
 	}
 }
