@@ -37,6 +37,7 @@ namespace Tactics.AI.Blackboard
 		public string blackboardPropertyName;
 		public BlackboardElement selectedElement;
 		public List<BlackboardElement> elements;
+		public List<string> elementNames;
 		public void FindElements()
 		{
 			selectedElement = null;
@@ -54,6 +55,8 @@ namespace Tactics.AI.Blackboard
 					attribute.GetValue = () => methods[i].Invoke(blackboard, null);
 					Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
+					elementNames.Add(attribute.Name);
+
 				}
 			}
 			
@@ -71,7 +74,7 @@ namespace Tactics.AI.Blackboard
 					}
 					Debug.Log(attribute.Name +"--"+attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
-
+					elementNames.Add(attribute.Name);
 				}
 			}
 			

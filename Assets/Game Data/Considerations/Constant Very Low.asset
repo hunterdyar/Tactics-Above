@@ -12,4 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6346f43bf314faf9e293206308dea53, type: 3}
   m_Name: Constant Very Low
   m_EditorClassIdentifier: 
+  test:
+    blackboard: {fileID: 11400000, guid: 0b939d81bb671634e85b08d33e9be284, type: 2}
+    blackboardPropertyName: asdf
+    selectedElement:
+      Name: 
+    elements:
+    - Name: GetAIContext
+    - Name: TerritoryMap
+    - Name: AttackMap
   constantScore: 0.034

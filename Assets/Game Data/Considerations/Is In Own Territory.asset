@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe1a83f2e5542edb969a6f9ca436c68, type: 3}
   m_Name: Is In Own Territory
   m_EditorClassIdentifier: 
+  test:
+    blackboard: {fileID: 11400000, guid: 0b939d81bb671634e85b08d33e9be284, type: 2}
+    blackboardPropertyName: 
+    selectedElement:
+      Name: 
+    elements: []
   MapType: 0
   Curve:
     serializedVersion: 2
