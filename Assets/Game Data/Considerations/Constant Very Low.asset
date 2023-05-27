@@ -21,4 +21,11 @@ MonoBehaviour:
     - Name: GetAIContext
     - Name: TerritoryMap
     - Name: AttackMap
+    elementNames:
+    - GetAIContext
+    - TerritoryMap
+    - AttackMap
+    - GetAIContext
+    - TerritoryMap
+    - AttackMap
   constantScore: 0.034

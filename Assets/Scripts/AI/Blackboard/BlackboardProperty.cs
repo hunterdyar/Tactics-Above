@@ -33,11 +33,12 @@ namespace Tactics.AI.Blackboard
 		//
 		//The other way to do it is to serialize a flow chart of dropdowns, and grab various values from it. Some dynamic pulling of values from Code attributes [BlackboardProperty("Faction/Units/Count")].
 		//All the attributes get added to a list by path...and are... serialized?
-		public Object blackboard;
+		public Object blackboard;//this will get assigned to the target object.
 		public string blackboardPropertyName;
 		public BlackboardElement selectedElement;
 		public List<BlackboardElement> elements;
-		public List<string> elementNames;
+		public HashSet<string> elementNames= new HashSet<string>();
+
 		public void FindElements()
 		{
 			selectedElement = null;
@@ -52,14 +53,15 @@ namespace Tactics.AI.Blackboard
 					{
 						selectedElement = attribute;
 					}
+
 					attribute.GetValue = () => methods[i].Invoke(blackboard, null);
-					Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
+					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
 					elementNames.Add(attribute.Name);
 
 				}
 			}
-			
+
 
 			PropertyInfo[] props = blackboard.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
 			for (int i = 0; i < props.Length; i++)
@@ -67,17 +69,28 @@ namespace Tactics.AI.Blackboard
 				if (Attribute.GetCustomAttribute(props[i], typeof(BlackboardElement)) is BlackboardElement attribute)
 				{
 					attribute.Name = props[i].Name;
-					attribute.GetValue = () => props[i].GetMethod.Invoke(blackboard,null);
+					attribute.GetValue = () => props[i].GetMethod.Invoke(blackboard, null);
 					if (attribute.Name == blackboardPropertyName)
 					{
 						selectedElement = attribute;
 					}
-					Debug.Log(attribute.Name +"--"+attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
+
+					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
 					elementNames.Add(attribute.Name);
 				}
 			}
-			
+		}
+
+		//todo: This is not being called.
+		public void Init()
+		{
+			FindElements();
+			if (selectedElement == null) return;
+			if (selectedElement.Name != blackboardPropertyName)
+			{
+				selectedElement = elements.Find(x => x.Name == blackboardPropertyName);
+			}
 		}
 	}
 }
