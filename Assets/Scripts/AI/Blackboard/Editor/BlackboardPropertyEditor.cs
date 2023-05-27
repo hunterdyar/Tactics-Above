@@ -17,7 +17,7 @@ public class BlackboardPropertyEditor : PropertyDrawer
 		_property = property;
 		var container = new VisualElement();
 		var targetObject = property.serializedObject.targetObject;//this will be the SELECTED object, not the blackboard property
-		var blackboard = GetValue(targetObject, property.name) as BlackboardProperty;
+		var blackboardProperty = GetTargetObjectOfProperty(property) as BlackboardProperty;
 		
 		//add object assignment field. to be replaced with parent object later.
 		var objectField = new PropertyField(property.FindPropertyRelative("blackboard"));
@@ -29,26 +29,32 @@ public class BlackboardPropertyEditor : PropertyDrawer
 		
 		container.Add(selectedField);
 		
-		blackboard.Init();
+		blackboardProperty.Init();
 		//create list of the names of [blackboardelements].
 		var names = property.FindPropertyRelative("elementNames");
 
 		var elementNames = new List<string>();
-		for (int i = 0; i < blackboard.elements.Count; i++)
+		for (int i = 0; i < blackboardProperty.elements.Count; i++)
 		{
-			elementNames.Add(blackboard.elements[i].Name);
+			elementNames.Add(blackboardProperty.elements[i].Name);
 		}
-		int index = elementNames.IndexOf(blackboard.selectedElement.Name);
-		if (index < 0)
+
+		int index = 0;
+		if (blackboardProperty.selectedElement != null)
 		{
-			index = 0;
+			index = elementNames.IndexOf(blackboardProperty.selectedElement.Name);
+			if (index < 0)
+			{
+				index = 0;
+			}
 		}
+		
 		var dropdown = new PopupField<string>("Property", elementNames, index);
 		
 		dropdown.RegisterValueChangedCallback(x =>
 		{
-			blackboard.selectedElement = blackboard.elements.Find(be => be.Name == x.newValue);
-			blackboard.blackboardPropertyName = blackboard.selectedElement?.Name;
+			blackboardProperty.selectedElement = blackboardProperty.elements.Find(be => be.Name == x.newValue);
+			blackboardProperty.blackboardPropertyName = blackboardProperty.selectedElement?.Name;
 			_property.serializedObject.ApplyModifiedProperties();
 			
 		});
@@ -83,6 +89,69 @@ public class BlackboardPropertyEditor : PropertyDrawer
 			enm.MoveNext();
 		return enm.Current;
 	}
+	
+	/// <summary>
+        /// Gets the object the property represents.
+        /// </summary>
+        /// <param name="prop"></param>
+        /// <returns></returns>
+        public static object GetTargetObjectOfProperty(SerializedProperty prop)
+        {
+            var path = prop.propertyPath.Replace(".Array.data[", "[");
+            object obj = prop.serializedObject.targetObject;
+            var elements = path.Split('.');
+            foreach (var element in elements)
+            {
+                if (element.Contains("["))
+                {
+                    var elementName = element.Substring(0, element.IndexOf("["));
+                    var index = System.Convert.ToInt32(element.Substring(element.IndexOf("[")).Replace("[", "").Replace("]", ""));
+                    obj = GetValue_Imp(obj, elementName, index);
+                }
+                else
+                {
+                    obj = GetValue_Imp(obj, element);
+                }
+            }
+            return obj;
+        }
+ 
+        private static object GetValue_Imp(object source, string name)
+        {
+            if (source == null)
+                return null;
+            var type = source.GetType();
+ 
+            while (type != null)
+            {
+                var f = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                if (f != null)
+                    return f.GetValue(source);
+ 
+                var p = type.GetProperty(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+                if (p != null)
+                    return p.GetValue(source, null);
+ 
+                type = type.BaseType;
+            }
+            return null;
+        }
+ 
+        private static object GetValue_Imp(object source, string name, int index)
+        {
+            var enumerable = GetValue_Imp(source, name) as System.Collections.IEnumerable;
+            if (enumerable == null) return null;
+            var enm = enumerable.GetEnumerator();
+            //while (index-- >= 0)
+            //    enm.MoveNext();
+            //return enm.Current;
+ 
+            for (int i = 0; i <= index; i++)
+            {
+                if (!enm.MoveNext()) return null;
+            }
+            return enm.Current;
+        }
 }
 
 

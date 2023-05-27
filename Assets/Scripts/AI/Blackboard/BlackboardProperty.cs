@@ -41,6 +41,7 @@ namespace Tactics.AI.Blackboard
 
 		public void FindElements()
 		{
+			if (blackboard == null) return;
 			selectedElement = null;
 			elements = new List<BlackboardElement>();
 			MethodInfo[] methods = blackboard.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public);

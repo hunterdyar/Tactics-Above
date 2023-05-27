@@ -9,6 +9,8 @@ namespace Tactics.AI.Actions
 {
 	public abstract class ScriptableAction : ScriptableObject, IAIAction
 	{
+
+		public Consideration[] TestConsiderations;
 		public float Score { get; set; }
 		[SerializeField] private List<ScriptableConsideration> _considerations;
 		public virtual List<ScriptableConsideration> GetConsiderations()
