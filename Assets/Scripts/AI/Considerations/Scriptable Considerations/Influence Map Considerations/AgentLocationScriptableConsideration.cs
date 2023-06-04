@@ -1,5 +1,4 @@
 ﻿using Tactics.AI.Actions;
-using Tactics.AI.Blackboard;
 using Tactics.AI.InfluenceMaps;
 using Tactics.Entities;
 using UnityEngine;
