@@ -13,7 +13,10 @@ namespace AI.Blackboard.Editor
 
 		protected override AdvancedDropdownItem BuildRoot()
 		{
-			
+			if (_blackboardProperty.blackboard == null)
+			{
+				return new AdvancedDropdownItem("Empty");
+			}
 			var root = new AdvancedDropdownItem(_blackboardProperty.blackboard.name +" Blackboard");
 			
 			var elements = BlackboardProperty.FindElements(_blackboardProperty.blackboard.GetType());

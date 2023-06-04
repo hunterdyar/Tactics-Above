@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Authentication.ExtendedProtection;
+using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
@@ -36,15 +37,20 @@ namespace Tactics.AI.Blackboard
 		//
 		//The other way to do it is to serialize a flow chart of dropdowns, and grab various values from it. Some dynamic pulling of values from Code attributes [BlackboardProperty("Faction/Units/Count")].
 		//All the attributes get added to a list by path...and are... serialized?
-		public Object blackboard;//this will get assigned to the target object.
+		public Object blackboard;//this will get assigned to the target object that has this property. todo: properly inject it at runtime or onValidate.
 		public string blackboardPropertyName;
 		public BlackboardElement selectedElement;
 		public List<BlackboardElement> elements;
 		
+		//this can be serialized, but can we use it at runtime?
 		public AdvancedDropdownState SelectionState;
 		//todo: This is not being called.
 		public void Init()
 		{
+			if (blackboard == null)
+			{
+				Debug.LogError("No context injected for blackboard property? How?");
+			}
 			elements = FindElements(blackboard.GetType());
 			foreach (var e in elements)
 			{
@@ -67,34 +73,35 @@ namespace Tactics.AI.Blackboard
 			if (blackboard == null) return null;
 			var elements = new List<BlackboardElement>();
 			
-			HashSet<string> elementNames = new HashSet<string>();
-
-			MethodInfo[] methods = blackboard.GetMethods(BindingFlags.Instance | BindingFlags.Public);
+			MethodInfo[] methods = blackboard.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			for (int i = 0; i < methods.Length; i++)
 			{
 				if (Attribute.GetCustomAttribute(methods[i], typeof(BlackboardElement)) is BlackboardElement attribute)
 				{
-					attribute.Name = methods[i].Name;
+					if (attribute.Name == "")
+					{
+						attribute.Name = ObjectNames.NicifyVariableName(methods[i].Name);
+					}
 					attribute.GetValue = () => methods[i].Invoke(blackboard, null);
 					attribute.attribueType = methods[i].ReturnType;
 					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
-					elementNames.Add(attribute.Name);
 				}
 			}
 
-
-			PropertyInfo[] props = blackboard.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+			PropertyInfo[] props = blackboard.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			for (int i = 0; i < props.Length; i++)
 			{
 				if (Attribute.GetCustomAttribute(props[i], typeof(BlackboardElement)) is BlackboardElement attribute)
 				{
-					attribute.Name = props[i].Name;
+					if (attribute.Name == "")
+					{
+						attribute.Name = ObjectNames.NicifyVariableName(props[i].Name);
+					}
 					attribute.GetValue = () => props[i].GetMethod.Invoke(blackboard, null);
 					attribute.attribueType = props[i].PropertyType;
 					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
-					elementNames.Add(attribute.Name);
 				}
 			}
 

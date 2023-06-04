@@ -45,10 +45,6 @@ namespace Tactics.AI
 					return EnemyFaction;
 			}
 		}
-		[BlackboardElement]
-		public int GetRoundNumber()
-		{
-			return 0;
-		}
+		
 	}
 }

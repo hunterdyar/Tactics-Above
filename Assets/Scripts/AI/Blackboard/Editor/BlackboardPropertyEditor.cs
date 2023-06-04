@@ -72,14 +72,18 @@ public class BlackboardPropertyEditor : PropertyDrawer
 	{
 		var blackboardProperty = GetTargetObjectOfProperty(property) as BlackboardProperty;
 
-		EditorGUILayout.LabelField("blackboard property");
-		string selectedLabel = blackboardProperty.selectedElement?.Name;
-		selectedLabel = selectedLabel == "" ? "Select Property" : selectedLabel;
+		blackboardProperty.blackboard = property.serializedObject.targetObject;
+		
+		string selectedLabel = "Select Property";
+		if(blackboardProperty.selectedElement != null)
+		{
+			selectedLabel = blackboardProperty.selectedElement.Name;
+		}
 		var rect = GUILayoutUtility.GetRect(new GUIContent(selectedLabel), EditorStyles.toolbarButton);
-		if (GUI.Button(rect, new GUIContent(selectedLabel), EditorStyles.toolbarButton))
+		if (GUI.Button(position, new GUIContent(selectedLabel), EditorStyles.toolbarButton))
 		{
 			var dropdown = new BlackboardPropertySelectionWindow(blackboardProperty,blackboardProperty.SelectionState);
-			dropdown.Show(rect);
+			dropdown.Show(position);
 		}
 		// base.OnGUI(position, property, label);
 	}

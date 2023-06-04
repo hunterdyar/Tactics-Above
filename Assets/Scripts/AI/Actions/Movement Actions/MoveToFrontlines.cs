@@ -12,7 +12,6 @@ namespace Tactics.AI.Actions
 	{
 	
 		private NavNode _targetNode;
-		private Agent _agent;
 		[SerializeField] private int movementTurnsToConsider;
 		public override float ScoreAction(Agent agent, AIContext context)
 		{

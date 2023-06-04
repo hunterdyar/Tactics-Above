@@ -13,7 +13,6 @@ namespace Tactics.AI.Actions
 	public class MoveIntoEnemyTerritoryAction : ScriptableAction
 	{
 		private NavNode _targetNode;
-		private Agent _agent;
 		[SerializeField] private int movementTurnsToConsider = 1;
 
 		public override float ScoreAction(Agent agent, AIContext context)
@@ -26,7 +25,7 @@ namespace Tactics.AI.Actions
 			var lowest = map.GetLowestPosition();
 			_targetNode = agent.CurrentNode.NavMap.GetNavNode(lowest.V2ToV3XZ());
 			_agent = agent;
-			//Action Veto: If there is no lowest point in our movement range, we can't move into enemy territory.
+			//Action Veto: If there is no lowest point in our movement range, we can't move into enemy territory. We're surrounded by friends.
 			if(map.GetValue(lowest)>=0)
 			{
 				Score = 0;

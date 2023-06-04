@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Tactics.AI.Blackboard;
 using Tactics.AI.Considerations;
 using Tactics.AI.InfluenceMaps;
 using Tactics.Entities;
@@ -9,7 +10,9 @@ namespace Tactics.AI.Actions
 {
 	public abstract class ScriptableAction : ScriptableObject, IAIAction
 	{
-
+		private AIContext _context;
+		protected Agent _agent;
+		
 		public Consideration[] TestConsiderations;
 		public float Score { get; set; }
 		[SerializeField] private List<ScriptableConsideration> _considerations;
@@ -20,6 +23,10 @@ namespace Tactics.AI.Actions
 
 		public virtual float ScoreAction(Agent agent, AIContext context)
 		{
+			//Cache these because the serialized blackboard properties go through functions with [blackboardElement] attributes, which we can't embed in the function.
+			_context = context;
+			_agent = agent;
+			
 			float score = 1;
 			var c = GetConsiderations();
 			for (int i = 0; i < c.Count; i++)
@@ -49,5 +56,29 @@ namespace Tactics.AI.Actions
 		}
 
 		public abstract MoveBase GetMove();
+
+		[BlackboardElement(Name = "AI Context")]
+		public AIContext GetLastAIContext()
+		{
+			return _context;
+		}
+
+		[BlackboardElement(Name = "Agent")]
+		public Agent GetConsideringAgent()
+		{
+			return _agent;
+		}
+
+		[BlackboardElement]
+		public float GetRandomNumber()
+		{
+			return Random.value;
+		}
+
+		[BlackboardElement]
+		public int ConstantZero()
+		{
+			return 0;
+		}
 	}
 }
