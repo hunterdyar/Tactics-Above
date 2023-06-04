@@ -9,7 +9,7 @@ namespace Tactics.GridShapes
 	public class GridShape : ScriptableShape
 	{
 		public override List<Vector2Int> Shape => _shape;
-		[SerializeField] private List<Vector2Int> _shape;
+		[SerializeField] private List<Vector2Int> _shape=new List<Vector2Int>();
 
 		/// <summary>
 		/// Calculates the bounds. While a shape may or may not contain the 'origin', the optional bool parameter can choose to include the origin, and will return a valid bounds with an empty shape.
@@ -24,13 +24,16 @@ namespace Tactics.GridShapes
 			var maxX = 0;
 			var maxY = 0;
 
+			if (_shape == null) return bounds;
+			
 			if (!includeOrigin && _shape.Count > 0)
 			{
 				minX = _shape[0].x;
 				maxX = _shape[0].x;
 				minY = _shape[0].y;
 				maxY = _shape[0].y;
-			}else if (!includeOrigin)//_shape is empty.
+			}
+			else if (!includeOrigin)//_shape is empty.
 			{
 				Debug.LogWarning("Can't get shape bounds. No items in shape and origin not included.",this);
 			}
