@@ -1,4 +1,5 @@
-﻿using Tactics.AI.InfluenceMaps;
+﻿using Tactics.AI.Blackboard;
+using Tactics.AI.InfluenceMaps;
 using Tactics.Entities;
 using Unity.VisualScripting;
 
@@ -6,13 +7,16 @@ namespace Tactics.AI
 {
 	public class AIContext
 	{
+		[BlackboardElement]
 		public Faction MyFaction;
+		[BlackboardElement]
 		public Faction EnemyFaction;
 		public InfluenceMap TerritoryMap;
 		public InfluenceMap ThreatMap;
 		public InfluenceMap AttackMap;
-
 		public InfluenceMap BattleMap;
+		
+		
 		public AIContext(Faction myFaction, Faction[] enemyFactions)
 		{
 			MyFaction = myFaction;
@@ -40,6 +44,11 @@ namespace Tactics.AI
 				default:
 					return EnemyFaction;
 			}
+		}
+		[BlackboardElement]
+		public int GetRoundNumber()
+		{
+			return 0;
 		}
 	}
 }

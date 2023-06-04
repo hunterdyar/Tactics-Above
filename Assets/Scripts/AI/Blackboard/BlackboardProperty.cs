@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Security.Authentication.ExtendedProtection;
+using UnityEditor.IMGUI.Controls;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -37,61 +40,65 @@ namespace Tactics.AI.Blackboard
 		public string blackboardPropertyName;
 		public BlackboardElement selectedElement;
 		public List<BlackboardElement> elements;
-		public HashSet<string> elementNames= new HashSet<string>();
-
-		public void FindElements()
+		
+		public AdvancedDropdownState SelectionState;
+		//todo: This is not being called.
+		public void Init()
 		{
-			if (blackboard == null) return;
-			selectedElement = null;
-			elements = new List<BlackboardElement>();
-			MethodInfo[] methods = blackboard.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public);
+			elements = FindElements(blackboard.GetType());
+			foreach (var e in elements)
+			{
+				if (e.Name == blackboardPropertyName)
+				{
+					selectedElement = e;
+					break;
+				}
+			}
+			
+			if (selectedElement == null) return;
+			if (selectedElement.Name != blackboardPropertyName)
+			{
+				selectedElement = elements.Find(x => x.Name == blackboardPropertyName);
+			}
+		}
+
+		public static List<BlackboardElement> FindElements(Type blackboard)
+		{
+			if (blackboard == null) return null;
+			var elements = new List<BlackboardElement>();
+			
+			HashSet<string> elementNames = new HashSet<string>();
+
+			MethodInfo[] methods = blackboard.GetMethods(BindingFlags.Instance | BindingFlags.Public);
 			for (int i = 0; i < methods.Length; i++)
 			{
 				if (Attribute.GetCustomAttribute(methods[i], typeof(BlackboardElement)) is BlackboardElement attribute)
 				{
 					attribute.Name = methods[i].Name;
-					if (attribute.Name == blackboardPropertyName)
-					{
-						selectedElement = attribute;
-					}
-
 					attribute.GetValue = () => methods[i].Invoke(blackboard, null);
+					attribute.attribueType = methods[i].ReturnType;
 					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
 					elementNames.Add(attribute.Name);
-
 				}
 			}
 
 
-			PropertyInfo[] props = blackboard.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+			PropertyInfo[] props = blackboard.GetProperties(BindingFlags.Instance | BindingFlags.Public);
 			for (int i = 0; i < props.Length; i++)
 			{
 				if (Attribute.GetCustomAttribute(props[i], typeof(BlackboardElement)) is BlackboardElement attribute)
 				{
 					attribute.Name = props[i].Name;
 					attribute.GetValue = () => props[i].GetMethod.Invoke(blackboard, null);
-					if (attribute.Name == blackboardPropertyName)
-					{
-						selectedElement = attribute;
-					}
-
+					attribute.attribueType = props[i].PropertyType;
 					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
 					elementNames.Add(attribute.Name);
 				}
 			}
-		}
 
-		//todo: This is not being called.
-		public void Init()
-		{
-			FindElements();
-			if (selectedElement == null) return;
-			if (selectedElement.Name != blackboardPropertyName)
-			{
-				selectedElement = elements.Find(x => x.Name == blackboardPropertyName);
-			}
+			return elements;
 		}
 	}
 }

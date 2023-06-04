@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using AI.Blackboard.Editor;
 using Tactics.AI.Blackboard;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,59 +14,85 @@ using UnityEngine.UIElements;
 public class BlackboardPropertyEditor : PropertyDrawer
 {
 	private SerializedProperty _property;
-	public override VisualElement CreatePropertyGUI(SerializedProperty property)
+	// public override VisualElement CreatePropertyGUI(SerializedProperty property)
+	// {
+	// 	_property = property;
+	// 	var container = new VisualElement();
+	// 	var targetObject = property.serializedObject.targetObject;//this will be the SELECTED object, not the blackboard property
+	// 	var blackboardProperty = GetTargetObjectOfProperty(property) as BlackboardProperty;
+	// 	
+	// 	//add object assignment field. to be replaced with parent object later.
+	// 	var objectField = new PropertyField(property.FindPropertyRelative("blackboard"));
+	// 	container.Add(objectField);
+	// 	
+	// 	//selected object for debugging.
+	// 	var selectedField = new PropertyField(property.FindPropertyRelative("selectedElement"));
+	// 	selectedField.SetEnabled(false);
+	// 	
+	// 	container.Add(selectedField);
+	// 	
+	// 	blackboardProperty.Init();
+	// 	//create list of the names of [blackboardelements].
+	// 	var names = property.FindPropertyRelative("elementNames");
+	//
+	// 	var elementNames = new List<string>();
+	// 	for (int i = 0; i < blackboardProperty.elements.Count; i++)
+	// 	{
+	// 		elementNames.Add(blackboardProperty.elements[i].Name);
+	// 	}
+	//
+	// 	int index = 0;
+	// 	if (blackboardProperty.selectedElement != null)
+	// 	{
+	// 		index = elementNames.IndexOf(blackboardProperty.selectedElement.Name);
+	// 		if (index < 0)
+	// 		{
+	// 			index = 0;
+	// 		}
+	// 	}
+	// 	
+	// 	var dropdown = new PopupField<string>("Property", elementNames, index);
+	// 	
+	// 	dropdown.RegisterValueChangedCallback(x =>
+	// 	{
+	// 		blackboardProperty.selectedElement = blackboardProperty.elements.Find(be => be.Name == x.newValue);
+	// 		blackboardProperty.blackboardPropertyName = blackboardProperty.selectedElement?.Name;
+	// 		_property.serializedObject.ApplyModifiedProperties();
+	// 		
+	// 	});
+	// 	container.Add(new Label("Data path")) ;
+	// 	container.Add(dropdown);
+	//
+	// 	return container;
+	// }
+
+
+
+	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 	{
-		_property = property;
-		var container = new VisualElement();
-		var targetObject = property.serializedObject.targetObject;//this will be the SELECTED object, not the blackboard property
 		var blackboardProperty = GetTargetObjectOfProperty(property) as BlackboardProperty;
-		
-		//add object assignment field. to be replaced with parent object later.
-		var objectField = new PropertyField(property.FindPropertyRelative("blackboard"));
-		container.Add(objectField);
-		
-		//selected object for debugging.
-		var selectedField = new PropertyField(property.FindPropertyRelative("selectedElement"));
-		selectedField.SetEnabled(false);
-		
-		container.Add(selectedField);
-		
-		blackboardProperty.Init();
-		//create list of the names of [blackboardelements].
-		var names = property.FindPropertyRelative("elementNames");
 
-		var elementNames = new List<string>();
-		for (int i = 0; i < blackboardProperty.elements.Count; i++)
+		EditorGUILayout.LabelField("blackboard property");
+		string selectedLabel = blackboardProperty.selectedElement?.Name;
+		selectedLabel = selectedLabel == "" ? "Select Property" : selectedLabel;
+		var rect = GUILayoutUtility.GetRect(new GUIContent(selectedLabel), EditorStyles.toolbarButton);
+		if (GUI.Button(rect, new GUIContent(selectedLabel), EditorStyles.toolbarButton))
 		{
-			elementNames.Add(blackboardProperty.elements[i].Name);
+			var dropdown = new BlackboardPropertySelectionWindow(blackboardProperty,blackboardProperty.SelectionState);
+			dropdown.Show(rect);
 		}
-
-		int index = 0;
-		if (blackboardProperty.selectedElement != null)
-		{
-			index = elementNames.IndexOf(blackboardProperty.selectedElement.Name);
-			if (index < 0)
-			{
-				index = 0;
-			}
-		}
-		
-		var dropdown = new PopupField<string>("Property", elementNames, index);
-		
-		dropdown.RegisterValueChangedCallback(x =>
-		{
-			blackboardProperty.selectedElement = blackboardProperty.elements.Find(be => be.Name == x.newValue);
-			blackboardProperty.blackboardPropertyName = blackboardProperty.selectedElement?.Name;
-			_property.serializedObject.ApplyModifiedProperties();
-			
-		});
-		container.Add(new Label("Data path")) ;
-		container.Add(dropdown);
-
-		return container;
+		// base.OnGUI(position, property, label);
 	}
 
-	public object GetValue(object source, string name)
+	public object GetValue(object source, string name, int index)
+	{
+		var enumerable = GetValue(source, name) as IEnumerable;
+		var enm = enumerable.GetEnumerator();
+		while (index-- >= 0)
+			enm.MoveNext();
+		return enm.Current;
+	}
+		public object GetValue(object source, string name)
 	{
 		if (source == null)
 			return null;
@@ -81,15 +109,6 @@ public class BlackboardPropertyEditor : PropertyDrawer
 		return f.GetValue(source);
 	}
 
-	public object GetValue(object source, string name, int index)
-	{
-		var enumerable = GetValue(source, name) as IEnumerable;
-		var enm = enumerable.GetEnumerator();
-		while (index-- >= 0)
-			enm.MoveNext();
-		return enm.Current;
-	}
-	
 	/// <summary>
         /// Gets the object the property represents.
         /// </summary>

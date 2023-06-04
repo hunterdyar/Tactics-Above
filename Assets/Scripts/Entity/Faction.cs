@@ -113,8 +113,6 @@ namespace Tactics.Entities
 		public AIContext GetAIContext()
 		{
 			return AIContext;
-
-
 		}
 
 	}
