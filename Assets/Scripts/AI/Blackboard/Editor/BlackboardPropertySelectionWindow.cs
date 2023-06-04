@@ -1,4 +1,5 @@
-﻿using Tactics.AI.Blackboard;
+﻿using System.Collections.Generic;
+using Tactics.AI.Blackboard;
 using UnityEditor.IMGUI.Controls;
 
 namespace AI.Blackboard.Editor
@@ -19,10 +20,10 @@ namespace AI.Blackboard.Editor
 			}
 			var root = new AdvancedDropdownItem(_blackboardProperty.blackboard.name +" Blackboard");
 			
-			var elements = BlackboardProperty.FindElements(_blackboardProperty.blackboard);
+			var elements = BlackboardProperty.FindElements(_blackboardProperty.blackboard.GetType(),_blackboardProperty.blackboard);
 			foreach (var be in elements)
 			{
-				var element = new BlackboardPropertyDropdownItem(be);
+				var element = new BlackboardPropertyDropdownItem(null,be);
 				root.AddChild(element);
 			}
 
@@ -33,7 +34,17 @@ namespace AI.Blackboard.Editor
 		{
 			if (item is BlackboardPropertyDropdownItem selected)
 			{
-				_blackboardProperty.selectedElement = selected.Element;
+				var selectedElement = new List<BlackboardElement>();
+				var s = selected;
+				while (s.Parent != null)
+				{
+					selectedElement.Add(s.Element);
+					s = s.Parent;
+				}
+				selectedElement.Add(s.Element);
+				selectedElement.Reverse();
+				_blackboardProperty.SelectedElements = selectedElement.ToArray();
+				
 				_blackboardProperty.blackboardPropertyName = selected.Element.Name;
 			}
 

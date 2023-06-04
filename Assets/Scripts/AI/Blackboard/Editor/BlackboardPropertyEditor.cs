@@ -75,7 +75,7 @@ public class BlackboardPropertyEditor : PropertyDrawer
 		blackboardProperty.blackboard = property.serializedObject.targetObject;
 		
 		string selectedLabel = "Select Property";
-		if (blackboardProperty.selectedElement != null && blackboardProperty.selectedElement.Name!="")
+		if (blackboardProperty.SelectedElements != null && blackboardProperty.SelectedElements.Length > 0 && blackboardProperty.selectedElement.Name!="")
 		{
 			selectedLabel = blackboardProperty.selectedElement.Name;
 		}

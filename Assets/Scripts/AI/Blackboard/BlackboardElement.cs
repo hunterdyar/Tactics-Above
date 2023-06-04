@@ -14,30 +14,15 @@ namespace Tactics.AI.Blackboard
 		public delegate object GetValueDelegate();
 
 		public System.Type attribueType;
-		public GetValueDelegate GetValue;
 
 		public MethodInfo method;
 		public object context;//method.invoke(context,null);
 		public bool IsInitiated => method != null && context != null;
 		public float GetValueAsFloat(float fallback = 0)
 		{
-			if (GetValue == null)
-			{
-				Debug.LogError("blackboard delegate is null");
-				return 0;
-			}
-
 			object o = null;
-			if (method == null)
-			{
-				 o = GetValue.Invoke();
-			}
-			else
-			{
-				o = method.Invoke(context,null);
-			}
+			o = method.Invoke(context,null);
 			
-
 			if (o == null)
 			{
 				Debug.LogError("blackboard delegate return value null");
@@ -74,14 +59,7 @@ namespace Tactics.AI.Blackboard
 
 		public object GetValueObject()
 		{
-			if (method == null)
-			{
-				return GetValue.Invoke();
-			}
-			else
-			{
-				return method.Invoke(context, null);
-			}
+			return method.Invoke(context, null);
 		}
 	}
 }

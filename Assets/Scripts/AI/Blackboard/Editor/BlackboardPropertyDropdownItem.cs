@@ -9,14 +9,17 @@ namespace AI.Blackboard.Editor
 		private BlackboardElement _element;
 		public BlackboardElement Element => _element;
 
-		public BlackboardPropertyDropdownItem(BlackboardElement element) : base(element.Name)
+		public BlackboardPropertyDropdownItem Parent => _parent;
+		private BlackboardPropertyDropdownItem _parent;
+		public BlackboardPropertyDropdownItem(BlackboardPropertyDropdownItem parent, BlackboardElement element) : base(element.Name)
 		{
 			_element = element;
-			var o = _element.GetValue;
-			var children = BlackboardProperty.FindElements(_element.GetValueObject());
+			_parent = parent;
+			//todo: this is the issue. We need to store the elements context, but we can't get that at runtime.
+			var children = BlackboardProperty.FindElements(_element.attribueType,_element.context);
 			foreach (var be in children)
 			{
-				var e = new BlackboardPropertyDropdownItem(be);
+				var e = new BlackboardPropertyDropdownItem(this,be);
 				this.AddChild(e);
 			}
 		}

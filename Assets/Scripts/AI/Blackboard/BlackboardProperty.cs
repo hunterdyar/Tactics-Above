@@ -40,41 +40,45 @@ namespace Tactics.AI.Blackboard
 		//All the attributes get added to a list by path...and are... serialized?
 		public Object blackboard;//this will get assigned to the target object that has this property. todo: properly inject it at runtime or onValidate.
 		public string blackboardPropertyName;
-		public BlackboardElement selectedElement;
+		public BlackboardElement[] SelectedElements = new BlackboardElement[0];
+		public BlackboardElement selectedElement => SelectedElements[^1];
 		public List<BlackboardElement> elements;
 		
 		//this can be serialized, but can we use it at runtime?
 		public AdvancedDropdownState SelectionState;
 		
 		//Called Lazily
-		public void Init()
+		public void Init(object context = null)
 		{
-			if (blackboard == null)
+			if (context == null)
+			{
+				context = blackboard;
+			}
+			if (context == null)
 			{
 				Debug.LogError("No context injected for blackboard property... How?");
 			}
-			elements = FindElements(blackboard);
 
-			foreach (var e in elements)
+			//this is sort of like the recursive Blackboard Property Dropdown Item, but depth-first, and only to the selected? 
+			//todo: We could do FindElements and search for the name, which is what gets serialized I bet.s
+			for (int i = 0; i < SelectedElements.Length; i++)
 			{
-				if (e.Name == blackboardPropertyName)
+				var els = FindElements(context.GetType(), context);
+				foreach (var e in els)
 				{
-					selectedElement = e;
-					break;
+					if (e.Name == SelectedElements[i].Name)
+					{
+						SelectedElements[i] = e;
+						context = SelectedElements[i].GetValueObject();//used in next step of loop/
+					}
 				}
 			}
-			
-			if (selectedElement == null) return;
-			if (selectedElement.Name != blackboardPropertyName)
-			{
-				selectedElement = elements.Find(x => x.Name == blackboardPropertyName);
-			}
+
 		}
 
-		public static List<BlackboardElement> FindElements(object blackboardContext)
+		public static List<BlackboardElement> FindElements(Type blackboard, object blackboardContext = null)
 		{
 			if (blackboardContext == null) return new List<BlackboardElement>();
-			var blackboard = blackboardContext.GetType();
 			var elements = new List<BlackboardElement>();
 			
 			MethodInfo[] methods = blackboard.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -90,7 +94,7 @@ namespace Tactics.AI.Blackboard
 					attribute.context = blackboardContext;
 					attribute.method = methods[i];
 					//todo passing a type into here is wrong.
-					attribute.GetValue = () => methods[i].Invoke(blackboardContext, null);
+					// attribute.GetValue = () => methods[i].Invoke(attribute.context, null);
 					attribute.attribueType = methods[i].ReturnType;
 					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
@@ -109,7 +113,7 @@ namespace Tactics.AI.Blackboard
 
 					attribute.context = blackboardContext;
 					attribute.method = props[i].GetMethod;
-					attribute.GetValue = () => props[i].GetMethod.Invoke(blackboardContext, null);
+					// attribute.GetValue = () => props[i].GetMethod.Invoke(attribute.context, null);
 					attribute.attribueType = props[i].PropertyType;
 					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
@@ -121,10 +125,18 @@ namespace Tactics.AI.Blackboard
 
 		public float GetFloat()
 		{
+
+			if (SelectedElements.Length == 0)
+			{
+				Debug.LogError("No blackboard property selected in dropdown",blackboard);
+				return 0;
+			}
+
 			if (!selectedElement.IsInitiated)
 			{
 				Init();
 			}
+			
 			var f = selectedElement.GetValueAsFloat();
 			return f;
 		}
