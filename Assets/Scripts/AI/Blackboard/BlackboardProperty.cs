@@ -73,7 +73,7 @@ namespace Tactics.AI.Blackboard
 
 		public static List<BlackboardElement> FindElements(object blackboardContext)
 		{
-			if (blackboardContext == null) return null;
+			if (blackboardContext == null) return new List<BlackboardElement>();
 			var blackboard = blackboardContext.GetType();
 			var elements = new List<BlackboardElement>();
 			

@@ -71,5 +71,17 @@ namespace Tactics.AI.Blackboard
 
 			return fallback;
 		}
+
+		public object GetValueObject()
+		{
+			if (method == null)
+			{
+				return GetValue.Invoke();
+			}
+			else
+			{
+				return method.Invoke(context, null);
+			}
+		}
 	}
 }

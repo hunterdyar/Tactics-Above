@@ -75,7 +75,7 @@ public class BlackboardPropertyEditor : PropertyDrawer
 		blackboardProperty.blackboard = property.serializedObject.targetObject;
 		
 		string selectedLabel = "Select Property";
-		if(blackboardProperty.selectedElement != null)
+		if (blackboardProperty.selectedElement != null && blackboardProperty.selectedElement.Name!="")
 		{
 			selectedLabel = blackboardProperty.selectedElement.Name;
 		}
@@ -88,30 +88,30 @@ public class BlackboardPropertyEditor : PropertyDrawer
 		// base.OnGUI(position, property, label);
 	}
 
-	public object GetValue(object source, string name, int index)
-	{
-		var enumerable = GetValue(source, name) as IEnumerable;
-		var enm = enumerable.GetEnumerator();
-		while (index-- >= 0)
-			enm.MoveNext();
-		return enm.Current;
-	}
-		public object GetValue(object source, string name)
-	{
-		if (source == null)
-			return null;
-		var type = source.GetType();
-		var f = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-		if (f == null)
+		public object GetValue(object source, string name, int index)
 		{
-			var p = type.GetProperty(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-			if (p == null)
-				return null;
-			return p.GetValue(source, null);
+			var enumerable = GetValue(source, name) as IEnumerable;
+			var enm = enumerable.GetEnumerator();
+			while (index-- >= 0)
+				enm.MoveNext();
+			return enm.Current;
 		}
+		public object GetValue(object source, string name)
+		{
+			if (source == null)
+				return null;
+			var type = source.GetType();
+			var f = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+			if (f == null)
+			{
+				var p = type.GetProperty(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+				if (p == null)
+					return null;
+				return p.GetValue(source, null);
+			}
 
-		return f.GetValue(source);
-	}
+			return f.GetValue(source);
+		}
 
 	/// <summary>
         /// Gets the object the property represents.

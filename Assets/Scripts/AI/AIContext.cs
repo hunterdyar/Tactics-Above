@@ -45,6 +45,12 @@ namespace Tactics.AI
 					return EnemyFaction;
 			}
 		}
-		
+
+		//Testing
+		[BlackboardElement]
+		public float GetOne()
+		{
+			return 1;
+		}
 	}
 }

@@ -13,7 +13,7 @@ namespace AI.Blackboard.Editor
 		{
 			_element = element;
 			var o = _element.GetValue;
-			var children = BlackboardProperty.FindElements(_element.attribueType);
+			var children = BlackboardProperty.FindElements(_element.GetValueObject());
 			foreach (var be in children)
 			{
 				var e = new BlackboardPropertyDropdownItem(be);
