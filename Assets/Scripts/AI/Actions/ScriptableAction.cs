@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Tactics.AI.Blackboard;
 using Tactics.AI.Considerations;
 using Tactics.AI.InfluenceMaps;
 using Tactics.Entities;
 using Tactics.Turns;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Tactics.AI.Actions
@@ -16,9 +18,13 @@ namespace Tactics.AI.Actions
 		public Consideration[] TestConsiderations;
 		public float Score { get; set; }
 		[SerializeField] private List<ScriptableConsideration> _considerations;
-		public virtual List<ScriptableConsideration> GetConsiderations()
+		public virtual List<IConsideration> GetConsiderations()
 		{
-			return _considerations;
+			foreach (var tc in TestConsiderations)
+			{
+				tc.input.Init();
+			}
+			return _considerations.ConvertAll(x => (IConsideration)x).Union(TestConsiderations.ToList().ConvertAll(x=>(IConsideration)x)).ToList();
 		}
 
 		public virtual float ScoreAction(Agent agent, AIContext context)

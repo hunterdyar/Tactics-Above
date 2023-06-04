@@ -12,7 +12,7 @@ namespace Tactics.AI.Actions
 		//score will be updated continuously as different agents consider the action.
 		public float Score { get; set; }
 		
-		public List<ScriptableConsideration> GetConsiderations();
+		public List<IConsideration> GetConsiderations();
 
 		public virtual float ScoreAction(Agent agent, AIContext context){
 			float score = 0;

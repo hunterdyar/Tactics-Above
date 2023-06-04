@@ -38,9 +38,9 @@ namespace Tactics.AI.Actions
 		}
 
 
-		public List<ScriptableConsideration> GetConsiderations()
+		public List<IConsideration> GetConsiderations()
 		{
-			return _attack.GetConsiderations();
+			return _attack.GetConsiderations().ConvertAll(x=>(IConsideration)x);
 		}
 
 		public void AffectInfluenceMap(Agent agent, ref InfluenceMap map, InfluenceMapType mapType)

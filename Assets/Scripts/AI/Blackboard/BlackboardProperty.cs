@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
+using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
 namespace Tactics.AI.Blackboard
@@ -52,6 +53,8 @@ namespace Tactics.AI.Blackboard
 				Debug.LogError("No context injected for blackboard property? How?");
 			}
 			elements = FindElements(blackboard.GetType());
+			
+
 			foreach (var e in elements)
 			{
 				if (e.Name == blackboardPropertyName)
@@ -82,6 +85,10 @@ namespace Tactics.AI.Blackboard
 					{
 						attribute.Name = ObjectNames.NicifyVariableName(methods[i].Name);
 					}
+
+					attribute.context = blackboard;
+					attribute.method = methods[i];
+					//todo passing a type into here is wrong.
 					attribute.GetValue = () => methods[i].Invoke(blackboard, null);
 					attribute.attribueType = methods[i].ReturnType;
 					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
@@ -106,6 +113,11 @@ namespace Tactics.AI.Blackboard
 			}
 
 			return elements;
+		}
+
+		public float GetFloat()
+		{
+			return selectedElement.GetValueAsFloat();
 		}
 	}
 }

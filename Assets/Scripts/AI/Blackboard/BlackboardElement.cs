@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Tactics.AI.Blackboard
 {
@@ -14,10 +16,33 @@ namespace Tactics.AI.Blackboard
 		public System.Type attribueType;
 		public GetValueDelegate GetValue;
 
+		public MethodInfo method;
+		public object context;//method.invoke(context,null);
+
 		public float GetValueAsFloat(float fallback = 0)
 		{
-			var o = GetValue.Invoke();
+			if (GetValue == null)
+			{
+				Debug.LogError("blackboard delegate is null");
+				return 0;
+			}
 
+			object o = null;
+			if (method == null)
+			{
+				 o = GetValue.Invoke();
+			}
+			else
+			{
+				o = method.Invoke(context,null);
+			}
+			
+
+			if (o == null)
+			{
+				Debug.LogError("blackboard delegate return value null");
+				return 0;
+			}
 			if (o is float f)
 			{
 				return f;

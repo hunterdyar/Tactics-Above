@@ -34,6 +34,7 @@ namespace AI.Blackboard.Editor
 			if (item is BlackboardPropertyDropdownItem selected)
 			{
 				_blackboardProperty.selectedElement = selected.Element;
+				_blackboardProperty.blackboardPropertyName = selected.Element.Name;
 			}
 
 			base.ItemSelected(item);
