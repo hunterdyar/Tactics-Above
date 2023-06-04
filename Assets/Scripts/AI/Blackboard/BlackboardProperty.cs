@@ -39,10 +39,10 @@ namespace Tactics.AI.Blackboard
 		//The other way to do it is to serialize a flow chart of dropdowns, and grab various values from it. Some dynamic pulling of values from Code attributes [BlackboardProperty("Faction/Units/Count")].
 		//All the attributes get added to a list by path...and are... serialized?
 		public Object blackboard;//this will get assigned to the target object that has this property. todo: properly inject it at runtime or onValidate.
-		public string blackboardPropertyName;
+		
+		//these get serialized but only their name. At runtime we recreate them by marching through this list as a set of nested function calls and re-find (with all the nonserialized stuff) their runtime properties.
 		public BlackboardElement[] SelectedElements = new BlackboardElement[0];
 		public BlackboardElement selectedElement => SelectedElements[^1];
-		public List<BlackboardElement> elements;
 		
 		//this can be serialized, but can we use it at runtime?
 		public AdvancedDropdownState SelectionState;
@@ -60,9 +60,10 @@ namespace Tactics.AI.Blackboard
 			}
 
 			//this is sort of like the recursive Blackboard Property Dropdown Item, but depth-first, and only to the selected? 
-			//todo: We could do FindElements and search for the name, which is what gets serialized I bet.s
 			for (int i = 0; i < SelectedElements.Length; i++)
 			{
+				//todo: We could do FindElements and search for just one with the name, instead of finding all with attributes and looping through those
+
 				var els = FindElements(context.GetType(), context);
 				foreach (var e in els)
 				{
@@ -76,11 +77,31 @@ namespace Tactics.AI.Blackboard
 
 		}
 
+		public float GetFloat()
+		{
+			if (SelectedElements.Length == 0)
+			{
+				Debug.LogError("No blackboard property selected in dropdown",blackboard);
+				return 0;
+			}
+
+			if (!selectedElement.IsInitiated)
+			{
+				Init();
+			}
+			
+			//its still possible this might break - the final context we use has to be a reference value that we can save as an 'object'.
+			
+			var f = selectedElement.GetValueAsFloat();
+			return f;
+		}
+		
+
 		public static List<BlackboardElement> FindElements(Type blackboard, object blackboardContext = null)
 		{
 			if (blackboardContext == null) return new List<BlackboardElement>();
 			var elements = new List<BlackboardElement>();
-			
+
 			MethodInfo[] methods = blackboard.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			for (int i = 0; i < methods.Length; i++)
 			{
@@ -121,24 +142,6 @@ namespace Tactics.AI.Blackboard
 			}
 
 			return elements;
-		}
-
-		public float GetFloat()
-		{
-
-			if (SelectedElements.Length == 0)
-			{
-				Debug.LogError("No blackboard property selected in dropdown",blackboard);
-				return 0;
-			}
-
-			if (!selectedElement.IsInitiated)
-			{
-				Init();
-			}
-			
-			var f = selectedElement.GetValueAsFloat();
-			return f;
 		}
 	}
 }

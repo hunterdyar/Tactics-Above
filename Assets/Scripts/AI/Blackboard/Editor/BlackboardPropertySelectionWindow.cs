@@ -32,6 +32,8 @@ namespace AI.Blackboard.Editor
 
 		protected override void ItemSelected(AdvancedDropdownItem item)
 		{
+			
+			//Create the list that is, effectively, the set of nested function calls to get from there to here.
 			if (item is BlackboardPropertyDropdownItem selected)
 			{
 				var selectedElement = new List<BlackboardElement>();
@@ -41,11 +43,10 @@ namespace AI.Blackboard.Editor
 					selectedElement.Add(s.Element);
 					s = s.Parent;
 				}
+
 				selectedElement.Add(s.Element);
 				selectedElement.Reverse();
 				_blackboardProperty.SelectedElements = selectedElement.ToArray();
-				
-				_blackboardProperty.blackboardPropertyName = selected.Element.Name;
 			}
 
 			base.ItemSelected(item);
