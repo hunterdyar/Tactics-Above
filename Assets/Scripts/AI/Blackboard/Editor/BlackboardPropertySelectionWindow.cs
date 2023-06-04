@@ -19,7 +19,7 @@ namespace AI.Blackboard.Editor
 			}
 			var root = new AdvancedDropdownItem(_blackboardProperty.blackboard.name +" Blackboard");
 			
-			var elements = BlackboardProperty.FindElements(_blackboardProperty.blackboard.GetType());
+			var elements = BlackboardProperty.FindElements(_blackboardProperty.blackboard);
 			foreach (var be in elements)
 			{
 				var element = new BlackboardPropertyDropdownItem(be);

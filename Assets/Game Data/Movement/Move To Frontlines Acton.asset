@@ -12,6 +12,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a602a839d5344db79099aa22b2f4c011, type: 3}
   m_Name: Move To Frontlines Acton
   m_EditorClassIdentifier: 
+  TestConsiderations:
+  - input:
+      blackboard: {fileID: 11400000}
+      blackboardPropertyName: Get Random Number
+      selectedElement:
+        Name: Get Random Number
+      elements: []
+      SelectionState:
+        states:
+        - itemId: 2112520956
+          selectedIndex: 2
+          scroll: {x: 0, y: 0}
+    evaluation:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   _considerations:
   - {fileID: 11400000, guid: 3dbea95098803ef4791cccdf50e67b95, type: 2}
   - {fileID: 11400000, guid: 3dbea95098803ef4791cccdf50e67b95, type: 2}

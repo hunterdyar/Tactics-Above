@@ -20,10 +20,6 @@ namespace Tactics.AI.Actions
 		[SerializeField] private List<ScriptableConsideration> _considerations;
 		public virtual List<IConsideration> GetConsiderations()
 		{
-			foreach (var tc in TestConsiderations)
-			{
-				tc.input.Init();
-			}
 			return _considerations.ConvertAll(x => (IConsideration)x).Union(TestConsiderations.ToList().ConvertAll(x=>(IConsideration)x)).ToList();
 		}
 

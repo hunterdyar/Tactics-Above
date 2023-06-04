@@ -18,7 +18,7 @@ namespace Tactics.AI.Blackboard
 
 		public MethodInfo method;
 		public object context;//method.invoke(context,null);
-
+		public bool IsInitiated => method != null && context != null;
 		public float GetValueAsFloat(float fallback = 0)
 		{
 			if (GetValue == null)

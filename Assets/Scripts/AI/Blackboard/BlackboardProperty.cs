@@ -45,15 +45,15 @@ namespace Tactics.AI.Blackboard
 		
 		//this can be serialized, but can we use it at runtime?
 		public AdvancedDropdownState SelectionState;
-		//todo: This is not being called.
+		
+		//Called Lazily
 		public void Init()
 		{
 			if (blackboard == null)
 			{
-				Debug.LogError("No context injected for blackboard property? How?");
+				Debug.LogError("No context injected for blackboard property... How?");
 			}
-			elements = FindElements(blackboard.GetType());
-			
+			elements = FindElements(blackboard);
 
 			foreach (var e in elements)
 			{
@@ -71,9 +71,10 @@ namespace Tactics.AI.Blackboard
 			}
 		}
 
-		public static List<BlackboardElement> FindElements(Type blackboard)
+		public static List<BlackboardElement> FindElements(object blackboardContext)
 		{
-			if (blackboard == null) return null;
+			if (blackboardContext == null) return null;
+			var blackboard = blackboardContext.GetType();
 			var elements = new List<BlackboardElement>();
 			
 			MethodInfo[] methods = blackboard.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -86,10 +87,10 @@ namespace Tactics.AI.Blackboard
 						attribute.Name = ObjectNames.NicifyVariableName(methods[i].Name);
 					}
 
-					attribute.context = blackboard;
+					attribute.context = blackboardContext;
 					attribute.method = methods[i];
 					//todo passing a type into here is wrong.
-					attribute.GetValue = () => methods[i].Invoke(blackboard, null);
+					attribute.GetValue = () => methods[i].Invoke(blackboardContext, null);
 					attribute.attribueType = methods[i].ReturnType;
 					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
@@ -105,7 +106,10 @@ namespace Tactics.AI.Blackboard
 					{
 						attribute.Name = ObjectNames.NicifyVariableName(props[i].Name);
 					}
-					attribute.GetValue = () => props[i].GetMethod.Invoke(blackboard, null);
+
+					attribute.context = blackboardContext;
+					attribute.method = props[i].GetMethod;
+					attribute.GetValue = () => props[i].GetMethod.Invoke(blackboardContext, null);
 					attribute.attribueType = props[i].PropertyType;
 					// Debug.Log(attribute.Name + "--" + attribute.GetValue?.Invoke()?.ToString()); // The name of the flagged variable.
 					elements.Add(attribute);
@@ -117,7 +121,12 @@ namespace Tactics.AI.Blackboard
 
 		public float GetFloat()
 		{
-			return selectedElement.GetValueAsFloat();
+			if (!selectedElement.IsInitiated)
+			{
+				Init();
+			}
+			var f = selectedElement.GetValueAsFloat();
+			return f;
 		}
 	}
 }
