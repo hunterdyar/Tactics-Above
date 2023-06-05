@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Security.Authentication.ExtendedProtection;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
 namespace Tactics.AI.Blackboard
@@ -14,30 +11,17 @@ namespace Tactics.AI.Blackboard
 	[Serializable]
 	public class BlackboardProperty
 	{
-		//A blackboard property is a float value that represents a way to look up some piece of information about the world and serialize it.
-		//It's similar to input paths in the input system.
-		//Data goes into the blackboard by some provider, and can be retrieved with a lookup.
-		//Blackboards are basically string dictionaries, but can be nested instead.
+		//A blackboard property is a function call that represents a way to look up some piece of information about the world and serialize it.
+		//used in this context, it's a float value. 
 		
-		//We also have a context in the backboard lookup so we can reference "allies" or "agentCurrentLocation".
-		//So "Turn Number", "Faction/Energy" or "Faction/Units/Count" or Faction/TerritoryMap/CurrentLocation" are all valid blackboard properties.
-		 
-		//I want to build an editor that looks like a tree structure...
-		//public FactionContext factionContext;
+		//It works by giving it some grand context, in this the object that is serializing it, 'Blackboard'; although I might refactor this to be the AIContext class
+
+
+		//So a blackboard property can return any function that returns float and has the [BlackboardElement] attribute on it, in it's context, or...
+		//and this is the real trick. Or it can go through any class (through [blackboardelement] functions) that itself has blackboard functions with it, where you select - eventually - some float.
 		
-		
-		//So a blackboard property can return an object, a float, a node, or another blackboard - hence nesting.
-		
-		//blackboard.Get("Faction/Units/Count") does a split by /, then does Faction.Get("Units/Count") which does a split by / and then Count.Get();
-		//I think we can serialize it with references to hash values in an array, some preprocessing step... or store a lookup cache from the whole string to the final blackboard cache.
-		
-		
-		
-		////////////////////////////////////////
-		//
-		//
-		//The other way to do it is to serialize a flow chart of dropdowns, and grab various values from it. Some dynamic pulling of values from Code attributes [BlackboardProperty("Faction/Units/Count")].
-		//All the attributes get added to a list by path...and are... serialized?
+		//SelectedElements is an array, where we basically save the name of functions in a list. Now, we are doing some clever tricks here, using the Attribute class but serializing it, which only serializes the name of the functions, then rediscovering selected methods at runtime.
+
 		public Object blackboard;//this will get assigned to the target object that has this property. todo: properly inject it at runtime or onValidate.
 		
 		//these get serialized but only their name. At runtime we recreate them by marching through this list as a set of nested function calls and re-find (with all the nonserialized stuff) their runtime properties.

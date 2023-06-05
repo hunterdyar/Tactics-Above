@@ -1,8 +1,5 @@
 ﻿using System;
-using Tactics.AI.Actions;
 using Tactics.AI.Blackboard;
-using Tactics.Entities;
-using Tactics.Turns;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
