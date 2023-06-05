@@ -16,6 +16,13 @@ namespace Tactics.AI
 		public InfluenceMap ThreatMap;
 		public InfluenceMap AttackMap;
 		public InfluenceMap BattleMap;
+
+
+		public Agent OperatingAgent => _operatingAgent;
+		private Agent _operatingAgent;
+
+		public IAIAction Action => _action;
+		private IAIAction _action;
 		
 		
 		public AIContext(Faction myFaction, Faction[] enemyFactions)
@@ -47,6 +54,16 @@ namespace Tactics.AI
 			}
 		}
 
+		public void SetOperatingAgent(Agent agent)
+		{
+			_operatingAgent = agent;
+		}
+
+		public void SetAction(IAIAction action)
+		{
+			_action = _action;
+		}
+
 		//Testing
 		[BlackboardElement]
 		public float GetOne()
@@ -55,7 +72,7 @@ namespace Tactics.AI
 		}
 
 		[BlackboardElement]
-		public InfluenceMap GetTerritoryMap(IAIAction action, Agent agent, AIContext context)
+		public InfluenceMap GetTerritoryMap(AIContext context)
 		{
 			return context.TerritoryMap;
 		}

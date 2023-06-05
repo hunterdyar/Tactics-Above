@@ -12,7 +12,7 @@ namespace Tactics.AI.Considerations
 			this.score = score;
 		}
 
-		public float ScoreConsideration(IAIAction action, Agent agent, AIContext context)
+		public float ScoreConsideration(AIContext context)
 		{
 			return score;
 		}

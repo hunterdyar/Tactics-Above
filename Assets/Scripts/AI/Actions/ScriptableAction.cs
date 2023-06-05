@@ -26,14 +26,18 @@ namespace Tactics.AI.Actions
 		public virtual float ScoreAction(Agent agent, AIContext context)
 		{
 			//Cache these because the serialized blackboard properties go through functions with [blackboardElement] attributes, which we can't embed in the function.
+			//todo: remove, use the one we embedded in the function :p
 			_context = context;
 			_agent = agent;
+			
+			context.SetAction(this);
+			context.SetOperatingAgent(agent);
 			
 			float score = 1;
 			var c = GetConsiderations();
 			for (int i = 0; i < c.Count; i++)
 			{
-				float considerationScore = c[i].ScoreConsideration(this,agent, context);
+				float considerationScore = c[i].ScoreConsideration(context);
 				score *= considerationScore;
 				if (score == 0)
 				{

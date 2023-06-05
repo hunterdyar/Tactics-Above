@@ -7,9 +7,9 @@ namespace Tactics.AI.InfluenceMaps
 	public partial class InfluenceMap
 	{
 		[BlackboardElement]
-		public float AgentPosition(IAIAction action, Agent agent, AIContext context)
+		public float AgentPosition(AIContext context)
 		{
-			return GetValue(agent.CurrentNode);
+			return GetValue(context.OperatingAgent.CurrentNode);
 		}
 	}
 }

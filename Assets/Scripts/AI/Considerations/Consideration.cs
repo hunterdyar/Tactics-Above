@@ -14,9 +14,9 @@ namespace Tactics.AI.Considerations
 		public BlackboardProperty input;
 		public AnimationCurve evaluation;
 		
-		public float ScoreConsideration(IAIAction action, Agent agent, AIContext context)
+		public float ScoreConsideration(AIContext context)
 		{
-			return evaluation.Evaluate(input.GetFloat(new object[]{action,agent,context}));
+			return evaluation.Evaluate(input.GetFloat(new object[]{context}));
 		}
 	}
 }

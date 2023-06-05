@@ -13,9 +13,9 @@ namespace Tactics.AI.Considerations
 		public bool invert;
 
 		[FormerlySerializedAs("modifier")] [Range(0, 1)] public float trueValue = 1; 
-		public override float ScoreConsideration(IAIAction action, Agent agent, AIContext context)
+		public override float ScoreConsideration(AIContext context)
 		{
-			if (action is AttackAIAction attackAction)
+			if (context.Action is AttackAIAction attackAction)
 			{
 				var targetNodes = attackAction.TargetNodes;
 				foreach (var node in targetNodes)

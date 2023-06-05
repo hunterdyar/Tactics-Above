@@ -9,7 +9,7 @@ namespace Tactics.AI.Considerations
 	{
 		[Range(0,1f)]
 		public float constantScore;
-		public override float ScoreConsideration(IAIAction action, Agent agent, AIContext context)
+		public override float ScoreConsideration(AIContext context)
 		{
 			return constantScore;
 		}

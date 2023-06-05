@@ -16,10 +16,12 @@ namespace Tactics.AI.Actions
 
 		public virtual float ScoreAction(Agent agent, AIContext context){
 			float score = 0;
+			context.SetOperatingAgent(agent);
+			context.SetAction(this);
 			var c = GetConsiderations();
 			for (int i = 0; i < c.Count; i++)
 			{
-				float considerationScore = c[i].ScoreConsideration(this, agent, context);
+				float considerationScore = c[i].ScoreConsideration(context);
 				score *= considerationScore;
 				if (score == 0)
 				{

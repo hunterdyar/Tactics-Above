@@ -15,15 +15,9 @@ MonoBehaviour:
   TestConsiderations:
   - input:
       blackboard: {fileID: 11400000}
-      blackboardPropertyName: Get One
       SelectedElements:
       - Name: AI Context
       - Name: Get One
-      elements:
-      - Name: AI Context
-      - Name: Agent
-      - Name: Get Random Number
-      - Name: Constant Zero
       SelectionState:
         states:
         - itemId: -267790408
@@ -59,6 +53,59 @@ MonoBehaviour:
         inSlope: 1
         outSlope: 1
         tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - input:
+      blackboard: {fileID: 11400000}
+      SelectedElements:
+      - Name: AI Context
+      - Name: Get Territory Map
+      - Name: Agent Position
+      SelectionState:
+        states:
+        - itemId: -267790408
+          selectedIndex: 0
+          scroll: {x: 0, y: 0}
+        - itemId: 1377525879
+          selectedIndex: 1
+          scroll: {x: 0, y: 0}
+        - itemId: 1261627170
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -286988559
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -396949722
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -1665897086
+          selectedIndex: 0
+          scroll: {x: 0, y: 0}
+        - itemId: 908354190
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+    evaluation:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0

@@ -12,7 +12,7 @@ namespace Tactics.AI.Considerations
 		public InfluenceMapType MapType;
 		public AnimationCurve Curve;
 		
-		public override float ScoreConsideration(IAIAction action, Agent agent, AIContext context)
+		public override float ScoreConsideration(AIContext context)
 		{
 			InfluenceMap map;
 			switch(MapType)
@@ -34,7 +34,7 @@ namespace Tactics.AI.Considerations
 					return 0f;
 			}
 			//todo: clamp,normalize, and scale
-			float mapValue = map.GetValue(agent.CurrentNode);
+			float mapValue = map.GetValue(context.OperatingAgent.CurrentNode);
 			return Mathf.Clamp01(Curve.Evaluate(mapValue));
 		}
 	}
