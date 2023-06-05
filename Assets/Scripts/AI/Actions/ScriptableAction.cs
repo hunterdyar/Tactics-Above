@@ -82,5 +82,6 @@ namespace Tactics.AI.Actions
 		{
 			return 0;
 		}
+		
 	}
 }

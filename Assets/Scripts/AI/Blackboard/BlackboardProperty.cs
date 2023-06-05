@@ -48,7 +48,7 @@ namespace Tactics.AI.Blackboard
 		public AdvancedDropdownState SelectionState;
 		
 		//Called Lazily
-		public void Init(object context = null)
+		public void Init(object context = null, object[] parameters = null)
 		{
 			if (context == null)
 			{
@@ -70,14 +70,14 @@ namespace Tactics.AI.Blackboard
 					if (e.Name == SelectedElements[i].Name)
 					{
 						SelectedElements[i] = e;
-						context = SelectedElements[i].GetValueObject();//used in next step of loop/
+						context = SelectedElements[i].GetValueObject(parameters);//used in next step of loop/
 					}
 				}
 			}
 
 		}
 
-		public float GetFloat()
+		public float GetFloat(object[] parameters = null)
 		{
 			if (SelectedElements.Length == 0)
 			{
@@ -87,12 +87,12 @@ namespace Tactics.AI.Blackboard
 
 			if (!selectedElement.IsInitiated)
 			{
-				Init();
+				Init(null,parameters);
 			}
 			
 			//its still possible this might break - the final context we use has to be a reference value that we can save as an 'object'.
 			
-			var f = selectedElement.GetValueAsFloat();
+			var f = selectedElement.GetValueAsFloat(0,parameters);
 			return f;
 		}
 		

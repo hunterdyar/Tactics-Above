@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Tactics.AI.InfluenceMaps
 {
-	public class InfluenceMap
+	public partial class InfluenceMap
 	{
 		//An influence map is a grid of floats.
 		//It is used to represent the influence of a certain type of entity on the map.

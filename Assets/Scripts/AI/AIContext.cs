@@ -1,4 +1,5 @@
-﻿using Tactics.AI.Blackboard;
+﻿using Tactics.AI.Actions;
+using Tactics.AI.Blackboard;
 using Tactics.AI.InfluenceMaps;
 using Tactics.Entities;
 using Unity.VisualScripting;
@@ -51,6 +52,12 @@ namespace Tactics.AI
 		public float GetOne()
 		{
 			return 1;
+		}
+
+		[BlackboardElement]
+		public InfluenceMap GetTerritoryMap(IAIAction action, Agent agent, AIContext context)
+		{
+			return context.TerritoryMap;
 		}
 	}
 }

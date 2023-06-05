@@ -18,10 +18,11 @@ namespace Tactics.AI.Blackboard
 		public MethodInfo method;
 		public object context;//method.invoke(context,null);
 		public bool IsInitiated => method != null && context != null;
-		public float GetValueAsFloat(float fallback = 0)
+		public float GetValueAsFloat(float fallback = 0, object[] parameters = null)
 		{
 			object o = null;
-			o = method.Invoke(context,null);
+
+			o = GetValueObject(parameters);
 			
 			if (o == null)
 			{
@@ -57,9 +58,28 @@ namespace Tactics.AI.Blackboard
 			return fallback;
 		}
 
-		public object GetValueObject()
+		public object GetValueObject(object[] parameters = null)
 		{
-			return method.Invoke(context, null);
+			var p = method.GetParameters();
+			if (p.Length == 0)
+			{
+				return method.Invoke(context, null);
+			}else if (parameters != null)
+			{
+				if (p.Length == parameters.Length)
+				{
+					return method.Invoke(context, parameters);
+				}else if (p.Length < parameters.Length)
+				{
+					object[] subParams = new object[p.Length];
+					Array.Copy(parameters, subParams, p.Length);
+					return method.Invoke(context, subParams);
+				}
+			}
+
+			Debug.LogError("Can't invoke blackboard function, not enough or weird parameters. Trying anyway, see following errors for details.");
+			return method.Invoke(context, parameters);
+			
 		}
 	}
 }
