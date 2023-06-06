@@ -15,7 +15,7 @@ namespace Tactics.AI.Actions
 		public List<IConsideration> GetConsiderations();
 
 		public virtual float ScoreAction(Agent agent, AIContext context){
-			float score = 0;
+			float score = 1;
 			context.SetOperatingAgent(agent);
 			context.SetAction(this);
 			var c = GetConsiderations();
