@@ -20,7 +20,7 @@ namespace Tactics.AI.Actions
 			//Finds the highest point in current movement range that is in enemy territory.
 
 			//TODO: find lowest point in territory in our movement range.
-			var map = context.TerritoryMap;
+			var map = InfluenceMap.Clone(context.TerritoryMap);
 			map.MultiplyInfluence(agent.GetMovementRangeMap(movementTurnsToConsider));
 			var lowest = map.GetLowestPosition();
 			_targetNode = agent.CurrentNode.NavMap.GetNavNode(lowest.V2ToV3XZ());
