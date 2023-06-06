@@ -5,6 +5,7 @@ using Tactics.AI;
 using Tactics.AI.Actions;
 using Tactics.AI.InfluenceMaps;
 using Tactics.Turns;
+using UnityEditor;
 using UnityEngine;
 
 namespace Tactics.Entities
@@ -63,18 +64,6 @@ namespace Tactics.Entities
 			_moveDecider.Initiate(this);
 
 		}
-		// public bool TryMoveInDirection(Vector3Int direction)
-		// {
-		// 	if (NavMap.TryGetNavNode(_currentNode.GridPosition + direction,out var node))
-		// 	{
-		// 		if (node.Walkable && !_agentLayer.HasAnyEntity(node))
-		// 		{
-		// 			MoveToNode(node, true);
-		// 			return true;
-		// 		}
-		// 	}
-		// 	return false;
-		// }
 
 		public void SetOnNode(NavNode node, bool snap = false)
 		{
@@ -168,15 +157,41 @@ namespace Tactics.Entities
 			return map;
 		}
 
+		
+		//todo: flood fill.
 		/// <summary>
 		/// 1 in locations that can be moved to, 0 in locations that can't.
 		/// </summary>
 		public InfluenceMap GetMovementRangeMap(int turnsOfMovement = 1)
 		{
-			var map = InfluenceMap.New(_currentNode.NavMap);
+			var map = InfluenceMap.New(_currentNode.NavMap,0);
 			var center = new Vector2Int(CurrentNode.GridPosition.x, CurrentNode.GridPosition.z);
-			map.AddPropagation(center,range*turnsOfMovement,DistanceFalloff.None);
+			// map.AddPropagation(center,range*turnsOfMovement,DistanceFalloff.None);
+			FloodFillMapWalkable(ref map,_currentNode,range*turnsOfMovement);
 			return map;
+		}
+
+		//todo: this is slow for large step values.
+		private void FloodFillMapWalkable(ref InfluenceMap map, NavNode pos, int step)
+		{
+			if (step <= 0)
+			{
+				return;
+			}
+			step--;
+			if (Math.Abs(map.GetValue(pos.GridPosition.x, pos.GridPosition.z) - 1) > Mathf.Epsilon)
+			{
+				map.SetValue(pos.GridPosition.x, pos.GridPosition.z, 1);
+				var neighbors = pos.NavMap.GetNeighborNodes(pos, true);
+
+				foreach (var n in neighbors)
+				{
+					if (step > 0 && IsNodeWalkable((NavNode)n))
+					{
+						FloodFillMapWalkable(ref map, (NavNode)n, step);
+					}
+				}
+			}
 		}
 	}
 }

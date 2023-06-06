@@ -120,7 +120,10 @@ namespace Tactics.Entities
 		{
 			foreach (var agent in GetAgentsInOrder())
 			{
-				yield return agent.StartCoroutine(agent.TakeTurn());
+				if (agent!=null)//a fallen comrade
+				{
+					yield return agent.StartCoroutine(agent.TakeTurn());
+				}
 			}
 		}
 	}

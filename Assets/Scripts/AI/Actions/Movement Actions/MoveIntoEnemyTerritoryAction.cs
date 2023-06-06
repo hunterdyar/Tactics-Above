@@ -22,6 +22,7 @@ namespace Tactics.AI.Actions
 			//TODO: find lowest point in territory in our movement range.
 			var map = InfluenceMap.Clone(context.TerritoryMap);
 			map.MultiplyInfluence(agent.GetMovementRangeMap(movementTurnsToConsider));
+			//todo remove non walkable.
 			var lowest = map.GetLowestPosition();
 			_targetNode = agent.CurrentNode.NavMap.GetNavNode(lowest.V2ToV3XZ());
 			_agent = agent;
@@ -49,6 +50,7 @@ namespace Tactics.AI.Actions
 			//no valid path
 			if (pathList.Count == 0)
 			{
+				Debug.LogError("No path to target node or already there.");
 				return new DoNothingMove(_agent);
 			}
 
