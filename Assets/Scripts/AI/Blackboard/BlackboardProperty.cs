@@ -22,10 +22,10 @@ namespace Tactics.AI.Blackboard
 		
 		//SelectedElements is an array, where we basically save the name of functions in a list. Now, we are doing some clever tricks here, using the Attribute class but serializing it, which only serializes the name of the functions, then rediscovering selected methods at runtime.
 
-		public Object blackboard;//this will get assigned to the target object that has this property. todo: properly inject it at runtime or onValidate.
+		public Object blackboard;//this will get assigned to the target object that has this property. todo: properly inject it at runtime or onValidate. Or change to use AIContext type off the bat.
 		
 		//these get serialized but only their name. At runtime we recreate them by marching through this list as a set of nested function calls and re-find (with all the nonserialized stuff) their runtime properties.
-		public BlackboardElement[] SelectedElements = new BlackboardElement[0];
+		public BlackboardElement[] SelectedElements = Array.Empty<BlackboardElement>();
 		public BlackboardElement selectedElement => SelectedElements[^1];
 		
 		//this can be serialized, but can we use it at runtime?

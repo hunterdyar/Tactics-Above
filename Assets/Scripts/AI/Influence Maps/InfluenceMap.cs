@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Tactics.AI.Blackboard;
 using Tactics.Utility;
 using UnityEngine;
 
@@ -96,6 +97,8 @@ namespace Tactics.AI.InfluenceMaps
 				_grid[x, y] *= value;
 			}
 		}
+
+		[BlackboardElement(Name = "Highest Point Value")]
 		public float GetHighestPointValue()
 		{
 			float max = Mathf.NegativeInfinity;
@@ -107,13 +110,13 @@ namespace Tactics.AI.InfluenceMaps
 					{
 						max = _grid[x, y];
 					}
-					
 				}
 			}
 
 			return max;
 		}
 
+		[BlackboardElement(Name = "Lowest Point Value")]
 		public float GetLowestPointValue()
 		{
 			float min = Mathf.Infinity;
