@@ -17,5 +17,11 @@ namespace Tactics.Turns
 			Debug.Log($"{_agent} doing nothing.");
 			yield return new WaitForSeconds(0.1f);
 		}
+
+		public override void OnDrawGizmos()
+		{
+			Gizmos.color = Color.cyan;
+			Gizmos.DrawWireSphere(_agent.CurrentNode.WorldPosition, 1.05f);
+		}
 	}
 }

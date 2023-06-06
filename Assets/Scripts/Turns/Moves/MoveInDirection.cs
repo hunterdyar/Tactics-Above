@@ -54,5 +54,11 @@ namespace Tactics.Turns
 			}
 			yield break;
 		}
+
+		public override void OnDrawGizmos()
+		{
+			Debug.DrawLine(_agent.CurrentNode.WorldPosition, _agent.CurrentNode.WorldPosition+_direction, Color.yellow);
+
+		}
 	}
 }

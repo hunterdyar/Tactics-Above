@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tactics.Entities;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Tactics.Turns
@@ -31,6 +32,21 @@ namespace Tactics.Turns
 				{
 					//don't keep trying
 					break;
+				}
+			}
+		}
+
+		public override void OnDrawGizmos()
+		{
+			if (_path != null)
+			{
+				int moves = Mathf.Min(_numMoves, _path.Count);
+				if (moves == 0) return;
+
+				Debug.DrawLine(_agent.CurrentNode.WorldPosition,_path[0].WorldPosition,new Color(255,250,205));
+				for (int i = 1; i < moves; i++)
+				{
+					Debug.DrawLine(_path[i-1].WorldPosition,_path[i].WorldPosition,Color.yellow);
 				}
 			}
 		}

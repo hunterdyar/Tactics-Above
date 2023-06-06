@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Tactics.Entities;
+using UnityEngine;
 
 namespace Tactics.Turns
 {
@@ -23,5 +24,17 @@ namespace Tactics.Turns
 			yield break;
 		}
 		//undo?
+		public virtual void OnDrawGizmos()
+		{
+			
+		}
+
+		public void DebugDrawAttackLine(NavNode node)
+		{
+			Debug.DrawLine(_agent.CurrentNode.WorldPosition, node.WorldPosition, Color.red);
+			Gizmos.color = Color.red;
+			Gizmos.DrawWireCube(node.WorldPosition, Vector3.one);
+			// Gizmos.DrawCube(node.WorldPosition, Vector3.one * 0.3f);
+		}
 	}
 }

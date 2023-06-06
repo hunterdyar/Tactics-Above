@@ -30,6 +30,8 @@ namespace Tactics.Entities
 		private MoveDecider _moveDecider;
 		private MoveBase _nextMove;
 
+		private bool _isPreviewActive;
+
 		public int range = 3;
 		private void Awake()
 		{
@@ -83,6 +85,10 @@ namespace Tactics.Entities
 			
 			//do this when creating node?
 			_nextMove = _moveDecider.DecideMove(context);
+			
+			//Activate Move Preview.
+			_isPreviewActive = true;
+			//Need some way to store the information for moves?
 		}
 
 		//What nodes can THIS agent walk on?
@@ -116,6 +122,8 @@ namespace Tactics.Entities
 
 		public IEnumerator TakeTurn()
 		{
+			_isPreviewActive = false;
+			
 			if (_nextMove == null)
 			{
 				Debug.LogWarning("Null next move.",this);
@@ -191,6 +199,14 @@ namespace Tactics.Entities
 						FloodFillMapWalkable(ref map, (NavNode)n, step);
 					}
 				}
+			}
+		}
+
+		private void OnDrawGizmos()
+		{
+			if (_nextMove != null)
+			{
+				_nextMove.OnDrawGizmos();
 			}
 		}
 	}

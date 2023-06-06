@@ -30,7 +30,11 @@ namespace Tactics.Turns
 			{
 				yield return null;
 			}
+		}
 
+		public override void OnDrawGizmos()
+		{
+			DebugDrawAttackLine(_node);
 		}
 	}
 }

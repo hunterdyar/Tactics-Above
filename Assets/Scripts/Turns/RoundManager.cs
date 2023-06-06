@@ -57,6 +57,8 @@ namespace Tactics.Turns
 				{
 					ac.PrepareTurn();
 				}
+				
+				//Does PrepareTurn turn on the previews?
 
 				round++;
 				waitingForPlayer = true;
