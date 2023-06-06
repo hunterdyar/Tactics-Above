@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Tactics.AI.Blackboard;
+using Tactics.AI.Blackboard.Constant_Propeties;
 using Tactics.AI.Considerations;
 using Tactics.AI.InfluenceMaps;
 using Tactics.Entities;
@@ -76,16 +77,15 @@ namespace Tactics.AI.Actions
 		}
 
 		[BlackboardElement]
-		public float GetRandomNumber()
+		public RandomBlackboard RandomValues()
 		{
-			return Random.value;
+			return new RandomBlackboard();
 		}
 
 		[BlackboardElement]
-		public int ConstantZero()
+		public ConstantBlackboard ConstantValues()
 		{
-			return 0;
+			return new ConstantBlackboard();
 		}
-		
 	}
 }

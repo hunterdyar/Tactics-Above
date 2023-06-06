@@ -32,14 +32,14 @@ namespace Tactics.AI
 			EnemyFaction = enemyFactions[0];
 			
 			//Calculate territory map
-			TerritoryMap = InfluenceMap.Clone(MyFaction.TerritoryMap);
-			TerritoryMap.AddInfluence(EnemyFaction.TerritoryMap,-1f);//inverts; so subtracts enemy territory from map.
+			TerritoryMap = InfluenceMap.Clone(MyFaction.MyTerritoryMap);
+			TerritoryMap.AddInfluence(EnemyFaction.MyTerritoryMap,-1f);//inverts; so subtracts enemy territory from map.
 
 			ThreatMap = InfluenceMap.Clone(EnemyFaction.AttackMap);//todo evaluate if clone is proper here.
 			AttackMap = InfluenceMap.Clone(MyFaction.AttackMap);
 
 			BattleMap = InfluenceMap.Clone(TerritoryMap);
-			BattleMap.MultiplyInfluence(EnemyFaction.TerritoryMap);//high in contested areas/frontlines
+			BattleMap.MultiplyInfluence(EnemyFaction.MyTerritoryMap);//high in contested areas/frontlines
 		}
 
 		public Faction GetFactionFromContext(FactionContext context)
@@ -64,17 +64,35 @@ namespace Tactics.AI
 			_action = _action;
 		}
 
-		//Testing
-		[BlackboardElement]
-		public float GetOne()
-		{
-			return 1;
-		}
+		#region Blackboard
+
+		
+//These are static to make it clear we are pulling from injected context, not direct references.
 
 		[BlackboardElement]
-		public InfluenceMap GetTerritoryMap(AIContext context)
+		public static InfluenceMap GetTerritoryMap(AIContext context)
 		{
 			return context.TerritoryMap;
 		}
+
+		[BlackboardElement]
+		public static InfluenceMap GetThreatMap(AIContext context)
+		{
+			return context.ThreatMap;
+		}
+
+		[BlackboardElement]
+		public static InfluenceMap GetBattleMap(AIContext context)
+		{
+			return context.BattleMap;
+		}
+
+		[BlackboardElement]
+		public static InfluenceMap GetAttackMap(AIContext context)
+		{
+			return context.AttackMap;
+		}
+		
+		#endregion
 	}
 }

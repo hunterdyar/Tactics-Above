@@ -17,30 +17,72 @@ namespace Tactics.Turns
 		
 		public Faction[] AgentCollections;
 
+		public bool gameOver = false;
+		private bool waitingForPlayer = false;
+		private int round = 0;
+
+		private void Awake()
+		{
+			round = 0;
+		}
+
 		[ContextMenu("Start Round")]
 		public void StartRound()
 		{
-			StartCoroutine(ExecuteRound());
+			if (round == 0)
+			{
+				StartCoroutine(ExecuteRound());//store reference to coroutine and status as a state machine.
+			}
+			else
+			{
+				waitingForPlayer = false;
+			}
+			
 		}
 		
 		public IEnumerator ExecuteRound()
 		{
-			//Initiate everything for AIContext.
-			foreach (var faction in AgentCollections)
+			while (!gameOver)
 			{
-				var enemies = Array.FindAll(AgentCollections, x => x != faction);
-				faction.PrepareKnowledge(enemies);
-			}
+				Debug.Log("Prepare");
+				//Initiate everything for AIContext.
+				foreach (var faction in AgentCollections)
+				{
+					var enemies = Array.FindAll(AgentCollections, x => x != faction);
+					faction.PrepareKnowledge(enemies);
+				}
 
-			//decide moves.
-			foreach (var ac in AgentCollections)
-			{
-				ac.PrepareTurn();
-			}
+				//decide moves.
+				foreach (var ac in AgentCollections)
+				{
+					ac.PrepareTurn();
+				}
 
-			foreach (var faction in AgentCollections)
-			{
-				yield return StartCoroutine(faction.TakeTurn());
+				round++;
+				waitingForPlayer = true;
+
+				while (waitingForPlayer)
+				{
+					yield return null;
+				}
+
+				
+
+				Debug.Log("Action!");
+				foreach (var faction in AgentCollections)
+				{
+					yield return StartCoroutine(faction.TakeTurn());
+				}
+
+				//hacky temp check for game over.
+				foreach (var faction in AgentCollections)
+				{
+					if (faction.Count == 0)
+					{
+						gameOver = true;
+						break;
+					}
+				}
 			}
 		}
 

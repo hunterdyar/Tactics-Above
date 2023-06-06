@@ -23,11 +23,11 @@ namespace Tactics.Entities
 		//AgentCollection is just an entity map, but they get a turn order, and all members in the list can take a turn!
 
 		[BlackboardElement]
-		public InfluenceMap TerritoryMap => _territoryMap;
+		public InfluenceMap MyTerritoryMap => _myTerritoryMap;
 
 		[BlackboardElement]
 		public InfluenceMap AttackMap => _attackMap;
-		private InfluenceMap _territoryMap;
+		private InfluenceMap _myTerritoryMap;
 		private InfluenceMap _attackMap;
 		
 		public AIContext AIContext => _currentAIContext;
@@ -75,6 +75,21 @@ namespace Tactics.Entities
 			agent = null;
 			return false;
 		}
+
+		public InfluenceMap GetMap(InfluenceMapType mapType)
+		{
+			if (mapType == InfluenceMapType.Attack)
+			{
+				return _attackMap;
+			}
+
+			if (mapType == InfluenceMapType.Territory)
+			{
+				return _myTerritoryMap;
+			}
+
+			return null;
+		}
 		
 		/// <summary>
 		/// Initiates information that is accurate to the current state of the world, and which does not rely on calculations from other factions of their information. This way all factions have the information ready before creating an AIContext.
@@ -82,11 +97,11 @@ namespace Tactics.Entities
 		public void PrepareKnowledge(Faction[] enemies)
 		{
 			_enemies = enemies;//cache
-			_territoryMap = InfluenceMap.New(NavMap,0);
+			_myTerritoryMap = InfluenceMap.New(NavMap,0);
 			_attackMap = InfluenceMap.New(NavMap,0);
 			foreach (var agent in GetAgentsInOrder())
 			{
-				_territoryMap.AddInfluence(agent.GetTerritoryInfluence());
+				_myTerritoryMap.AddInfluence(agent.GetTerritoryInfluence());
 				_attackMap.AddInfluence(agent.GetInfluenceFromAttacks(InfluenceMapType.Attack));
 			}
 		}
@@ -108,12 +123,5 @@ namespace Tactics.Entities
 				yield return agent.StartCoroutine(agent.TakeTurn());
 			}
 		}
-
-		[BlackboardElement]
-		public AIContext GetAIContext()
-		{
-			return AIContext;
-		}
-
 	}
 }

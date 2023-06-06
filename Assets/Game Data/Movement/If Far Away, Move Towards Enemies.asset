@@ -17,7 +17,8 @@ MonoBehaviour:
       blackboard: {fileID: 11400000}
       SelectedElements:
       - Name: AI Context
-      - Name: Get One
+      - Name: Get Territory Map
+      - Name: Agent Position
       SelectionState:
         states:
         - itemId: -267790408
@@ -35,24 +36,42 @@ MonoBehaviour:
         - itemId: -396949722
           selectedIndex: -1
           scroll: {x: 0, y: 0}
+        - itemId: -1133582476
+          selectedIndex: 0
+          scroll: {x: 0, y: 16}
+        - itemId: 1734237330
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -1226283674
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -400663221
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -692477396
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -1665897086
+          selectedIndex: 2
+          scroll: {x: 0, y: 0}
     evaluation:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -62,16 +81,15 @@ MonoBehaviour:
   - input:
       blackboard: {fileID: 11400000}
       SelectedElements:
-      - Name: AI Context
-      - Name: Get Territory Map
-      - Name: Agent Position
+      - Name: Constant Values
+      - Name: Almost Zero
       SelectionState:
         states:
         - itemId: -267790408
-          selectedIndex: 0
+          selectedIndex: 3
           scroll: {x: 0, y: 0}
         - itemId: 1377525879
-          selectedIndex: 1
+          selectedIndex: 0
           scroll: {x: 0, y: 0}
         - itemId: 1261627170
           selectedIndex: -1
@@ -80,6 +98,21 @@ MonoBehaviour:
           selectedIndex: -1
           scroll: {x: 0, y: 0}
         - itemId: -396949722
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -1133582476
+          selectedIndex: 3
+          scroll: {x: 0, y: 16}
+        - itemId: 1734237330
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -1226283674
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -400663221
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -692477396
           selectedIndex: -1
           scroll: {x: 0, y: 0}
         - itemId: -1665897086
@@ -112,7 +145,5 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  _considerations:
-  - {fileID: 11400000, guid: c0734110aaf071e4ba492b8a5f4e7ad1, type: 2}
-  - {fileID: 11400000, guid: 3dbea95098803ef4791cccdf50e67b95, type: 2}
+  _considerations: []
   movementTurnsToConsider: 10

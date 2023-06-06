@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7850429742169982818}
   - component: {fileID: 1107034370411890345}
   - component: {fileID: 8275172249991263896}
-  - component: {fileID: -6143169401155630650}
+  - component: {fileID: -2838728252761606035}
   m_Layer: 0
   m_Name: Basic Entity - red
   m_TagString: Untagged
@@ -143,7 +143,7 @@ MonoBehaviour:
   ImmuneToDamageTypes: []
   WeakToDamageTypes: []
   StrongToDamageTypes: []
---- !u!114 &-6143169401155630650
+--- !u!114 &-2838728252761606035
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

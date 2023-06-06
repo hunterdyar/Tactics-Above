@@ -12,8 +12,90 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96348e87989d459998f2f62f2af4877d, type: 3}
   m_Name: Move Into Enemy Territory Action
   m_EditorClassIdentifier: 
-  TestConsiderations: []
-  _considerations:
-  - {fileID: 11400000, guid: 455416fb4427d364c94a1cf2e30cb724, type: 2}
-  - {fileID: 11400000, guid: 3dbea95098803ef4791cccdf50e67b95, type: 2}
+  TestConsiderations:
+  - input:
+      blackboard: {fileID: 11400000}
+      SelectedElements:
+      - Name: Constant Values
+      - Name: Half
+      SelectionState:
+        states:
+        - itemId: 1162486242
+          selectedIndex: 3
+          scroll: {x: 0, y: 0}
+        - itemId: -1133582476
+          selectedIndex: 2
+          scroll: {x: 0, y: 0}
+    evaluation:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - input:
+      blackboard: {fileID: 11400000}
+      SelectedElements:
+      - Name: AI Context
+      - Name: Get Territory Map
+      - Name: Agent Position
+      SelectionState:
+        states:
+        - itemId: 1162486242
+          selectedIndex: 0
+          scroll: {x: 0, y: 0}
+        - itemId: -1133582476
+          selectedIndex: 0
+          scroll: {x: 0, y: 16}
+        - itemId: -400663221
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: 1377525879
+          selectedIndex: 0
+          scroll: {x: 0, y: 0}
+        - itemId: -1665897086
+          selectedIndex: 2
+          scroll: {x: 0, y: 0}
+    evaluation:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _considerations: []
   movementTurnsToConsider: 1
