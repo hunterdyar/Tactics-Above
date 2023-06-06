@@ -18,8 +18,7 @@ ScriptedImporter:
   - color: {r: 0.5176471, g: 0.49411768, b: 0.5294118, a: 1}
     PrefabUpper: {fileID: 3237526833948563703, guid: 3cb3a1ec0ff33424b87b0f4c11eb09a4,
       type: 3}
-    PrefabLower: {fileID: 3237526833948563703, guid: 3cb3a1ec0ff33424b87b0f4c11eb09a4,
-      type: 3}
+    PrefabLower: {instanceID: 0}
     ColorOptions:
     - {r: 0.5176471, g: 0.49411768, b: 0.5294118, a: 1}
     - {r: 0.4156863, g: 0.74509805, b: 0.18823531, a: 1}

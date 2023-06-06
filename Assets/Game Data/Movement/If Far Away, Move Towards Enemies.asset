@@ -146,4 +146,4 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _considerations: []
-  movementTurnsToConsider: 10
+  movementTurnsToConsider: 3

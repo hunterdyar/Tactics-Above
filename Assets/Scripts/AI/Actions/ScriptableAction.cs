@@ -14,7 +14,7 @@ namespace Tactics.AI.Actions
 	public abstract class ScriptableAction : ScriptableObject, IAIAction
 	{
 		private AIContext _context;
-		protected Agent _agent;
+		protected Agent _agent;//todo make this => context dot operating
 		
 		public Consideration[] TestConsiderations;
 		public float Score { get; set; }
@@ -27,7 +27,7 @@ namespace Tactics.AI.Actions
 		public virtual float ScoreAction(Agent agent, AIContext context)
 		{
 			//Cache these because the serialized blackboard properties go through functions with [blackboardElement] attributes, which we can't embed in the function.
-			//todo: remove, use the one we embedded in the function :p
+			//todo: remove, use the one we embedded in the context?
 			_context = context;
 			_agent = agent;
 			

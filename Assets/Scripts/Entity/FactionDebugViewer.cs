@@ -9,10 +9,9 @@ namespace Tactics.Entities
 		public InfluenceMapType MapType;
 		void OnDrawGizmosSelected()
 		{
-			var map = Faction.AIContext?.TerritoryMap;
+			var map = Faction.GetMap(MapType);
 				
 			if (map == null) return;
-
 
 			foreach (var node in Faction.NavMap.Nodes)
 			{

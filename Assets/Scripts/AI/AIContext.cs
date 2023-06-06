@@ -61,7 +61,7 @@ namespace Tactics.AI
 
 		public void SetAction(IAIAction action)
 		{
-			_action = _action;
+			_action = action;
 		}
 
 		#region Blackboard

@@ -1,7 +1,6 @@
 ﻿using Tactics.AI.Actions;
 using Tactics.Entities;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Tactics.AI.Considerations
 {	
