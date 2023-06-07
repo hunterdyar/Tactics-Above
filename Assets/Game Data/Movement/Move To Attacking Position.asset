@@ -24,7 +24,10 @@ MonoBehaviour:
           selectedIndex: 3
           scroll: {x: 0, y: 0}
         - itemId: -1133582476
-          selectedIndex: 2
+          selectedIndex: 0
+          scroll: {x: 0, y: 0}
+        - itemId: -400663221
+          selectedIndex: -1
           scroll: {x: 0, y: 0}
     evaluation:
       serializedVersion: 2
@@ -46,6 +49,60 @@ MonoBehaviour:
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - input:
+      blackboard: {fileID: 11400000}
+      SelectedElements:
+      - Name: Get Number Attacks Best Move Has
+      SelectionState:
+        states:
+        - itemId: 93491412
+          selectedIndex: 0
+          scroll: {x: 0, y: 0}
+        - itemId: -1133582476
+          selectedIndex: 0
+          scroll: {x: 0, y: 16}
+        - itemId: -400663221
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: -111689544
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+        - itemId: 891605189
+          selectedIndex: -1
+          scroll: {x: 0, y: 0}
+    evaluation:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.8601782
+        outSlope: 0.8601782
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.95448166
+        value: 0.8210243
+        inSlope: 0.13245729
+        outSlope: 0.13245729
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.13112867
+      - serializedVersion: 3
+        time: 4.039438
+        value: 0.99402046
+        inSlope: 0.05607735
+        outSlope: 0.05607735
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2

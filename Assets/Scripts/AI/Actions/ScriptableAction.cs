@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tactics.AI.Blackboard;
 using Tactics.AI.Blackboard.Constant_Propeties;
@@ -18,10 +19,10 @@ namespace Tactics.AI.Actions
 		
 		public Consideration[] TestConsiderations;
 		public float Score { get; set; }
-		[SerializeField] private List<ScriptableConsideration> _considerations;
+		[SerializeField] private ScriptableConsideration[] _considerations;
 		public virtual List<IConsideration> GetConsiderations()
 		{
-			return _considerations.ConvertAll(x => (IConsideration)x).Union(TestConsiderations.ToList().ConvertAll(x=>(IConsideration)x)).ToList();
+			return Array.ConvertAll(_considerations,x => (IConsideration)x).Union(TestConsiderations.ToList().ConvertAll(x=>(IConsideration)x)).ToList();
 		}
 
 		public virtual float ScoreAction(Agent agent, AIContext context)

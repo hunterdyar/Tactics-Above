@@ -92,6 +92,8 @@ namespace Tactics.AI.Actions
 			var attacks = options.Where(x => bestOptions.Contains(x.Key)).SelectMany(x => x.Value).ToList();
 			attacks = SortAttacks(attacks);
 
+			_targetNode = attacks[0].destination;
+
 			//the agent could have multiple of this action, and we sort the list differently... So I think if we make a new monobehaviour that calculates (and caches) options. 
 
 			return base.ScoreAction(agent, context);

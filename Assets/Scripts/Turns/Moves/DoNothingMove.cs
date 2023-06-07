@@ -21,7 +21,7 @@ namespace Tactics.Turns
 		public override void OnDrawGizmos()
 		{
 			Gizmos.color = Color.cyan;
-			Gizmos.DrawWireSphere(_agent.CurrentNode.WorldPosition, 1.05f);
+			Gizmos.DrawWireSphere(_agent.CurrentNode.WorldPosition, 0.6f);
 		}
 	}
 }

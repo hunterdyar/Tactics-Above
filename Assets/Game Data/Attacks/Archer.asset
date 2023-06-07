@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871f7b50a11d47ea92f1338d85b4c019, type: 3}
+  m_Name: Archer
+  m_EditorClassIdentifier: 
+  shape: {fileID: 11400000, guid: a4bfbbeb0f52fc0428d771faa220bd67, type: 2}
+  locationType: 2
+  damage:
+    Amount: 1
+    DamageType: {fileID: 11400000, guid: 94dd2133fc53d2b40a001e009fc24442, type: 2}
+  considerations:
+  - {fileID: 11400000, guid: 82e5faca65fd72b469fef6e571d430e2, type: 2}
+  - {fileID: 11400000, guid: 714d9d394ff139a4e83698b37ca91c8c, type: 2}

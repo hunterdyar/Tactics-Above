@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace Tactics.AI.Actions
 {
+	//todo: refactor to move to point on map, then choose a map type and highest/lowest.
 	[CreateAssetMenu(menuName = "Tactics/Actions/Move Into Enemy Territory")]
 	public class MoveIntoEnemyTerritoryAction : ScriptableAction
 	{

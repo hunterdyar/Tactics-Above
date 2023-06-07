@@ -44,7 +44,7 @@ namespace Tactics.Turns
 		{
 			while (!gameOver)
 			{
-				Debug.Log("Prepare");
+				Debug.Log($"--Round {round} Prepare Phase--");
 				//Initiate everything for AIContext.
 				foreach (var faction in AgentCollections)
 				{

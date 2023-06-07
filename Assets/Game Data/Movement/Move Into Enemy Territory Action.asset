@@ -97,5 +97,6 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  _considerations: []
+  _considerations:
+  - {fileID: 11400000, guid: f23ea26d047da334c8651a4dca6ce324, type: 2}
   movementTurnsToConsider: 1
