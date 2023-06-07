@@ -80,12 +80,22 @@ namespace Tactics.Entities
 		{
 			if (mapType == InfluenceMapType.Attack)
 			{
-				return _attackMap;
+				return _currentAIContext?.AttackMap;
 			}
 
 			if (mapType == InfluenceMapType.Territory)
 			{
 				return _myTerritoryMap;
+			}
+
+			if (mapType == InfluenceMapType.Battle)
+			{
+				return _currentAIContext?.BattleMap;
+			}
+
+			if (mapType == InfluenceMapType.Threat)
+			{
+				return _currentAIContext?.ThreatMap;
 			}
 
 			return null;
