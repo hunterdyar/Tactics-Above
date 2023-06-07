@@ -21,7 +21,6 @@ namespace Tactics.AI.Blackboard
 		//and this is the real trick. Or it can go through any class (through [blackboardelement] functions) that itself has blackboard functions with it, where you select - eventually - some float.
 		
 		//SelectedElements is an array, where we basically save the name of functions in a list. Now, we are doing some clever tricks here, using the Attribute class but serializing it, which only serializes the name of the functions, then rediscovering selected methods at runtime.
-
 		public Object blackboard;//this will get assigned to the target object that has this property. todo: properly inject it at runtime or onValidate. Or change to use AIContext type off the bat.
 		
 		//these get serialized but only their name. At runtime we recreate them by marching through this list as a set of nested function calls and re-find (with all the nonserialized stuff) their runtime properties.

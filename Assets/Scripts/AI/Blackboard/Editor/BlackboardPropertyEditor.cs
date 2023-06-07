@@ -77,9 +77,15 @@ public class BlackboardPropertyEditor : PropertyDrawer
 		string selectedLabel = "Select Property";
 		if (blackboardProperty.SelectedElements != null && blackboardProperty.SelectedElements.Length > 0 && blackboardProperty.selectedElement.Name!="")
 		{
-			selectedLabel = blackboardProperty.selectedElement.Name;
+			selectedLabel = "";
+			for (int i = 0; i < blackboardProperty.SelectedElements.Length-1; i++)
+			{
+				selectedLabel += blackboardProperty.SelectedElements[i].Name + " > ";
+			}
+			selectedLabel += blackboardProperty.selectedElement.Name;
 		}
-		var rect = GUILayoutUtility.GetRect(new GUIContent(selectedLabel), EditorStyles.toolbarButton);
+		
+		//var rect = GUILayoutUtility.GetRect(new GUIContent(selectedLabel), EditorStyles.toolbarButton);
 		if (GUI.Button(position, new GUIContent(selectedLabel), EditorStyles.toolbarButton))
 		{
 			var dropdown = new BlackboardPropertySelectionWindow(blackboardProperty,blackboardProperty.SelectionState);
