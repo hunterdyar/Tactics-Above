@@ -28,6 +28,9 @@ namespace Tactics.Entities
 		private NavNode _currentNode;
 
 		private MoveDecider _moveDecider;
+		
+		public AttackOptionCalculator AttackOptionCalculator => GetAttackOptionCalculator();
+		private AttackOptionCalculator _attackOptionCalculator;
 		private MoveBase _nextMove;
 
 		private bool _isPreviewActive;
@@ -41,6 +44,8 @@ namespace Tactics.Entities
 				Debug.LogWarning($"No move decider for {name}",this);
 				_moveDecider = gameObject.AddComponent<DoNothingMoveDecider>();
 			}
+
+			
 		}
 
 		void Start()
@@ -63,8 +68,28 @@ namespace Tactics.Entities
 
 			//inject dependency. This has to happen AFTER we get a currentNode.
 			//(well it doesn't half too, but i'd rather just reference the navmap through the currentNode, and not pass it explicitly.
-			_moveDecider.Initiate(this);
+			_moveDecider.Initiate(this); 
+			
+		}
 
+		/// <summary>
+		/// Lazily get or add an attackOptionCalc
+		/// </summary>
+		public AttackOptionCalculator GetAttackOptionCalculator()
+		{
+			if (_attackOptionCalculator == null)
+			{
+				_attackOptionCalculator = GetComponent<AttackOptionCalculator>();
+
+				if (_attackOptionCalculator == null)//still?
+				{
+					_attackOptionCalculator = gameObject.AddComponent<AttackOptionCalculator>();
+				}
+
+				_attackOptionCalculator.Init(this);
+			}
+
+			return _attackOptionCalculator;
 		}
 
 		public void SetOnNode(NavNode node, bool snap = false)
@@ -186,7 +211,7 @@ namespace Tactics.Entities
 			{
 				return;
 			}
-			step--;
+			step = step-pos.WalkCost;
 			if (Math.Abs(map.GetValue(pos.GridPosition.x, pos.GridPosition.z) - 1) > Mathf.Epsilon)
 			{
 				map.SetValue(pos.GridPosition.x, pos.GridPosition.z, 1);

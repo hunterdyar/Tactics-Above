@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6902eda0b642f787bee46a454a405f, type: 3}
+  m_Name: Move To Attacking Position
+  m_EditorClassIdentifier: 
+  TestConsiderations:
+  - input:
+      blackboard: {fileID: 11400000}
+      SelectedElements:
+      - Name: Constant Values
+      - Name: Half
+      SelectionState:
+        states:
+        - itemId: 93491412
+          selectedIndex: 3
+          scroll: {x: 0, y: 0}
+        - itemId: -1133582476
+          selectedIndex: 2
+          scroll: {x: 0, y: 0}
+    evaluation:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _considerations: []
+  movementTurnsToConsider: 1
