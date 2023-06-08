@@ -2,10 +2,8 @@
 using System.Collections;
 using Attacks;
 using Tactics.AI;
-using Tactics.AI.Actions;
 using Tactics.AI.InfluenceMaps;
 using Tactics.Turns;
-using UnityEditor;
 using UnityEngine;
 
 namespace Tactics.Entities
@@ -44,8 +42,6 @@ namespace Tactics.Entities
 				Debug.LogWarning($"No move decider for {name}",this);
 				_moveDecider = gameObject.AddComponent<DoNothingMoveDecider>();
 			}
-
-			
 		}
 
 		void Start()
@@ -227,6 +223,10 @@ namespace Tactics.Entities
 			}
 		}
 
+		//todo: Get move history. To do that, we need some way to inject a consistent reference to a move. this SHOULD be the attack, but we make new attack options, not scriptableActions - like attacks.
+		//so it would see swipe-left and swipe-right as different.
+		//So, i'm going to store a moveHistory, and in the move we will also embed some 'actionInfo' interface, which will either be the attack or scriptableAction.
+		//Then the move can use that for tooltips and highlighting.
 		private void OnDrawGizmos()
 		{
 			if (_nextMove != null)

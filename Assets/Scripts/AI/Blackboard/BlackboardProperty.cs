@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEditor;
-using UnityEditor.IMGUI.Controls;
 using UnityEngine;
+
+
 using Object = UnityEngine.Object;
 
 namespace Tactics.AI.Blackboard
@@ -27,9 +27,7 @@ namespace Tactics.AI.Blackboard
 		public BlackboardElement[] SelectedElements = Array.Empty<BlackboardElement>();
 		public BlackboardElement selectedElement => SelectedElements[^1];
 		
-		//this can be serialized, but can we use it at runtime?
-		public AdvancedDropdownState SelectionState;
-		
+
 		//Called Lazily
 		public void Init(object context = null, object[] parameters = null)
 		{
@@ -92,7 +90,11 @@ namespace Tactics.AI.Blackboard
 				{
 					if (attribute.Name == "")
 					{
-						attribute.Name = ObjectNames.NicifyVariableName(methods[i].Name);
+						#if UNITY_EDITOR
+						attribute.Name = UnityEditor.ObjectNames.NicifyVariableName(methods[i].Name);
+						#else
+						attribute.Name = methods[i].Name;
+						#endif
 					}
 
 					attribute.context = blackboardContext;
@@ -112,7 +114,11 @@ namespace Tactics.AI.Blackboard
 				{
 					if (attribute.Name == "")
 					{
-						attribute.Name = ObjectNames.NicifyVariableName(props[i].Name);
+#if UNITY_EDITOR
+						attribute.Name = UnityEditor.ObjectNames.NicifyVariableName(methods[i].Name);
+#else
+						attribute.Name = methods[i].Name;
+#endif
 					}
 
 					attribute.context = blackboardContext;

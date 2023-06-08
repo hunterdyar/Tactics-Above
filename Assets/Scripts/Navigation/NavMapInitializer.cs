@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using HDyar.MapImporter;
-using HDyar.RougeLevelGen;
-using UnityEditor.TextCore.Text;
+﻿using HDyar.MapImporter;
 using UnityEngine;
 
 namespace Tactics

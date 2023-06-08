@@ -13,6 +13,7 @@ using UnityEngine.UIElements;
 [CustomPropertyDrawer(typeof(BlackboardProperty))]
 public class BlackboardPropertyEditor : PropertyDrawer
 {
+	public AdvancedDropdownState SelectionState;
 	private SerializedProperty _property;
 	// public override VisualElement CreatePropertyGUI(SerializedProperty property)
 	// {
@@ -88,7 +89,7 @@ public class BlackboardPropertyEditor : PropertyDrawer
 		//var rect = GUILayoutUtility.GetRect(new GUIContent(selectedLabel), EditorStyles.toolbarButton);
 		if (GUI.Button(position, new GUIContent(selectedLabel), EditorStyles.toolbarButton))
 		{
-			var dropdown = new BlackboardPropertySelectionWindow(blackboardProperty,blackboardProperty.SelectionState);
+			var dropdown = new BlackboardPropertySelectionWindow(blackboardProperty,SelectionState);
 			dropdown.Show(position);
 		}
 		// base.OnGUI(position, property, label);
