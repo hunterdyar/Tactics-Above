@@ -3,19 +3,33 @@
 	public class ConstantBlackboard
 	{
 		[BlackboardElement]
-		public static float Zero() => 0;
-
-		[BlackboardElement] public static float One => 1;
-		
-		[BlackboardElement]
-		public static float Half => 0.5f;
-		
-		[BlackboardElement]
-		public static float AlmostZero => 0.01f;
+		public static float Zero()
+		{
+			return 0;
+		}
 
 		[BlackboardElement]
-		public static float AlmostOne => 0.99f;
+		public static float One()
+		{
+			return 1;
+		}
 
+		[BlackboardElement]
+		public static float Half()
+		{
+			return 0.5f;
+		}
 
+		[BlackboardElement]
+		public static float AlmostZero()
+		{
+			return 0.01f;
+		}
+
+		[BlackboardElement]
+		public static float AlmostOne()
+		{
+			return 0.99f;
+		}
 	}
 }

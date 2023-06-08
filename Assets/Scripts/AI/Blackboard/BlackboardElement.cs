@@ -59,6 +59,11 @@ namespace Tactics.AI.Blackboard
 
 		public object GetValueObject(object[] parameters = null)
 		{
+			if (method == null)
+			{
+				Debug.LogError("blackboard has no method set. Something has gone wrong");
+				return 0;
+			}
 			var p = method.GetParameters();
 			if (p.Length == 0)
 			{

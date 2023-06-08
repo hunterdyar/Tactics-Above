@@ -19,41 +19,6 @@ MonoBehaviour:
       - Name: AI Context
       - Name: Get Territory Map
       - Name: Agent Position
-      SelectionState:
-        states:
-        - itemId: -267790408
-          selectedIndex: 0
-          scroll: {x: 0, y: 0}
-        - itemId: 1377525879
-          selectedIndex: 0
-          scroll: {x: 0, y: 0}
-        - itemId: 1261627170
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -286988559
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -396949722
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -1133582476
-          selectedIndex: 0
-          scroll: {x: 0, y: 16}
-        - itemId: 1734237330
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -1226283674
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -400663221
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -692477396
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -1665897086
-          selectedIndex: 2
-          scroll: {x: 0, y: 0}
     evaluation:
       serializedVersion: 2
       m_Curve:
@@ -83,44 +48,6 @@ MonoBehaviour:
       SelectedElements:
       - Name: Constant Values
       - Name: Almost Zero
-      SelectionState:
-        states:
-        - itemId: -267790408
-          selectedIndex: 3
-          scroll: {x: 0, y: 0}
-        - itemId: 1377525879
-          selectedIndex: 0
-          scroll: {x: 0, y: 0}
-        - itemId: 1261627170
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -286988559
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -396949722
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -1133582476
-          selectedIndex: 3
-          scroll: {x: 0, y: 16}
-        - itemId: 1734237330
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -1226283674
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -400663221
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -692477396
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
-        - itemId: -1665897086
-          selectedIndex: 0
-          scroll: {x: 0, y: 0}
-        - itemId: 908354190
-          selectedIndex: -1
-          scroll: {x: 0, y: 0}
     evaluation:
       serializedVersion: 2
       m_Curve:
