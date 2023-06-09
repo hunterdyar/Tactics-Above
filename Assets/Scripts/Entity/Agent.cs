@@ -185,9 +185,6 @@ namespace Tactics.Entities
 			}
 			return map;
 		}
-
-		
-		//todo: flood fill.
 		/// <summary>
 		/// 1 in locations that can be moved to, 0 in locations that can't.
 		/// </summary>
@@ -212,7 +209,7 @@ namespace Tactics.Entities
 			{
 				map.SetValue(pos.GridPosition.x, pos.GridPosition.z, 1);
 				var neighbors = pos.NavMap.GetNeighborNodes(pos, true);
-
+				
 				foreach (var n in neighbors)
 				{
 					if (step > 0 && IsNodeWalkable((NavNode)n))
